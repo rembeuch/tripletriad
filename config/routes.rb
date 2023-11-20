@@ -14,7 +14,9 @@ Rails.application.routes.draw do
 
       
       patch :update_position, to: 'player_cards#update_position'
+      patch :player_combo, to: 'player_cards#player_combo'
       patch :update_computer_position, to: 'player_cards#update_computer_position'
+      patch :computer_combo, to: 'player_cards#computer_combo'
 
       get :board_position, to: 'player_cards#board_position'
 
