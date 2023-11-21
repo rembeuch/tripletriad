@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_17_145043) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_21_103326) do
   create_table "cards", force: :cascade do |t|
     t.string "up"
     t.string "down"
@@ -25,6 +25,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_17_145043) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "player_id", null: false
+    t.integer "rounds", default: 1
+    t.integer "player_points", default: 0
+    t.integer "computer_points", default: 0
     t.index ["player_id"], name: "index_games_on_player_id"
   end
 

@@ -11,6 +11,10 @@ Rails.application.routes.draw do
       get :computer_deck, to: 'players#computer_deck'
 
       post :quit_game, to:'games#quit_game'
+      post :next_game, to:'games#next_game'
+
+      get :get_score, to: 'games#get_score'
+      get :win, to: 'games#win'
 
       
       patch :update_position, to: 'player_cards#update_position'
