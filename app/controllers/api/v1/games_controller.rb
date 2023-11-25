@@ -5,8 +5,10 @@ class Api::V1::GamesController < ApplicationController
         @game = Game.new
         @game.player = @player
         @game.rounds = params[:rounds]
-        if @game.save && @player.in_game == false && @player.decks.size == 5
+        if @game.save && @player.in_game == false && (@player.decks.size + @player.elites.where(in_deck: true).size) == 5
           @player.update(in_game: true)
+          @elite = @player.elites.where(in_deck: true).first
+          PlayerCard.create(up: @elite.up, down: @elite.down, right: @elite.right, left: @elite.left, position: "9", computer: false, player: @player, name: @elite.name )
           @player.decks.each do |id|
             @deck_card = Card.find(id.to_i)
             PlayerCard.create(up: @deck_card.up, down: @deck_card.down, right: @deck_card.right, left: @deck_card.left, position: "9", computer: false, player: @player, name: @deck_card.id )
@@ -29,6 +31,7 @@ class Api::V1::GamesController < ApplicationController
 
       def next_game
         @player = Player.find_by(wallet_address: params[:address])
+        @elite = @player.elites.where(in_deck: true).first
         @game = @player.game
         if @game.rounds <= @game.player_points || @game.rounds <= @game.computer_points
         @game.destroy
@@ -39,6 +42,7 @@ class Api::V1::GamesController < ApplicationController
           @player.decks.each do |name|
             @player.player_cards.find_by(name: name).update(position: "9", computer: false)
           end
+          @player.player_cards.find_by(name: @elite.name).update(position: "9", computer: false)
           @player.player_cards.select {|card| card.position != "9"}.each do |card|
             card.update(computer: true, position: "9")
           end

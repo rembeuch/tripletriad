@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_21_103326) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_24_165225) do
   create_table "cards", force: :cascade do |t|
     t.string "up"
     t.string "down"
@@ -19,6 +19,20 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_21_103326) do
     t.string "rank"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "elites", force: :cascade do |t|
+    t.string "up"
+    t.string "down"
+    t.string "left"
+    t.string "right"
+    t.string "rank"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "player_id", null: false
+    t.boolean "in_deck", default: false
+    t.string "name"
+    t.index ["player_id"], name: "index_elites_on_player_id"
   end
 
   create_table "games", force: :cascade do |t|
@@ -54,6 +68,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_21_103326) do
     t.boolean "in_game", default: false
   end
 
+  add_foreign_key "elites", "players"
   add_foreign_key "games", "players"
   add_foreign_key "player_cards", "players"
 end

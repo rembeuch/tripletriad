@@ -3,6 +3,7 @@ class Player < ApplicationRecord
     validates :name, presence: true , length: { maximum: 20 }, uniqueness: true
     has_one :game
     has_many :player_cards
+    has_many :elites
     serialize :decks, JSON
     before_validation :initialize_decks
 

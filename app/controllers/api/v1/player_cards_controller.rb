@@ -19,6 +19,7 @@ class Api::V1::PlayerCardsController < ApplicationController
     
     def update_computer_position
         @player = Player.find_by(wallet_address: params[:address])
+        sleep 1
         return if @player.player_cards.where(position: "9").count == 0
         @message = ""
         @cards_updated = []
@@ -1191,8 +1192,444 @@ class Api::V1::PlayerCardsController < ApplicationController
     end
 
     def computer_strat
-        @random_computer_card = @player.player_cards.where(computer: true, position: "9").sample
-        @random_computer_card.update(position: @board_position.each_index.select { |i| @board_position[i] == false }.sample)
-        return @random_computer_card
+        @random = {up: nil,right: nil, down: nil, left: nil}
+        @player_cards_in_game = @player.player_cards.where(computer: false).where.not(position: "9")
+        @computer_decks = @player.player_cards.where(computer: true, position: "9")
+        if @player_cards_in_game.count >= 2
+            @player_card1 = @player.player_cards.select{|card| card.position == "1" && card.computer == false}.first
+            @player_card2 = @player.player_cards.select{|card| card.position == "3" && card.computer == false}.first
+            if @player_card1 && @player_card2
+                @computer_decks.each do |card|
+                    if @player_card1.left.to_i + card.right.to_i == @player_card2.up.to_i + card.down.to_i && @player.player_cards.where(position: "0") == []
+                        card.update(position: "0")
+                        return card
+                    end
+                end
+            end
+            if @player_card1 && @player_card2 
+                @computer_decks.each do |card|
+                    if @player_card1.left == card.right && @player_card2.up == card.down && @player.player_cards.where(position: "0") == []
+                        card.update(position: "0")
+                        return card
+                    end
+                end
+            end
+                @player_card1 = @player.player_cards.select{|card| card.position == "0" && card.computer == false}.first
+                @player_card2 = @player.player_cards.select{|card| card.position == "2" && card.computer == false}.first
+                @player_card3 = @player.player_cards.select{|card| card.position == "4" && card.computer == false}.first
+                if @player_card1 && @player_card2
+                    @computer_decks.each do |card|
+                        if @player_card1.right.to_i + card.left.to_i == @player_card2.left.to_i + card.right.to_i && @player.player_cards.where(position: "1") == []
+                            card.update(position: "1")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card3
+                    @computer_decks.each do |card|
+                        if @player_card1.right.to_i + card.left.to_i == @player_card3.up.to_i + card.down.to_i && @player.player_cards.where(position: "1") == []
+                            card.update(position: "1")
+                            return card
+                        end
+                    end
+                end               
+                if @player_card2 && @player_card3
+                    @computer_decks.each do |card|
+                        if @player_card2.left.to_i + card.right.to_i == @player_card3.up.to_i + card.down.to_i && @player.player_cards.where(position: "1") == []
+                            card.update(position: "1")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card2 
+                    @computer_decks.each do |card|
+                        if @player_card1.right == card.left && @player_card2.left == card.right && @player.player_cards.where(position: "1") == []
+                            card.update(position: "1")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card3
+                    @computer_decks.each do |card|
+                        if @player_card1.right == card.left && @player_card3.up == card.down && @player.player_cards.where(position: "1") == []
+                            card.update(position: "1")
+                            return card
+                        end
+                    end
+                end
+                if @player_card2 && @player_card3
+                    @computer_decks.each do |card|
+                        if @player_card2.left == card.right && @player_card3.up == card.down && @player.player_cards.where(position: "1") == []
+                            card.update(position: "1")
+                            return card
+                        end
+                    end
+                end
+                @player_card1 = @player.player_cards.select{|card| card.position == "1" && card.computer == false}.first
+                @player_card2 = @player.player_cards.select{|card| card.position == "5" && card.computer == false}.first
+                if @player_card1 && @player_card2
+                    @computer_decks.each do |card|
+                        if @player_card1.right.to_i + card.left.to_i == @player_card2.up.to_i + card.down.to_i && @player.player_cards.where(position: "2") == []
+                            card.update(position: "2")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card2 
+                    @computer_decks.each do |card|
+                        if @player_card1.right == card.left && @player_card2.up == card.down && @player.player_cards.where(position: "2") == []
+                            card.update(position: "2")
+                            return card
+                        end
+                    end
+                end
+                @player_card1 = @player.player_cards.select{|card| card.position == "0" && card.computer == false}.first
+                @player_card2 = @player.player_cards.select{|card| card.position == "4" && card.computer == false}.first
+                @player_card3 = @player.player_cards.select{|card| card.position == "6" && card.computer == false}.first
+                if @player_card1 && @player_card2
+                    @computer_decks.each do |card|
+                        if @player_card1.down.to_i + card.up.to_i == @player_card2.left.to_i + card.right.to_i && @player.player_cards.where(position: "3") == []
+                            card.update(position: "3")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card3
+                    @computer_decks.each do |card|
+                        if @player_card1.down.to_i + card.up.to_i == @player_card3.up.to_i + card.down.to_i && @player.player_cards.where(position: "3") == []
+                            card.update(position: "3")
+                            return card
+                        end
+                    end
+                end
+                if @player_card2 && @player_card3
+                    @computer_decks.each do |card|
+                        if @player_card2.left.to_i + card.right.to_i == @player_card3.up.to_i + card.down.to_i && @player.player_cards.where(position: "3") == []
+                            card.update(position: "3")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card2
+                    @computer_decks.each do |card|
+                        if @player_card1.down == card.up && @player_card2.left == card.right && @player.player_cards.where(position: "3") == []
+                            card.update(position: "3")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card3
+                    @computer_decks.each do |card|
+                        if @player_card1.down == card.up && @player_card3.up == card.down && @player.player_cards.where(position: "3") == []
+                            card.update(position: "3")
+                            return card
+                        end
+                    end
+                end
+                if @player_card2 && @player_card3
+                    @computer_decks.each do |card|
+                        if @player_card2.left == card.right && @player_card3.up == card.down && @player.player_cards.where(position: "3") == []
+                            card.update(position: "3")
+                            return card
+                        end
+                    end
+                end
+                @player_card1 = @player.player_cards.select{|card| card.position == "1" && card.computer == false}.first
+                @player_card2 = @player.player_cards.select{|card| card.position == "3" && card.computer == false}.first
+                @player_card3 = @player.player_cards.select{|card| card.position == "5" && card.computer == false}.first
+                @player_card4 = @player.player_cards.select{|card| card.position == "7" && card.computer == false}.first
+                if @player_card1 && @player_card2
+                    @computer_decks.each do |card|
+                        if @player_card1.down.to_i + card.up.to_i == @player_card2.right.to_i + card.left.to_i && @player.player_cards.where(position: "4") == []
+                            card.update(position: "4")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card3
+                    @computer_decks.each do |card|
+                        if @player_card1.down.to_i + card.up.to_i == @player_card3.left.to_i + card.right.to_i && @player.player_cards.where(position: "4") == []
+                            card.update(position: "4")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card4
+                    @computer_decks.each do |card|
+                        if @player_card1.down.to_i + card.up.to_i == @player_card4.up.to_i + card.down.to_i && @player.player_cards.where(position: "4") == []
+                            card.update(position: "4")
+                            return card
+                        end
+                    end
+                end
+                if @player_card2 && @player_card3
+                    @computer_decks.each do |card|
+                        if @player_card2.right.to_i + card.left.to_i == @player_card3.left.to_i + card.right.to_i && @player.player_cards.where(position: "4") == []
+                            card.update(position: "4")
+                            return card
+                        end
+                    end
+                end
+                if @player_card2 && @player_card4
+                    @computer_decks.each do |card|
+                        if @player_card2.right.to_i + card.left.to_i == @player_card4.up.to_i + card.down.to_i && @player.player_cards.where(position: "4") == []
+                            card.update(position: "4")
+                            return card
+                        end
+                    end
+                end
+                if @player_card3 && @player_card4
+                    @computer_decks.each do |card|
+                        if @player_card3.left.to_i + card.right.to_i == @player_card4.up.to_i + card.down.to_i && @player.player_cards.where(position: "4") == []
+                            card.update(position: "4")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card2
+                    @computer_decks.each do |card|
+                        if @player_card1.down == card.up && @player_card2.right == card.left && @player.player_cards.where(position: "4") == []
+                            card.update(position: "4")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card3
+                    @computer_decks.each do |card|
+                        if @player_card1.down == card.up && @player_card3.left == card.right && @player.player_cards.where(position: "4") == []
+                            card.update(position: "4")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card4
+                    @computer_decks.each do |card|
+                        if @player_card1.down == card.up && @player_card4 && @player_card4.up == card.down && @player.player_cards.where(position: "4") == []
+                            card.update(position: "4")
+                            return card
+                        end
+                    end
+                end
+                if @player_card2 && @player_card3
+                    @computer_decks.each do |card|
+                        if @player_card2.right == card.left && @player_card3.left == card.right && @player.player_cards.where(position: "4") == []
+                            card.update(position: "4")
+                            return card
+                        end
+                    end
+                end
+                if @player_card2 && @player_card4
+                    @computer_decks.each do |card|
+                        if @player_card2.right == card.left && @player_card4 && @player_card4.up == card.down && @player.player_cards.where(position: "4") == []
+                            card.update(position: "4")
+                            return card
+                        end
+                    end
+                end
+                if @player_card3 && @player_card4
+                    @computer_decks.each do |card|
+                        if @player_card3.left == card.right && @player_card4 && @player_card4.up == card.down && @player.player_cards.where(position: "4") == []
+                            card.update(position: "4")
+                            return card
+                        end
+                    end
+                end
+                @player_card1 = @player.player_cards.select{|card| card.position == "2" && card.computer == false}.first
+                @player_card2 = @player.player_cards.select{|card| card.position == "4" && card.computer == false}.first
+                @player_card3 = @player.player_cards.select{|card| card.position == "8" && card.computer == false}.first
+                if @player_card1 && @player_card2
+                    @computer_decks.each do |card|
+                        if @player_card1.down.to_i + card.up.to_i == @player_card2.right.to_i + card.left.to_i && @player.player_cards.where(position: "5") == []
+                            card.update(position: "5")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card3
+                    @computer_decks.each do |card|
+                        if @player_card1.down.to_i + card.up.to_i == @player_card3.up.to_i + card.down.to_i && @player.player_cards.where(position: "5") == []
+                            card.update(position: "5")
+                            return card
+                        end
+                    end
+                end
+                if @player_card2 && @player_card3
+                    @computer_decks.each do |card|
+                        if  @player_card2.right.to_i + card.left.to_i == @player_card3.up.to_i + card.down.to_i && @player.player_cards.where(position: "5") == []
+                            card.update(position: "5")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card2
+                    @computer_decks.each do |card|
+                        if  @player_card1.down == card.up && @player_card2.right == card.left && @player.player_cards.where(position: "5") == []
+                            card.update(position: "5")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card3
+                    @computer_decks.each do |card|
+                        if  @player_card1.down == card.up && @player_card3.up == card.down && @player.player_cards.where(position: "5") == []
+                            card.update(position: "5")
+                            return card
+                        end
+                    end
+                end
+                if @player_card2 && @player_card3
+                    @computer_decks.each do |card|
+                        if  @player_card2.right == card.left && @player_card3 && @player_card3.up == card.down && @player.player_cards.where(position: "5") == []
+                            card.update(position: "5")
+                            return card
+                        end
+                    end
+                end
+                @player_card1 = @player.player_cards.select{|card| card.position == "7" && card.computer == false}.first
+                @player_card2 = @player.player_cards.select{|card| card.position == "3" && card.computer == false}.first
+                if @player_card1 && @player_card2
+                    @computer_decks.each do |card|
+                        if  @player_card1.left.to_i + card.right.to_i == @player_card2.down.to_i + card.up.to_i && @player.player_cards.where(position: "6") == []
+                            card.update(position: "6")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card2
+                    @computer_decks.each do |card|
+                        if  @player_card1.left == card.right && @player_card2.down == card.up && @player.player_cards.where(position: "6") == []
+                            card.update(position: "6")
+                            return card
+                        end
+                    end
+                end
+                @player_card1 = @player.player_cards.select{|card| card.position == "6" && card.computer == false}.first
+                @player_card2 = @player.player_cards.select{|card| card.position == "8" && card.computer == false}.first
+                @player_card3 = @player.player_cards.select{|card| card.position == "4" && card.computer == false}.first
+                if @player_card1 && @player_card2
+                    @computer_decks.each do |card|
+                        if  @player_card1.right.to_i + card.left.to_i == @player_card2.left.to_i + card.right.to_i && @player.player_cards.where(position: "7") == []
+                            card.update(position: "7")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card3
+                    @computer_decks.each do |card|
+                        if  @player_card1.right.to_i + card.left.to_i == @player_card3.down.to_i + card.up.to_i && @player.player_cards.where(position: "7") == []
+                            card.update(position: "7")
+                            return card
+                        end
+                    end
+                end
+                if @player_card2 && @player_card3
+                    @computer_decks.each do |card|
+                        if  @player_card2.left.to_i + card.right.to_i == @player_card3.down.to_i + card.up.to_i && @player.player_cards.where(position: "7") == []
+                            card.update(position: "7")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card2
+                    @computer_decks.each do |card|
+                        if  @player_card1.right == card.left && @player_card2.left == card.right && @player.player_cards.where(position: "7") == []
+                            card.update(position: "7")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card3
+                    @computer_decks.each do |card|
+                        if  @player_card1.right == card.left && @player_card3.down == card.up && @player.player_cards.where(position: "7") == []
+                            card.update(position: "7")
+                            return card
+                        end
+                    end
+                end
+                if @player_card2 && @player_card3
+                    @computer_decks.each do |card|
+                        if   @player_card2.left == card.right && @player_card3.down == card.up && @player.player_cards.where(position: "7") == []
+                            card.update(position: "7")
+                            return card
+                        end
+                    end
+                end
+                @player_card1 = @player.player_cards.select{|card| card.position == "7" && card.computer == false}.first
+                @player_card2 = @player.player_cards.select{|card| card.position == "5" && card.computer == false}.first
+                if @player_card1 && @player_card2
+                    @computer_decks.each do |card|
+                        if  @player_card1.right.to_i + card.left.to_i == @player_card2.down.to_i + card.up.to_i && @player.player_cards.where(position: "8") == []
+                            card.update(position: "8")
+                            return card
+                        end
+                    end
+                end
+                if @player_card1 && @player_card2
+                    @computer_decks.each do |card|
+                        if   @player_card1.right == card.left && @player_card2 && @player_card2.down == card.up && @player.player_cards.where(position: "8") == []
+                            card.update(position: "8")
+                            return card
+                        end
+                    end
+                end
+        end
+
+        @up_card = @player.player_cards.where(computer: true, position: "9").order(up: :desc).first
+        @player_up_cards = @player_cards_in_game.select{|card| card.down.to_i < @up_card.up.to_i}
+        @player_up_cards.each do |card|
+            if card.position.to_i >= 0 && card.position.to_i <= 5 && @player.player_cards.find_by(position: (card.position.to_i + 3).to_s) == nil
+                @random[:up] = (card.position.to_i + 3).to_s
+            end
+        end
+        @right_card = @player.player_cards.where(computer: true, position: "9").order(right: :desc).first
+        @player_right_cards = @player_cards_in_game.select{|card| card.left.to_i < @right_card.right.to_i}
+        @player_right_cards.each do |card|
+            if card.position.to_i >= 1 && card.position.to_i <= 8 && @player.player_cards.find_by(position: (card.position.to_i - 1).to_s) == nil
+                @random[:right] = (card.position.to_i - 1).to_s
+            end
+        end
+        @down_card = @player.player_cards.where(computer: true, position: "9").order(down: :desc).first
+        @player_down_cards = @player_cards_in_game.select{|card| card.up.to_i < @down_card.down.to_i}
+        @player_down_cards.each do |card|
+            if card.position.to_i >= 3 && card.position.to_i <= 8 && @player.player_cards.find_by(position: (card.position.to_i - 3).to_s) == nil
+                @random[:down] = (card.position.to_i - 3).to_s
+            end
+        end
+        @left_card = @player.player_cards.where(computer: true, position: "9").order(left: :desc).first
+        @player_left_cards = @player_cards_in_game.select{|card| card.right.to_i < @left_card.left.to_i}
+        @player_left_cards.each do |card|
+            if card.position.to_i >= 0 && card.position.to_i <= 7 && @player.player_cards.find_by(position: (card.position.to_i + 1).to_s) == nil
+                @random[:left] = (card.position.to_i + 1).to_s
+            end
+        end
+
+        @random_key = @random.select { |key, value| !value.nil? }.keys.sample
+        start = rand(2).to_i
+
+        if !@random.values.all?(&:nil?) && start == 0
+            if @random_key === :up
+                @up_card.update(position: @random[:up])
+                return @up_card
+            end
+            if @random_key === :right
+                @right_card.update(position: @random[:right])
+                return @right_card
+            end
+            if @random_key === :down
+                @down_card.update(position: @random[:down])
+                return @down_card
+            end
+            if @random_key === :left
+                @left_card.update(position: @random[:left])
+                return @left_card
+            end
+        else
+            @random_computer_card = @player.player_cards.where(computer: true, position: "9").sample
+            @random_computer_card.update(position: @board_position.each_index.select { |i| @board_position[i] == false }.sample)
+            return @random_computer_card
+        end
+
+
+
     end
 end

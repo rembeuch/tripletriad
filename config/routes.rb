@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
       resources :games
       resources :cards
+      resources :elites
 
     end
   end
