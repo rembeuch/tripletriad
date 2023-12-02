@@ -1,6 +1,6 @@
 class Api::V1::GamesController < ApplicationController
     def create
-      @player = Player.find_by(wallet_address: params[:address])
+      find_player
       return if @player.game != nil
         @game = Game.new
         @game.player = @player
@@ -30,13 +30,13 @@ class Api::V1::GamesController < ApplicationController
       end
 
       def next_game
-        @player = Player.find_by(wallet_address: params[:address])
+        find_player
         @elite = @player.elites.where(in_deck: true).first
         @game = @player.game
         if @game.rounds <= @game.player_points || @game.rounds <= @game.computer_points
         @game.destroy
         @player.player_cards.destroy_all
-        @player.update(in_game: false)
+        @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0)
         render json: {id: "0"}
         else
           @player.decks.each do |name|
@@ -51,22 +51,26 @@ class Api::V1::GamesController < ApplicationController
       end
 
       def quit_game
-        @player = Player.find_by(wallet_address: params[:address])
+        find_player
         @game = @player.game
         @game.destroy
         @player.player_cards.destroy_all
-        @player.update(in_game: false)
+        @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0)
       end
 
       def get_score
-        @player = Player.find_by(wallet_address: params[:address])
+        find_player
         @player_score = @player.player_cards.select {|card| card.position != "9" && card.computer == false}.count
         @computer_score = @player.player_cards.select {|card| card.position != "9" && card.computer == true}.count
-        render json: {player_score: @player_score, computer_score: @computer_score }
+        @player_power_points = @player.power_point
+        @player_power = @player.power
+        @player_computer_power_point = @player.computer_power_point
+        @player_computer_power = @player.computer_power
+        render json: {player_score: @player_score, computer_score: @computer_score , player_power_points: @player_power_points, player_power: @player.power, player_computer_power_points: @player_computer_power_point, player_computer_power: @player.computer_power}
       end
 
       def win
-        @player = Player.find_by(wallet_address: params[:address])
+        find_player
         @game = @player.game
         @message = ''
         if @player.player_cards.where(position: "9").count <= 1 
@@ -82,5 +86,12 @@ class Api::V1::GamesController < ApplicationController
         end
         render json: {message: @message}
       end
-      
+
+      def find_player
+        if Player.where(authentication_token: params[:token]).count == 1
+          @player = Player.find_by(authentication_token: params[:token])
+        elsif Player.where(wallet_address: params[:address]).count == 1
+          @player = Player.find_by(wallet_address: params[:address])
+        end
+    end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_24_165225) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_02_141417) do
   create_table "cards", force: :cascade do |t|
     t.string "up"
     t.string "down"
@@ -66,6 +66,19 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_24_165225) do
     t.datetime "updated_at", null: false
     t.string "decks", default: "[]"
     t.boolean "in_game", default: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.string "authentication_token", limit: 30
+    t.boolean "power", default: false
+    t.integer "power_point", default: 0
+    t.boolean "computer_power", default: false
+    t.integer "computer_power_point", default: 0
+    t.index ["authentication_token"], name: "index_players_on_authentication_token", unique: true
+    t.index ["email"], name: "index_players_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_players_on_reset_password_token", unique: true
   end
 
   add_foreign_key "elites", "players"

@@ -48,3 +48,6 @@ group :development do
   gem "error_highlight", ">= 0.4.0", platforms: [:ruby]
 end
 
+
+gem "devise", "~> 4.9"
+gem 'simple_token_authentication', '~> 1.18', '>= 1.18.1'

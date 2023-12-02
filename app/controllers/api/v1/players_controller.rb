@@ -15,19 +15,7 @@ class Api::V1::PlayersController < ApplicationController
   end
 
   # POST /players
-  def create
-    @player = Player.new(player_params)
-    if @player.save
-      @elite = Elite.new(up: 1, right: 1, down: 1, left: 1, rank: 'E')
-      @elite.in_deck = true if @player.elites.empty?
-      @elite.player_id = @player.id
-      @elite.name = "#{Faker::Creature::Animal.name} #{Faker::FunnyName.unique.name.split.first}"
-      @elite.save
-      render json: @player, status: :created
-    else
-      render json: @player.errors, status: :unprocessable_entity
-    end
-  end
+  
 
   # PATCH/PUT /players/1
   def update
@@ -44,18 +32,25 @@ class Api::V1::PlayersController < ApplicationController
   end
 
   def find
-    @player = Player.find_by(wallet_address: params[:address])
-    render json: @player
+    if Player.where(authentication_token: params[:token]).count == 1
+      @player = Player.find_by(authentication_token: params[:token])
+      render json: @player
+    elsif Player.where(wallet_address: params[:address]).count == 1
+      @player = Player.find_by(wallet_address: params[:address])
+      render json: @player
+    end
   end
 
   def find_game
-    @player = Player.find_by(wallet_address: params[:address])
+    find_player
     @game = @player.game
-    render json: @game if @game
+    if !@game.nil?
+      render json: @game 
+    end
   end
 
   def deck
-    @player = Player.find_by(wallet_address: params[:address])
+    find_player
     @player_cards = []
     @player.decks.each do |id|
       @player_cards.push(Card.find(id.to_i))
@@ -69,7 +64,7 @@ class Api::V1::PlayersController < ApplicationController
 
   def add_card
     @message = nil
-    @player = Player.find_by(wallet_address: params[:address])
+    find_player
     if @player.decks.include?(params[:card_id])
       @message = "Already in your deck!"
     elsif @player.in_game
@@ -84,7 +79,7 @@ class Api::V1::PlayersController < ApplicationController
   end
 
   def remove_card
-    @player = Player.find_by(wallet_address: params[:address])
+    find_player
     if @player.in_game
       render json: @player.errors, status: :unprocessable_entity
     elsif @player.decks.include?(params[:card_id])
@@ -96,24 +91,45 @@ class Api::V1::PlayersController < ApplicationController
   end
 
   def deck_in_game
-    @player = Player.find_by(wallet_address: params[:address])
+    find_player
     @player_deck_in_game = PlayerCard.where(player: @player, position: "9", computer: false)
     render json: @player_deck_in_game
   end
 
   def computer_deck
-    @player = Player.find_by(wallet_address: params[:address])
+    find_player
     @computer_deck = PlayerCard.where(player: @player, position: "9", computer: true)
     render json: @computer_deck  
   end
 
   
 
+  def find_player
+    if Player.where(authentication_token: params[:token]).count == 1
+      @player = Player.find_by(authentication_token: params[:token])
+    elsif Player.where(wallet_address: params[:address]).count == 1
+      @player = Player.find_by(wallet_address: params[:address])
+    end
+  end
+
+  def connect_wallet
+    @message = ""
+    if Player.where(authentication_token: params[:token]).count == 1
+      @player = Player.find_by(authentication_token: params[:token])
+    end
+    if @player.wallet_address.size < 23 && Player.where(wallet_address: params[:address]).count == 0
+      if @player.wallet_address == "undefined" || @player.wallet_address.first(2) == "--"
+        @player.update(wallet_address: params[:address])
+      end
+    end
+  end
+
   private
-    # Use callbacks to share common setup or constraints between actions.
+    
     def set_player
       @player = Player.find(params[:id])
     end
+
 
     # Only allow a list of trusted parameters through.
     def player_params

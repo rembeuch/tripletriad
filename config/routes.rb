@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
+  devise_for :players
   namespace :api do
     namespace :v1 do
+      resources :registrations, only: [:create]
+      resources :sessions, only: [:create]
+      post :logout, to:'sessions#logout'
+
+
       resources :players
       get :find, to: 'players#find'
       get :find_game, to: 'players#find_game'
@@ -9,6 +15,7 @@ Rails.application.routes.draw do
       post :remove_card, to:'players#remove_card'
       get :deck_in_game, to: 'players#deck_in_game'
       get :computer_deck, to: 'players#computer_deck'
+      get :connect_wallet, to: 'players#connect_wallet'
 
       post :quit_game, to:'games#quit_game'
       post :next_game, to:'games#next_game'
