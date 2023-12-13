@@ -22,6 +22,7 @@ class Api::V1::GamesController < ApplicationController
             @random_computer_card = @player.player_cards.where(computer: true, position: "9").sample
             @random_computer_card.update(position: rand(9).to_s)
           end
+          @game.update(turn: true)
           render json: @game, status: :created
         else
           @game.destroy
@@ -46,6 +47,12 @@ class Api::V1::GamesController < ApplicationController
           @player.player_cards.select {|card| card.position != "9"}.each do |card|
             card.update(computer: true, position: "9")
           end
+          start = rand(2).to_i
+          if start == 0
+            @random_computer_card = @player.player_cards.where(computer: true, position: "9").sample
+            @random_computer_card.update(position: rand(9).to_s)
+          end
+          @game.update(turn: true)
           render json: {id: @game.id}
         end
       end

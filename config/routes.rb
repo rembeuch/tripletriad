@@ -29,7 +29,12 @@ Rails.application.routes.draw do
       patch :update_computer_position, to: 'player_cards#update_computer_position'
       patch :computer_combo, to: 'player_cards#computer_combo'
 
+      post :super_power, to: 'player_cards#super_power'
+
       get :board_position, to: 'player_cards#board_position'
+
+      post :ability, to: 'elites#ability'
+
 
       resources :games
       resources :cards

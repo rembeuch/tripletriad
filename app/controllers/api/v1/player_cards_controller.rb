@@ -3,8 +3,14 @@ class Api::V1::PlayerCardsController < ApplicationController
 
     def update_position
         find_player
+        @game = @player.game
         return if @player.player_cards.where(position: "9").count == 0
+        if @game.turn == false
+            update_computer_position
+            render json: {message: "reload"}
+        end
         @card = @player.player_cards.find(params[:card_id].to_i)
+        @game.update(turn: false)
         @message = ""
         @cards_updated = []
             if @player.player_cards.where(position: params[:position]) == []
@@ -14,20 +20,28 @@ class Api::V1::PlayerCardsController < ApplicationController
             if @player.player_cards.select{|card| card.position != "9" && card != @card} != []
                 result_player(@card)
             end
+            @game.update(turn: false)
             check_power
             render json: { message: @message, cards_updated: @cards_updated }
     end
     
     def update_computer_position
         find_player
+        @game = @player.game
         sleep 1
         return if @player.player_cards.where(position: "9").count == 0
+        if @game.turn == true
+            render json: {message: "reload"}
+        end
         @message = ""
         @cards_updated = []
-        if @player.player_cards.where(computer: true, position: "9").count > 0 && @player.player_cards.where(computer: false, position: "9").count > 0
-            @computer_card = computer_strat
-            result_computer(@computer_card)
+        if @game.turn != true 
+            if @player.player_cards.where(computer: true, position: "9").count > 0 && @player.player_cards.where(computer: false, position: "9").count > 0
+                @computer_card = computer_strat
+                result_computer(@computer_card)
+            end
         end
+        @game.update(turn: true)
         check_power
         render json: { message: @message, cards_updated: @cards_updated }
     end
@@ -37,6 +51,20 @@ class Api::V1::PlayerCardsController < ApplicationController
             @player.update(power: true)
         elsif @player.computer_power_point == 10 && @player.computer_power == false
             @player.update(computer_power: true)
+        end
+    end
+
+    def super_power
+        find_player
+        @cards = @player.player_cards
+        @player.update(power: false, power_point: 0)
+        if @player.ability.include?("fight")
+            if @player.ability.last == "1"
+                @card = @cards.select{|card| card.position == "9" && card.computer == false }.sample
+                @rand = rand(4)
+                attributes = [:up, :right, :down, :left]
+                @card.update(attributes[@rand] => (@card.send(attributes[@rand]).to_i + 1).to_s)
+            end
         end
     end
 
@@ -1828,8 +1856,6 @@ class Api::V1::PlayerCardsController < ApplicationController
     def find_player
         if Player.where(authentication_token: params[:token]).count == 1
           @player = Player.find_by(authentication_token: params[:token])
-        elsif Player.where(wallet_address: params[:address]).count == 1
-          @player = Player.find_by(wallet_address: params[:address])
         end
     end
 end

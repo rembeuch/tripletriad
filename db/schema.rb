@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_02_141417) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_12_170227) do
   create_table "cards", force: :cascade do |t|
     t.string "up"
     t.string "down"
@@ -32,6 +32,11 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_02_141417) do
     t.integer "player_id", null: false
     t.boolean "in_deck", default: false
     t.string "name"
+    t.integer "fight", default: 0
+    t.integer "diplomacy", default: 0
+    t.integer "espionage", default: 0
+    t.integer "leadership", default: 0
+    t.boolean "potential", default: false
     t.index ["player_id"], name: "index_elites_on_player_id"
   end
 
@@ -42,6 +47,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_02_141417) do
     t.integer "rounds", default: 1
     t.integer "player_points", default: 0
     t.integer "computer_points", default: 0
+    t.boolean "turn"
     t.index ["player_id"], name: "index_games_on_player_id"
   end
 
@@ -76,6 +82,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_02_141417) do
     t.integer "power_point", default: 0
     t.boolean "computer_power", default: false
     t.integer "computer_power_point", default: 0
+    t.string "ability"
     t.index ["authentication_token"], name: "index_players_on_authentication_token", unique: true
     t.index ["email"], name: "index_players_on_email", unique: true
     t.index ["reset_password_token"], name: "index_players_on_reset_password_token", unique: true
