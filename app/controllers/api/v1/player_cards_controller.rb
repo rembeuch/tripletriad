@@ -56,16 +56,91 @@ class Api::V1::PlayerCardsController < ApplicationController
 
     def super_power
         find_player
+        return if @player.player_cards.where(position: '9').count <= 1
         @cards = @player.player_cards
         @player.update(power: false, power_point: 0)
         if @player.ability.include?("fight")
             if @player.ability.last == "1"
                 @card = @cards.select{|card| card.position == "9" && card.computer == false }.sample
+                logs
                 @rand = rand(4)
                 attributes = [:up, :right, :down, :left]
                 @card.update(attributes[@rand] => (@card.send(attributes[@rand]).to_i + 1).to_s)
             end
         end
+        if @player.ability.include?("diplomacy")
+            if @player.ability.last == "1"
+                @card = @cards.select{|card| card.position == "9" && card.computer == true }.sample
+                logs
+                @rand = rand(4)
+                attributes = [:up, :right, :down, :left]
+                @card.update(attributes[@rand] => (@card.send(attributes[@rand]).to_i - 1).to_s)
+            end
+        end
+        if @player.ability.include?("espionage")
+            if @player.ability.last == "1"
+                @card = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
+                if @card
+                    @card.update(hide: false)
+                end
+            end
+        end
+        if @player.ability.include?("leadership")
+            if @player.ability.last == "1"
+                @card = @cards.select{|card| card.computer == true && card.position != '9' }.sample
+                @card2 = @cards.select{|card| card.computer == true && card != @card }.sample
+                if @card
+                    logs
+                    @rand = rand(4)
+                    attributes = [:up, :right, :down, :left]
+                    @card.update(attributes[@rand] => @card2[attributes[@rand]])
+                end
+            end
+        end
+    end
+
+    def computer_super_power
+        find_player
+        return if @player.player_cards.where(position: '9').count <= 1
+        @cards = @player.player_cards
+        @player.update(computer_power: false, computer_power_point: 0)
+        if @player.computer_ability.include?("fight")
+            if @player.computer_ability.last == "1"
+                @card = @cards.select{|card| card.position == "9" && card.computer == true }.sample
+                logs
+                @rand = rand(4)
+                attributes = [:up, :right, :down, :left]
+                @card.update(attributes[@rand] => (@card.send(attributes[@rand]).to_i + 1).to_s)
+            end
+        end
+        if @player.computer_ability.include?("diplomacy")
+            if @player.computer_ability.last == "1"
+                @card = @cards.select{|card| card.position == "9" && card.computer == false }.sample
+                logs
+                @rand = rand(4)
+                attributes = [:up, :right, :down, :left]
+                @card.update(attributes[@rand] => (@card.send(attributes[@rand]).to_i - 1).to_s)
+            end
+        end
+        if @player.ability.include?("espionage")
+            if @player.ability.last == "1"
+                @card = @cards.select{|card| card.position == "9" && card.computer == false && card.hide == true }.sample
+                if @card
+                    @card.update(hide: false)
+                end
+            end
+        end
+        computer_strat
+    end
+
+    def logs
+        original_attributes = {
+            id: @card.id,
+            up: @card.up,
+            right: @card.right,
+            down: @card.down,
+            left: @card.left}
+        @player.game.update(logs: @player.game.logs.push(original_attributes))
     end
 
     def board_position
@@ -1794,6 +1869,9 @@ class Api::V1::PlayerCardsController < ApplicationController
                 end
         end
 
+        if @player.computer_power
+           return computer_super_power
+        end
         @up_card = @player.player_cards.where(computer: true, position: "9").order(up: :desc).first
         @player_up_cards = @player_cards_in_game.select{|card| card.down.to_i < @up_card.up.to_i}
         @player_up_cards.each do |card|
@@ -1825,7 +1903,6 @@ class Api::V1::PlayerCardsController < ApplicationController
 
         @random_key = @random.select { |key, value| !value.nil? }.keys.sample
         start = rand(2).to_i
-
         if !@random.values.all?(&:nil?) && start == 0
             if @random_key === :up
                 @up_card.update(position: @random[:up])
@@ -1844,6 +1921,9 @@ class Api::V1::PlayerCardsController < ApplicationController
                 return @left_card
             end
         else
+            if @player.computer_power
+                computer_super_power
+            end
             @random_computer_card = @player.player_cards.where(computer: true, position: "9").sample
             @random_computer_card.update(position: @board_position.each_index.select { |i| @board_position[i] == false }.sample)
             return @random_computer_card

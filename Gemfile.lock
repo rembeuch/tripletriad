@@ -133,6 +133,7 @@ GEM
     nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    pg_array_parser (0.0.9)
     psych (5.1.1.1)
       stringio
     puma (6.4.0)
@@ -213,6 +214,7 @@ DEPENDENCIES
   devise (~> 4.9)
   error_highlight (>= 0.4.0)
   faker
+  pg_array_parser
   puma (>= 5.0)
   rack-cors
   rails (~> 7.1.1)

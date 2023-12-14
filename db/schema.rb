@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_12_170227) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_13_171327) do
   create_table "cards", force: :cascade do |t|
     t.string "up"
     t.string "down"
@@ -48,6 +48,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_12_170227) do
     t.integer "player_points", default: 0
     t.integer "computer_points", default: 0
     t.boolean "turn"
+    t.string "logs", default: "[]"
     t.index ["player_id"], name: "index_games_on_player_id"
   end
 
@@ -62,6 +63,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_12_170227) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
+    t.boolean "hide", default: true
     t.index ["player_id"], name: "index_player_cards_on_player_id"
   end
 
@@ -83,6 +85,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_12_170227) do
     t.boolean "computer_power", default: false
     t.integer "computer_power_point", default: 0
     t.string "ability"
+    t.string "computer_ability"
     t.index ["authentication_token"], name: "index_players_on_authentication_token", unique: true
     t.index ["email"], name: "index_players_on_email", unique: true
     t.index ["reset_password_token"], name: "index_players_on_reset_password_token", unique: true

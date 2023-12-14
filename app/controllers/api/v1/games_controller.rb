@@ -17,6 +17,7 @@ class Api::V1::GamesController < ApplicationController
             @computer_card = Card.all.sample
             PlayerCard.create(up: @computer_card.up, down: @computer_card.down, right: @computer_card.right, left: @computer_card.left, position: "9", computer: true, player: @player, name: @computer_card.id )
           end
+          @player.update(computer_ability: @player.ability)
           start = rand(2).to_i
           if start == 0
             @random_computer_card = @player.player_cards.where(computer: true, position: "9").sample
@@ -40,6 +41,13 @@ class Api::V1::GamesController < ApplicationController
         @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0)
         render json: {id: "0"}
         else
+          if @game.logs != []
+            @game.logs.each do |attributes|
+              @card_modified = @player.player_cards.where(id: attributes['id'])
+              @card_modified.update(attributes)
+            end
+            @game.update(logs: [])
+          end
           @player.decks.each do |name|
             @player.player_cards.find_by(name: name).update(position: "9", computer: false)
           end
