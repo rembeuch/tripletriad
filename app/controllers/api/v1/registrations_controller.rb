@@ -3,7 +3,7 @@ class Api::V1::RegistrationsController < ApplicationController
     def create
         @player = Player.new(player_params)
         @player.wallet_address = "--" + @player.name
-    
+        @player.zones.push("A1")
         if @player.save
           @elite = Elite.new(up: 1, right: 1, down: 1, left: 1, rank: 'E', fight: rand(20), diplomacy: rand(20), espionage: rand(20), leadership: rand(20))
           @elite.in_deck = true if @player.elites.empty?
@@ -30,6 +30,11 @@ class Api::V1::RegistrationsController < ApplicationController
             @elite.update(attributes[@rand] => 10)
           end
           @elite.save
+          @power = [:fight, :diplomacy, :espionage, :leadership].max_by { |column| @elite.send(column) }.to_s + "1"
+          @player.update(ability: @power)
+          Monster.first(4).each do |monster|
+            Card.create(up: monster.up, down: monster.down, right: monster.right, left: monster.left, player: @player, name: monster.name, rank: monster.rank, up_points: 0, right_points: 0, down_points: 0, left_points: 0 )
+          end
           render json: { player: @player, token: @player.authentication_token }, status: :created
         else
           render json: @player.errors, status: :unprocessable_entity

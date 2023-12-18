@@ -8,17 +8,22 @@ class Player < ApplicationRecord
          :lockable    
     validates :wallet_address, uniqueness: true
     validates :name, presence: true , length: { maximum: 20 }, uniqueness: true
-    validates :power_point, numericality: { less_than_or_equal_to: 10 }
-    validates :computer_power_point, numericality: { less_than_or_equal_to: 10 }
     has_one :game
     has_many :player_cards
+    has_many :cards
     has_many :elites
     serialize :decks, JSON
     before_validation :initialize_decks
+    serialize :zones, JSON
+    before_validation :initialize_zones
 
     private
 
   def initialize_decks
     self.decks ||= []
+  end
+
+  def initialize_zones
+    self.zones ||= []
   end
 end

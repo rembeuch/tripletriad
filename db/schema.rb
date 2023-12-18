@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_13_171327) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_18_151930) do
   create_table "cards", force: :cascade do |t|
     t.string "up"
     t.string "down"
@@ -19,6 +19,14 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_13_171327) do
     t.string "rank"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "player_id", null: false
+    t.integer "up_points"
+    t.integer "down_points"
+    t.integer "right_points"
+    t.integer "left_points"
+    t.string "name"
+    t.string "image"
+    t.index ["player_id"], name: "index_cards_on_player_id"
   end
 
   create_table "elites", force: :cascade do |t|
@@ -50,6 +58,20 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_13_171327) do
     t.boolean "turn"
     t.string "logs", default: "[]"
     t.index ["player_id"], name: "index_games_on_player_id"
+  end
+
+  create_table "monsters", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "zones", default: "[]"
+    t.integer "up"
+    t.integer "down"
+    t.integer "right"
+    t.integer "left"
+    t.integer "rank"
+    t.string "rules", default: "[]"
+    t.string "name"
+    t.string "image"
   end
 
   create_table "player_cards", force: :cascade do |t|
@@ -86,11 +108,14 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_13_171327) do
     t.integer "computer_power_point", default: 0
     t.string "ability"
     t.string "computer_ability"
+    t.string "zone_position", default: "A1"
+    t.string "zones", default: "[]"
     t.index ["authentication_token"], name: "index_players_on_authentication_token", unique: true
     t.index ["email"], name: "index_players_on_email", unique: true
     t.index ["reset_password_token"], name: "index_players_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "cards", "players"
   add_foreign_key "elites", "players"
   add_foreign_key "games", "players"
   add_foreign_key "player_cards", "players"

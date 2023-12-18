@@ -4,7 +4,7 @@ class Api::V1::GamesController < ApplicationController
       return if @player.game != nil
         @game = Game.new
         @game.player = @player
-        @game.rounds = params[:rounds]
+        @game.rounds = rand(1..10)
         if @game.save && @player.in_game == false && (@player.decks.size + @player.elites.where(in_deck: true).size) == 5
           @player.update(in_game: true)
           @elite = @player.elites.where(in_deck: true).first
@@ -13,10 +13,14 @@ class Api::V1::GamesController < ApplicationController
             @deck_card = Card.find(id.to_i)
             PlayerCard.create(up: @deck_card.up, down: @deck_card.down, right: @deck_card.right, left: @deck_card.left, position: "9", computer: false, player: @player, name: @deck_card.id )
           end
+          @monsters = []
           5.times do
-            @computer_card = Card.all.sample
-            PlayerCard.create(up: @computer_card.up, down: @computer_card.down, right: @computer_card.right, left: @computer_card.left, position: "9", computer: true, player: @player, name: @computer_card.id )
+            @monster = Monster.select{|monster| monster.zones.include?(@player.zone_position)}.sample
+            @monsters.push(@monster)
+            PlayerCard.create(up: @monster.up, down: @monster.down, right: @monster.right, left: @monster.left, position: "9", computer: true, player: @player, name: @monster.name )
           end
+          @computer_max_power = @monsters.map{|monster| monster.rank}.max.to_s
+          @computer_ability = ["fight", "diplomacy", "espionage", "leadership"].sample + @computer_max_power
           @player.update(computer_ability: @player.ability)
           start = rand(2).to_i
           if start == 0

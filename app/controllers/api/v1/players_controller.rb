@@ -66,7 +66,7 @@ class Api::V1::PlayersController < ApplicationController
     @message = nil
     find_player
     if @player.decks.include?(params[:card_id])
-      @message = "Already in your deck!"
+      @message = "Already in your team!"
     elsif @player.in_game
       @message = "You can't, you are in game!"
     elsif @player.decks.size >= 4

@@ -17,9 +17,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                 @card.update(position: params[:position])
                 @board_position[@card.position.to_i] = @card
             end
-            if @player.player_cards.select{|card| card.position != "9" && card != @card} != []
                 result_player(@card)
-            end
             @game.update(turn: false)
             check_power
             render json: { message: @message, cards_updated: @cards_updated }
@@ -47,9 +45,9 @@ class Api::V1::PlayerCardsController < ApplicationController
     end
 
     def check_power
-        if @player.power_point == 10 && @player.power == false
+        if @player.power_point >= 10 && @player.power == false
             @player.update(power: true)
-        elsif @player.computer_power_point == 10 && @player.computer_power == false
+        elsif @player.computer_power_point >= 10 && @player.computer_power == false
             @player.update(computer_power: true)
         end
     end
@@ -252,7 +250,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                 @cards_updated.push(@computer_card2.id)
                 @player.update(power_point: @player.power_point + 3)
             end
-            if @computer_card1 && @computer_card1.right == card.left.to_i && @computer_card2.to_i && @computer_card2.up.to_i == card.down.to_i
+            if @computer_card1 && @computer_card1.right == card.left && @computer_card2 && @computer_card2.up == card.down
                 @computer_card1.update(computer: false)
                 @computer_card2.update(computer: false)
                 @message = "Same!"
