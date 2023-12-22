@@ -43,3 +43,12 @@ Monster.destroy_all
 
 @monster_4.zones.push("A1")
 @monster_4.save
+
+@monster_5 = Monster.create( up: "3",
+    down: "1",
+    left: "1",
+    right: "1",
+    rank: "1",name: "#5")
+
+@monster_5.zones.push("A1")
+@monster_5.save

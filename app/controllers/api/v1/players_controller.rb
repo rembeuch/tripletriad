@@ -124,6 +124,15 @@ class Api::V1::PlayersController < ApplicationController
     end
   end
 
+  def select_zone
+    find_player
+    @player.update(zone_position: params[:zone])
+    if !@player.zones.include?(params[:zone])
+      @player.update(zones: @player.zones.push(params[:zone]))
+    end
+    render json: @player
+  end
+
   private
     
     def set_player

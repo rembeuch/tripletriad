@@ -19,9 +19,10 @@ class Api::V1::GamesController < ApplicationController
             @monsters.push(@monster)
             PlayerCard.create(up: @monster.up, down: @monster.down, right: @monster.right, left: @monster.left, position: "9", computer: true, player: @player, name: @monster.name )
           end
+          @game.update(monsters: @monsters)
           @computer_max_power = @monsters.map{|monster| monster.rank}.max.to_s
           @computer_ability = ["fight", "diplomacy", "espionage", "leadership"].sample + @computer_max_power
-          @player.update(computer_ability: @player.ability)
+          @player.update(computer_ability: @computer_ability)
           start = rand(2).to_i
           if start == 0
             @random_computer_card = @player.player_cards.where(computer: true, position: "9").sample
@@ -40,6 +41,7 @@ class Api::V1::GamesController < ApplicationController
         @elite = @player.elites.where(in_deck: true).first
         @game = @player.game
         if @game.rounds <= @game.player_points || @game.rounds <= @game.computer_points
+        @player.update(energy: (@player.energy + (@game.player_points * 10)))
         @game.destroy
         @player.player_cards.destroy_all
         @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0)
@@ -67,6 +69,28 @@ class Api::V1::GamesController < ApplicationController
           @game.update(turn: true)
           render json: {id: @game.id}
         end
+      end
+
+      def reward 
+        find_player
+        @game = @player.game
+        @monster = Monster.find(params[:id].to_i)
+        @message = ""
+        return if @game.monsters.size < 5
+        @game.update(monsters: [@monster])
+        if !@player.monsters.include?(@monster.name)
+          @player.monsters.push(@monster.name)
+          @player.elite_points += 1
+          @message = "New Monster: #{@monster.name} + 1 Elite Point!"
+          @player.save
+        end
+        @card = @player.cards.find_by(name: @monster.name)
+        if @card
+          @card.update(copy: @card.copy + 1)
+        else
+          Card.create(up: @monster.up, down: @monster.down, right: @monster.right, left: @monster.left, player: @player, name: @monster.name, rank: @monster.rank, image: @monster.image )
+        end
+        render json: {message: @message}
       end
 
       def quit_game

@@ -68,10 +68,27 @@ class Api::V1::ElitesController < ApplicationController
       @player.update(ability: params[:power])
     end
 
-    def find_player
-        if Player.where(authentication_token: params[:token]).count == 1
-          @player = Player.find_by(authentication_token: params[:token])
-        end
+    def increment_elite
+      find_player
+      @elite = Elite.find(params[:id])
+      attributes = [:fight, :diplomacy, :espionage, :leadership]
+      if @elite.player == @player && @player.elite_points > 0 && @player.energy >= (@elite.send(attributes[params[:stat].to_i]) * 10)
+          @player.update(elite_points: @player.elite_points - 1)
+          @player.update(energy: @player.energy - (@elite.send(attributes[params[:stat].to_i]) * 10))
+          @elite.update(attributes[params[:stat].to_i] => (@elite.send(attributes[params[:stat].to_i]).to_i + 1).to_s)
+          elite_power
+          render json: {elite: @elite, power: @power}
+      else 
+        render json: {elite: @elite, power: @power}
       end
+  end
+
+    private
+
+    def find_player
+      if Player.where(authentication_token: params[:token]).count == 1
+        @player = Player.find_by(authentication_token: params[:token])
+      end
+    end
       
 end

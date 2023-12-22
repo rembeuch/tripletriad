@@ -65,6 +65,18 @@ class Api::V1::PlayerCardsController < ApplicationController
                 attributes = [:up, :right, :down, :left]
                 @card.update(attributes[@rand] => (@card.send(attributes[@rand]).to_i + 1).to_s)
             end
+            if @player.ability.last == "2"
+                @card = @cards.select{|card| card.position == "9" && card.computer == false }.sample
+                logs
+                @rand = rand(4)
+                loop do
+                    @rand2 = rand(4)
+                    break if @rand2 != @rand
+                end
+                attributes = [:up, :right, :down, :left]
+                @card.update(attributes[@rand] => (@card.send(attributes[@rand]).to_i + 1).to_s)
+                @card.update(attributes[@rand2] => (@card.send(attributes[@rand2]).to_i + 1).to_s)
+            end
         end
         if @player.ability.include?("diplomacy")
             if @player.ability.last == "1"
@@ -74,12 +86,35 @@ class Api::V1::PlayerCardsController < ApplicationController
                 attributes = [:up, :right, :down, :left]
                 @card.update(attributes[@rand] => (@card.send(attributes[@rand]).to_i - 1).to_s)
             end
+            if @player.ability.last == "2"
+                @card = @cards.select{|card| card.position == "9" && card.computer == true }.sample
+                logs
+                @rand = rand(4)
+                loop do
+                    @rand2 = rand(4)
+                    break if @rand2 != @rand
+                end
+                attributes = [:up, :right, :down, :left]
+                @card.update(attributes[@rand] => (@card.send(attributes[@rand]).to_i - 1).to_s)
+                @card.update(attributes[@rand2] => (@card.send(attributes[@rand2]).to_i - 1).to_s)
+            end
         end
         if @player.ability.include?("espionage")
             if @player.ability.last == "1"
                 @card = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
                 if @card
                     @card.update(hide: false)
+                end
+            end
+            if @player.ability.last == "2"
+                @card = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
+                if @card
+                    @card.update(hide: false)
+                end
+                if @player.computer_power_point >= 1
+                    @player.update(computer_power: false, computer_power_point: @player.computer_power_point - 1)
+                elsif @player.computer_power_point >= 10
+                    @player.update(computer_power: false, computer_power_point: 9)
                 end
             end
         end
@@ -92,6 +127,22 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @rand = rand(4)
                     attributes = [:up, :right, :down, :left]
                     @card.update(attributes[@rand] => @card2[attributes[@rand]])
+                end
+            end
+            if @player.ability.last == "2"
+                @card = @cards.select{|card| card.computer == true && card.position != '9' }.sample
+                @card2 = @cards.select{|card| card.computer == true && card != @card }.sample
+                @card3 = @cards.select{|card| card.computer == true && card != @card }.sample
+                if @card
+                    logs
+                    @rand = rand(4)
+                    loop do
+                        @rand2 = rand(4)
+                        break if @rand2 != @rand
+                    end
+                    attributes = [:up, :right, :down, :left]
+                    @card.update(attributes[@rand] => @card2[attributes[@rand]])
+                    @card.update(attributes[@rand2] => @card3[attributes[@rand2]])
                 end
             end
         end
