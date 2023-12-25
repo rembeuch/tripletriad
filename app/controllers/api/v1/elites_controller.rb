@@ -72,15 +72,28 @@ class Api::V1::ElitesController < ApplicationController
       find_player
       @elite = Elite.find(params[:id])
       attributes = [:fight, :diplomacy, :espionage, :leadership]
-      if @elite.player == @player && @player.elite_points > 0 && @player.energy >= (@elite.send(attributes[params[:stat].to_i]) * 10)
+      @cost = 10
+      if @elite.nft == true
+        @cost = 5
+      end
+      if @elite.player == @player && @player.elite_points > 0 && @player.energy >= (@elite.send(attributes[params[:stat].to_i]) * @cost)
           @player.update(elite_points: @player.elite_points - 1)
-          @player.update(energy: @player.energy - (@elite.send(attributes[params[:stat].to_i]) * 10))
+          @player.update(energy: @player.energy - (@elite.send(attributes[params[:stat].to_i]) * @cost))
           @elite.update(attributes[params[:stat].to_i] => (@elite.send(attributes[params[:stat].to_i]).to_i + 1).to_s)
           elite_power
-          render json: {elite: @elite, power: @power}
+          render json: {elite: @elite, power: @power, energy: @player.energy, player: @player}
       else 
         render json: {elite: @elite, power: @power}
       end
+  end
+
+  def nft_elite
+    find_player
+    @elite = Elite.find(params[:id])
+    if @elite.nft == false && @elite.player == @player
+      @elite.update(nft: true)
+    end
+    render json: {elite: @elite}
   end
 
     private

@@ -40,6 +40,7 @@ Rails.application.routes.draw do
 
       post :ability, to: 'elites#ability'
       post :increment_elite, to: 'elites#increment_elite'
+      post :nft_elite, to: 'elites#nft_elite'
 
       post :increment_card, to: 'cards#increment_card'
 

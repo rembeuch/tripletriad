@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_20_102415) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_25_141131) do
   create_table "cards", force: :cascade do |t|
     t.string "up"
     t.string "down"
@@ -46,6 +46,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_20_102415) do
     t.integer "espionage", default: 0
     t.integer "leadership", default: 0
     t.boolean "potential", default: false
+    t.boolean "nft", default: false
+    t.boolean "in_sale", default: false
+    t.integer "price", default: 0
     t.index ["player_id"], name: "index_elites_on_player_id"
   end
 
