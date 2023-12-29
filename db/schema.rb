@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_25_141131) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_28_181822) do
   create_table "cards", force: :cascade do |t|
     t.string "up"
     t.string "down"
@@ -91,6 +91,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_25_141131) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.boolean "hide", default: true
+    t.boolean "pvp", default: false
     t.index ["player_id"], name: "index_player_cards_on_player_id"
   end
 
@@ -118,13 +119,33 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_25_141131) do
     t.string "monsters", default: "[]"
     t.integer "energy", default: 0
     t.integer "elite_points", default: 0
+    t.string "in_pvp", default: "false"
+    t.boolean "pvp_power", default: false
+    t.integer "pvp_power_point", default: 0
     t.index ["authentication_token"], name: "index_players_on_authentication_token", unique: true
     t.index ["email"], name: "index_players_on_email", unique: true
     t.index ["reset_password_token"], name: "index_players_on_reset_password_token", unique: true
+  end
+
+  create_table "pvps", force: :cascade do |t|
+    t.integer "player1_id", null: false
+    t.integer "player2_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "rounds", default: 1
+    t.integer "player1_points", default: 0
+    t.integer "player2_points", default: 0
+    t.integer "turn"
+    t.string "logs", default: "[]"
+    t.string "monsters", default: "[]"
+    t.index ["player1_id"], name: "index_pvps_on_player1_id"
+    t.index ["player2_id"], name: "index_pvps_on_player2_id"
   end
 
   add_foreign_key "cards", "players"
   add_foreign_key "elites", "players"
   add_foreign_key "games", "players"
   add_foreign_key "player_cards", "players"
+  add_foreign_key "pvps", "players", column: "player1_id"
+  add_foreign_key "pvps", "players", column: "player2_id"
 end

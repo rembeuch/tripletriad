@@ -70,12 +70,14 @@ class Api::V1::ElitesController < ApplicationController
 
     def increment_elite
       find_player
+      return if @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait'
       @elite = Elite.find(params[:id])
       attributes = [:fight, :diplomacy, :espionage, :leadership]
       @cost = 10
       if @elite.nft == true
         @cost = 5
       end
+
       if @elite.player == @player && @player.elite_points > 0 && @player.energy >= (@elite.send(attributes[params[:stat].to_i]) * @cost)
           @player.update(elite_points: @player.elite_points - 1)
           @player.update(energy: @player.energy - (@elite.send(attributes[params[:stat].to_i]) * @cost))

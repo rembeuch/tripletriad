@@ -1,8 +1,8 @@
 class Api::V1::CardsController < ApplicationController
     def index
-        @cards = Card.all
-
-        render json: @cards
+      find_player
+      @cards = @player.cards
+      render json: @cards
     end
 
     def show
@@ -15,6 +15,7 @@ class Api::V1::CardsController < ApplicationController
 
     def increment_card
         find_player
+        return if @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait'
         @card = Card.find(params[:id])
         attributes = [:up_points, :right_points, :down_points, :left_points]
         if @card.player == @player && @card.copy > 0 && @player.energy >= (@card.send(attributes[params[:stat].to_i]) * 100)

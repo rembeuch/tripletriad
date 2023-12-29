@@ -13,6 +13,8 @@ Rails.application.routes.draw do
       get :deck, to: 'players#deck'
       get :deck_in_game, to: 'players#deck_in_game'
       get :computer_deck, to: 'players#computer_deck'
+      get :deck_in_pvp, to: 'players#deck_in_pvp'
+      get :opponent_deck, to: 'players#opponent_deck'
       get :connect_wallet, to: 'players#connect_wallet'
 
       post :add_card, to:'players#add_card'
@@ -24,11 +26,20 @@ Rails.application.routes.draw do
       post :next_game, to:'games#next_game'
       post :reward, to:'games#reward'
 
-
       get :get_score, to: 'games#get_score'
       get :win, to: 'games#win'
 
-      
+      post :stop_pvp, to:'pvps#stop_pvp'
+      post :next_pvp_game, to:'pvps#next_pvp_game'
+      post :quit_pvp, to:'pvps#quit_pvp'
+
+
+      get :find_pvp, to: 'pvps#find_pvp'
+      get :find_number, to: 'pvps#find_number'
+      get :get_pvp_score, to: 'pvps#get_pvp_score'
+      get :win_pvp, to: 'pvps#win_pvp'
+
+
       patch :update_position, to: 'player_cards#update_position'
       patch :player_combo, to: 'player_cards#player_combo'
       patch :update_computer_position, to: 'player_cards#update_computer_position'
@@ -38,6 +49,13 @@ Rails.application.routes.draw do
 
       get :board_position, to: 'player_cards#board_position'
 
+      get :pvp_board_position, to: 'pvp_cards#pvp_board_position'
+      patch :update_pvp_position, to: 'pvp_cards#update_pvp_position'
+      patch :pvp_player_combo, to: 'pvp_cards#pvp_player_combo'
+      post :pvp_super_power, to: 'pvp_cards#pvp_super_power'
+
+
+
       post :ability, to: 'elites#ability'
       post :increment_elite, to: 'elites#increment_elite'
       post :nft_elite, to: 'elites#nft_elite'
@@ -46,6 +64,7 @@ Rails.application.routes.draw do
 
 
       resources :games
+      resources :pvps
       resources :cards
       resources :elites
 

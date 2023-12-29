@@ -1,7 +1,7 @@
 class Api::V1::PlayersController < ApplicationController
   require 'faker'
   before_action :set_player, only: %i[ show update destroy ]
-
+  before_action :find_player, only: [:opponent_deck]
   # GET /players
   def index
     @players = Player.all
@@ -67,7 +67,7 @@ class Api::V1::PlayersController < ApplicationController
     find_player
     if @player.decks.include?(params[:card_id])
       @message = "Already in your team!"
-    elsif @player.in_game
+    elsif @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait'
       @message = "You can't, you are in game!"
     elsif @player.decks.size >= 4
       @message = "team Full!"
@@ -80,7 +80,7 @@ class Api::V1::PlayersController < ApplicationController
 
   def remove_card
     find_player
-    if @player.in_game
+    if @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait'
       render json: @player.errors, status: :unprocessable_entity
     elsif @player.decks.include?(params[:card_id])
       @player.decks.delete(params[:card_id])
@@ -92,23 +92,38 @@ class Api::V1::PlayersController < ApplicationController
 
   def deck_in_game
     find_player
-    @player_deck_in_game = PlayerCard.where(player: @player, position: "9", computer: false)
+    @player_deck_in_game = PlayerCard.where(player: @player, position: "9", computer: false, pvp: false)
     render json: @player_deck_in_game
   end
 
   def computer_deck
     find_player
-    @computer_deck = PlayerCard.where(player: @player, position: "9", computer: true)
+    @computer_deck = PlayerCard.where(player: @player, position: "9", computer: true, pvp: false)
     render json: @computer_deck  
   end
 
-  
+  def deck_in_pvp
+    find_player
+    @player_deck_in_game = PlayerCard.where(player: @player, position: "9", computer: false, pvp: true)
+    render json: @player_deck_in_game
+  end
+
+  def opponent_deck
+    find_player
+    @pvp = Pvp.select{|pvp| pvp.player1 == @player || pvp.player2 == @player}.first
+    if @pvp.player1 == @player
+      @opponent_deck = PlayerCard.where(player: @pvp.player2, position: "9", pvp: true)
+      render json: @opponent_deck
+    end
+    if @pvp.player2 == @player
+      @opponent_deck = PlayerCard.where(player: @pvp.player1, position: "9", pvp: true)
+      render json: @opponent_deck
+    end 
+  end
 
   def find_player
     if Player.where(authentication_token: params[:token]).count == 1
       @player = Player.find_by(authentication_token: params[:token])
-    elsif Player.where(wallet_address: params[:address]).count == 1
-      @player = Player.find_by(wallet_address: params[:address])
     end
   end
 
