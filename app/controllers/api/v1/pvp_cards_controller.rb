@@ -14,7 +14,7 @@ class Api::V1::PvpCardsController < ApplicationController
         if @pvp.turn == 1 && @pvp.player1 == @player
             @pvp.update(turn: 2)
         elsif @pvp.turn == 2 && @pvp.player2 == @player
-            @pvp.update(turn: 2)
+            @pvp.update(turn: 1)
         end
         @message = ""
         @cards_updated = []

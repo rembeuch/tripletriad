@@ -93,13 +93,13 @@ class Api::V1::PvpsController < ApplicationController
         end
     end
 
-    def quit_game
+    def quit_pvp
         find_player
         find_player2
         @player.player_cards.where(pvp: true).destroy_all
-        @player.update(in_pvp: false, pvp_power: false, pvp_power_point: 0)
+        @player.update(in_pvp: "false", pvp_power: false, pvp_power_point: 0)
         @player2.update(elite_points: @player2.elite_points + 1)
-        @player2.update(in_pvp: false, pvp_power: false, pvp_power_point: 0)
+        @player2.update(in_pvp: "false", pvp_power: false, pvp_power_point: 0)
         @player2.player_cards.where(pvp: true).destroy_all
         @pvp.destroy
       end
@@ -107,8 +107,8 @@ class Api::V1::PvpsController < ApplicationController
     def get_pvp_score
         find_player
         find_player2
-        @player_score = @player.player_cards.where(pvp: true).select {|card| card.pvp == false && card.position != "9" && card.computer == false}.count
-        @opponent_score = @player2.player_cards.where(pvp: true).select {|card| card.pvp == false && card.position != "9" && card.computer == true}.count
+        @player_score = @player.player_cards.where(pvp: true).select {|card| card.position != "9" && card.computer == false}.count + @player2.player_cards.where(pvp: true).select {|card| card.position != "9" && card.computer == true}.count
+        @opponent_score = @player2.player_cards.where(pvp: true).select {|card| card.position != "9" && card.computer == false}.count + @player.player_cards.where(pvp: true).select {|card| card.position != "9" && card.computer == true}.count
         @player_pvp_power_points = @player.pvp_power_point
         @player_pvp_power = @player.pvp_power
         @opponent_pvp_power_points = @player2.pvp_power_point
