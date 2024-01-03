@@ -1,8 +1,7 @@
 class Api::V1::PvpsController < ApplicationController
-    before_action :find_player
 
     def create
-        find_player
+        find_pvp_player
         return if @player.in_pvp == 'true'
         return if @player.in_pvp == 'wait'
         if Player.where(in_pvp: 'wait') == []
@@ -34,8 +33,9 @@ class Api::V1::PvpsController < ApplicationController
     end
 
     def next_pvp_game
-        find_player
-        find_player2
+        find_pvp_player
+        
+        return if @pvp.nil?
         @elite = @player.elites.where(in_deck: true).first
         if @pvp.rounds <= @pvp.player1_points || @pvp.rounds <= @pvp.player2_points
             if @pvp.player1 == @player
@@ -43,10 +43,26 @@ class Api::V1::PvpsController < ApplicationController
             elsif @pvp.player2 == @player
                 @player.update(energy: (@player.energy + (@pvp.player2_points * 10)))
             end
-        @pvp.destroy
-        @player.player_cards.where(pvp: true).destroy_all
-        @player.update(in_pvp: false, pvp_power: false, pvp_power_point: 0)
-        render json: {id: "0"}
+            if @pvp.rounds <= @pvp.player1_points
+              if @pvp.player1 == @player
+                @player.update(elite_points: @player.elite_points + 1)
+              else
+                @player2.update(elite_points: @player.elite_points + 1)
+              end
+            end
+            if @pvp.rounds <= @pvp.player2_points
+              if @pvp.player2 == @player
+                @player.update(elite_points: @player.elite_points + 1)
+              else
+                @player2.update(elite_points: @player.elite_points + 1)
+              end
+            end
+          @pvp.destroy
+          @player.player_cards.where(pvp: true).destroy_all
+          @player.update(in_pvp: "false", pvp_power: false, pvp_power_point: 0)
+          @player2.player_cards.where(pvp: true).destroy_all
+          @player2.update(in_pvp: "false", pvp_power: false, pvp_power_point: 0)
+          render json: {id: "0"}
         else
           if @pvp.logs != []
             @pvp.logs.each do |attributes|
@@ -66,14 +82,14 @@ class Api::V1::PvpsController < ApplicationController
       end
 
     def stop_pvp
-        find_player
+        find_pvp_player
         return if @player.in_pvp == 'true'
         @player.update(in_pvp: 'false')
         render json: {player: @player}
     end
 
     def find_pvp
-        find_player
+        find_pvp_player
         @pvp = Pvp.select{|pvp| pvp.player1 == @player || pvp.player2 == @player}.first
         if !@pvp.nil?
           render json: @pvp 
@@ -81,8 +97,8 @@ class Api::V1::PvpsController < ApplicationController
     end
 
     def find_number
-        find_player
-        find_player2
+        find_pvp_player
+        
         if @pvp.player1 == @player
             @number = 1
             render json: @number
@@ -94,8 +110,8 @@ class Api::V1::PvpsController < ApplicationController
     end
 
     def quit_pvp
-        find_player
-        find_player2
+        find_pvp_player
+        
         @player.player_cards.where(pvp: true).destroy_all
         @player.update(in_pvp: "false", pvp_power: false, pvp_power_point: 0)
         @player2.update(elite_points: @player2.elite_points + 1)
@@ -105,8 +121,8 @@ class Api::V1::PvpsController < ApplicationController
       end
 
     def get_pvp_score
-        find_player
-        find_player2
+        find_pvp_player
+        
         @player_score = @player.player_cards.where(pvp: true).select {|card| card.position != "9" && card.computer == false}.count + @player2.player_cards.where(pvp: true).select {|card| card.position != "9" && card.computer == true}.count
         @opponent_score = @player2.player_cards.where(pvp: true).select {|card| card.position != "9" && card.computer == false}.count + @player.player_cards.where(pvp: true).select {|card| card.position != "9" && card.computer == true}.count
         @player_pvp_power_points = @player.pvp_power_point
@@ -117,10 +133,11 @@ class Api::V1::PvpsController < ApplicationController
     end
 
     def win_pvp
-        find_player
-        find_player2
+        find_pvp_player
+        
         @message = ''
-        if @player.player_cards.where(pvp: true, position: "9").count <= 1 
+        if @player.player_cards.where(pvp: true, position: "9").count == 0 || @player2.player_cards.where(pvp: true, position: "9").count == 0
+          @pvp.update(turn: 3)
           if (@player.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == false}.count + @player2.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == true}.count ) - (@player2.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == false}.count + @player.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == true}.count ) >= 2
             @message =  "You win!"
             if @pvp.player1 == @player
@@ -130,28 +147,32 @@ class Api::V1::PvpsController < ApplicationController
                 @pvp.update(player2_points: @pvp.player2_points += 1)
             end
           elsif (@player2.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == false}.count + @player.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == true}.count )  - (@player.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == false}.count + @player2.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == true}.count ) >= 2
-           @message =  "You Lose!"
-        else
-           @message = "Draw!"
+            @message =  "You Lose!"
+              if @pvp.player1 == @player2
+                  @pvp.update(player1_points: @pvp.player1_points += 1)
+              end
+              if @pvp.player2 == @player2
+                  @pvp.update(player2_points: @pvp.player2_points += 1)
+              end
+          else
+            @message = "Draw!"
           end
         end
         render json: {message: @message}
       end
 
+    private
 
-    def find_player
-        if Player.where(authentication_token: params[:token]).count == 1
-          @player = Player.find_by(authentication_token: params[:token])
-        end
-    end
-
-    def find_player2
-        @pvp = Pvp.first
-        if @pvp.player1 == @player
+    def find_pvp_player
+      if Player.where(authentication_token: params[:token]).count == 1
+        @player = Player.find_by(authentication_token: params[:token])
+      end
+      @pvp = Pvp.select{|pvp| pvp.player1_id == @player.id || pvp.player2_id == @player.id}.first
+      if @pvp.player1 == @player
             @player2 = @pvp.player2
-        end
-        if @pvp.player2 == @player
-            @player2 = @pvp.player1
-        end 
+      end
+      if @pvp.player2 == @player
+        @player2 = @pvp.player1
+      end 
     end
 end
