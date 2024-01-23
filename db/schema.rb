@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_28_181822) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_04_112411) do
   create_table "cards", force: :cascade do |t|
     t.string "up"
     t.string "down"
@@ -138,6 +138,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_28_181822) do
     t.integer "turn"
     t.string "logs", default: "[]"
     t.string "monsters", default: "[]"
+    t.boolean "finish1", default: false
+    t.boolean "finish2", default: false
     t.index ["player1_id"], name: "index_pvps_on_player1_id"
     t.index ["player2_id"], name: "index_pvps_on_player2_id"
   end

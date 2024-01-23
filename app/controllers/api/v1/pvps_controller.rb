@@ -1,7 +1,9 @@
 class Api::V1::PvpsController < ApplicationController
 
     def create
-        find_pvp_player
+      if Player.where(authentication_token: params[:token]).count == 1
+        @player = Player.find_by(authentication_token: params[:token])
+      end
         return if @player.in_pvp == 'true'
         return if @player.in_pvp == 'wait'
         if Player.where(in_pvp: 'wait') == []
@@ -12,8 +14,9 @@ class Api::V1::PvpsController < ApplicationController
             @pvp = Pvp.new(player1: @player, player2: @player2, rounds: 5)
             @pvp.turn = rand(1..2)
             if @pvp.save && (@player.decks.size + @player.elites.where(in_deck: true).size) == 5 && (@player2.decks.size + @player2.elites.where(in_deck: true).size) == 5
-                @player.update(in_pvp: 'true')
+              @player.update(in_pvp: 'true')
                 @player2.update(in_pvp: 'true')
+                broadcast_pvp
                 @id = @pvp.id
                 @elite = @player.elites.where(in_deck: true).first
                 PlayerCard.create(up: @elite.up, down: @elite.down, right: @elite.right, left: @elite.left, position: "9", computer: false, player: @player, name: @elite.name, pvp: true )
@@ -37,6 +40,7 @@ class Api::V1::PvpsController < ApplicationController
         
         return if @pvp.nil?
         @elite = @player.elites.where(in_deck: true).first
+        @elite2 = @player2.elites.where(in_deck: true).first
         if @pvp.rounds <= @pvp.player1_points || @pvp.rounds <= @pvp.player2_points
             if @pvp.player1 == @player
                 @player.update(energy: (@player.energy + (@pvp.player1_points * 10)))
@@ -64,25 +68,38 @@ class Api::V1::PvpsController < ApplicationController
           @player2.update(in_pvp: "false", pvp_power: false, pvp_power_point: 0)
           render json: {id: "0"}
         else
-          if @pvp.logs != []
-            @pvp.logs.each do |attributes|
-              @card_modified = @player.player_cards.where(pvp: true, id: attributes['id'])
-              @card_modified.update(attributes)
+          if @pvp.finish2
+            if @pvp.logs != []
+              @pvp.logs.each do |attributes|
+                @card_modified = PlayerCard.where(pvp: true, id: attributes['id'])
+                @card_modified.update(attributes)
+              end
+              @pvp.update(logs: [])
             end
-            @pvp.update(logs: [])
+            @player.decks.each do |name|
+              @player.player_cards.where(pvp: true).find_by(name: name).update(position: "9", computer: false)
+            end
+            @player.player_cards.where(pvp: true).find_by(name: @elite.name).update(position: "9", computer: false)
+            @player2.decks.each do |name|
+              @player2.player_cards.where(pvp: true).find_by(name: name).update(position: "9", computer: false)
+            end
+            @player2.player_cards.where(pvp: true).find_by(name: @elite2.name).update(position: "9", computer: false)
+            @pvp.update(finish1: false)
+            @pvp.update(finish2: false)
+            broadcast_next
+            start = rand(1..2).to_i
+            @pvp.update(turn: start)
+          else
+            @pvp.update(finish2: true)
           end
-          @player.decks.each do |name|
-            @player.player_cards.where(pvp: true).find_by(name: name).update(position: "9", computer: false)
-          end
-          @player.player_cards.where(pvp: true).find_by(name: @elite.name).update(position: "9", computer: false)
-          start = rand(1..2).to_i
-          @pvp.update(turn: start)
           render json: {id: @pvp.id}
         end
       end
 
     def stop_pvp
-        find_pvp_player
+      if Player.where(authentication_token: params[:token]).count == 1
+        @player = Player.find_by(authentication_token: params[:token])
+      end
         return if @player.in_pvp == 'true'
         @player.update(in_pvp: 'false')
         render json: {player: @player}
@@ -133,30 +150,41 @@ class Api::V1::PvpsController < ApplicationController
     end
 
     def win_pvp
-        find_pvp_player
-        
+      if Player.where(authentication_token: params[:token]).count == 1
+        @player = Player.find_by(authentication_token: params[:token])
+      end
+      @pvp = Pvp.select{|pvp| pvp.player1_id == @player.id || pvp.player2_id == @player.id}.first
+      if @pvp.player1 == @player
+        @player2 = @pvp.player2
+      end
+      if @pvp.player2 == @player
+        @player2 = @pvp.player1
+      end 
         @message = ''
         if @player.player_cards.where(pvp: true, position: "9").count == 0 || @player2.player_cards.where(pvp: true, position: "9").count == 0
-          @pvp.update(turn: 3)
-          if (@player.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == false}.count + @player2.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == true}.count ) - (@player2.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == false}.count + @player.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == true}.count ) >= 2
-            @message =  "You win!"
-            if @pvp.player1 == @player
-                @pvp.update(player1_points: @pvp.player1_points += 1)
-            end
-            if @pvp.player2 == @player
-                @pvp.update(player2_points: @pvp.player2_points += 1)
-            end
-          elsif (@player2.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == false}.count + @player.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == true}.count )  - (@player.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == false}.count + @player2.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == true}.count ) >= 2
-            @message =  "You Lose!"
-              if @pvp.player1 == @player2
+          if @pvp.finish1 == false && @pvp.turn == 3
+            broadcast_win
+            if (@player.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == false}.count + @player2.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == true}.count ) - (@player2.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == false}.count + @player.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == true}.count ) >= 2
+              @message =  "You win!"
+              if @pvp.player1 == @player
                   @pvp.update(player1_points: @pvp.player1_points += 1)
               end
-              if @pvp.player2 == @player2
+              if @pvp.player2 == @player
                   @pvp.update(player2_points: @pvp.player2_points += 1)
               end
-          else
-            @message = "Draw!"
+            elsif (@player2.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == false}.count + @player.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == true}.count )  - (@player.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == false}.count + @player2.player_cards.select {|card| card.pvp == true && card.position != "9" && card.computer == true}.count ) >= 2
+              @message =  "You Lose!"
+                if @pvp.player1 == @player2
+                    @pvp.update(player1_points: @pvp.player1_points += 1)
+                end
+                if @pvp.player2 == @player2
+                    @pvp.update(player2_points: @pvp.player2_points += 1)
+                end
+            else
+              @message = "Draw!"
+            end
           end
+          @pvp.update(finish1: true)
         end
         render json: {message: @message}
       end
@@ -175,4 +203,16 @@ class Api::V1::PvpsController < ApplicationController
         @player2 = @pvp.player1
       end 
     end
+
+    def broadcast_next  
+      ActionCable.server.broadcast("PvpsChannel", {id: @pvp.id, message: "next" })
+    end
+
+    def broadcast_win 
+      ActionCable.server.broadcast("PvpsChannel", {id: @pvp.id, message: "win" })
+    end
+
+    def broadcast_pvp
+      ActionCable.server.broadcast("PvpsChannel", {id: @player2.id, message: "pvp" })
+  end
 end

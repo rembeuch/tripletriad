@@ -54,6 +54,8 @@ class Api::V1::PlayerCardsController < ApplicationController
     def super_power
         find_player
         return if @player_cards.where(position: '9').count <= 1
+        return if @player.power == false
+        return if @player.power_point < 10
         @cards = @player_cards
         @player.update(power: false, power_point: 0)
         if @player.ability.include?("fight")

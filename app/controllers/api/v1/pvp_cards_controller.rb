@@ -12,11 +12,6 @@ class Api::V1::PvpCardsController < ApplicationController
             return
         end
         @card = @player_cards.find(params[:card_id].to_i)
-        if @pvp.turn == 1 && @pvp.player1 == @player
-            @pvp.update(turn: 2)
-        elsif @pvp.turn == 2 && @pvp.player2 == @player
-            @pvp.update(turn: 1)
-        end
         @message = ""
         @cards_updated = []
         if @player_cards.where(position: params[:position]) == []
@@ -26,6 +21,15 @@ class Api::V1::PvpCardsController < ApplicationController
         result_pvp_player(@card)
         @cards_updated.uniq.each do |id|
             PlayerCard.find(id).update(computer: !PlayerCard.find(id).computer)
+        end
+        if @pvp.turn == 1 && @pvp.player1 == @player
+            @pvp.update(turn: 2)
+        elsif @pvp.turn == 2 && @pvp.player2 == @player
+            @pvp.update(turn: 1)
+        end
+        broadcast_message
+        if !@board_position.include?(false)
+            @pvp.update(turn: 3)
         end
         check_power
         render json: { message: @message, cards_updated: @cards_updated }
@@ -37,10 +41,23 @@ class Api::V1::PvpCardsController < ApplicationController
         end
     end
 
+    def find_number        
+        if @pvp.player1 == @player
+            @number = 1
+        end
+        if @pvp.player2 == @player
+            @number = 2
+        end
+    end
+
     def pvp_super_power
         find_player
         find_player2
+        find_number
         return if @player_cards.where(position: '9').count <= 1
+        return if @pvp.turn != @number
+        return if @player.pvp_power == false
+        return if @player.pvp_power_point < 10
         @cards = @player_cards
         @player.update(pvp_power: false, pvp_power_point: 0)
         if @player.ability.include?("fight")
@@ -865,6 +882,7 @@ class Api::V1::PvpCardsController < ApplicationController
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
         end
+        broadcast_message
         render json: { message: @message }
     end
 
@@ -908,6 +926,6 @@ class Api::V1::PvpCardsController < ApplicationController
     end
 
     def broadcast_message
-        ActionCable.server.broadcast("PvpsChannel", @pvp.id)
+        ActionCable.server.broadcast("PvpsChannel", {id: @pvp.id, message: "result" })
     end
 end
