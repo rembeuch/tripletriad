@@ -83,6 +83,15 @@ class Api::V1::ElitesController < ApplicationController
           @player.update(energy: @player.energy - (@elite.send(attributes[params[:stat].to_i]) * @cost))
           @elite.update(attributes[params[:stat].to_i] => (@elite.send(attributes[params[:stat].to_i]).to_i + 1).to_s)
           elite_power
+          if params[:stat].to_i == 0
+            @elite.update(up: @elite.fight / 10)
+          elsif params[:stat].to_i == 1
+            @elite.update(right: @elite.diplomacy / 10)
+          elsif params[:stat].to_i == 2
+            @elite.update(down: @elite.espionage / 10)
+          elsif params[:stat].to_i == 3
+            @elite.update(left: @elite.leadership / 10)
+          end
           render json: {elite: @elite, power: @power, energy: @player.energy, player: @player}
       else 
         render json: {elite: @elite, power: @power}

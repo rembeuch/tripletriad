@@ -69,6 +69,8 @@ class Api::V1::PlayersController < ApplicationController
       @message = "Already in your team!"
     elsif @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait'
       @message = "You can't, you are in game!"
+    elsif @player.zone_position != "A1"
+      @message = "Only in A1 level!"
     elsif @player.decks.size >= 4
       @message = "team Full!"
     else
@@ -80,8 +82,11 @@ class Api::V1::PlayersController < ApplicationController
 
   def remove_card
     find_player
-    if @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait'
-      render json: @player.errors, status: :unprocessable_entity
+    @message = nil
+    if @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait' 
+      @message = "You can't, you are in game!"
+    elsif @player.zone_position != "A1"
+      @message = "Only in A1 level!"
     elsif @player.decks.include?(params[:card_id])
       @player.decks.delete(params[:card_id])
       @player_deck = @player.decks

@@ -1,7 +1,7 @@
 class Api::V1::CardsController < ApplicationController
     def index
       find_player
-      @cards = @player.cards
+      @cards = @player.cards.sort_by { |card| card.name.delete("#").to_i }
       render json: @cards
     end
 
