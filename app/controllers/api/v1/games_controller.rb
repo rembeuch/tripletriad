@@ -120,7 +120,9 @@ class Api::V1::GamesController < ApplicationController
       def quit_game
         find_player
         @game = @player.game
-        @game.destroy
+        if @game 
+          @game.destroy
+        end
         @player.player_cards.where(pvp: false).destroy_all
         @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0, zone_position: "A1")
       end

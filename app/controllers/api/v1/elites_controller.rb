@@ -92,13 +92,19 @@ class Api::V1::ElitesController < ApplicationController
     end
 
     def ability
+      @message = nil
       find_player
-      @player.update(ability: params[:power])
+      if @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait' || @player.zone_position != "A1"
+        @message = "You can't change your ability now!"
+      else 
+        @player.update(ability: params[:power])
+      end
+      render json: {message: @message}
     end
 
     def increment_elite
       find_player
-      return if @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait'
+      return if @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait' || @player.zone_position != "A1"
       @elite = Elite.find(params[:id])
       attributes = [:fight, :diplomacy, :espionage, :leadership]
       @cost = 10
