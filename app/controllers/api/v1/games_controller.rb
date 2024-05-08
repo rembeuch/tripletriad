@@ -158,7 +158,10 @@ class Api::V1::GamesController < ApplicationController
            @message =  "You win!"
            @game.update(player_points: @game.player_points += 1)
             if @player.player_cards.select {|card| card.pvp == false && card.position != "9" && card.computer == false}.count - @player.player_cards.select {|card| card.pvp == false && card.position != "9" && card.computer == true}.count == 9
-              @message =  "Perfect!"
+              @player.update(energy: (@player.energy + 50))
+              @player.elite_points += 1
+              @player.save
+              @message =  "Perfect! +1 Elite Point / +50 energy"
             end
           elsif @player.player_cards.select {|card| card.pvp == false && card.position != "9" && card.computer == true}.count - @player.player_cards.select {|card| card.pvp == false && card.position != "9" && card.computer == false}.count >= 2
            @message =  "You Lose!"

@@ -49,17 +49,45 @@ class Api::V1::ElitesController < ApplicationController
 
     def elite_power
       @power = []
-      if @elite.fight >= 10
-        @power.push("fight#{@elite.fight.to_s[0]}")
+      if @elite.fight >= 10 && @elite.fight < 100
+        (1..@elite.fight.to_s[0].to_i).each do |i|
+          @power.push("fight#{i}")
+        end
+      elsif @elite.fight == 100
+        (1..9).each do |i|
+          @power.push("fight#{i}")
+        end
+        @power.push("fight10")
       end
-      if @elite.diplomacy >= 10
-        @power.push("diplomacy#{@elite.diplomacy.to_s[0]}")
+      if @elite.diplomacy >= 10 && @elite.diplomacy < 100
+        (1..@elite.diplomacy.to_s[0].to_i).each do |i|
+          @power.push("diplomacy#{i}")
+        end
+      elsif @elite.diplomacy == 100
+        (1..9).each do |i|
+          @power.push("diplomacy#{i}")
+        end
+        @power.push("diplomacy10")
       end
-      if @elite.espionage >= 10
-        @power.push("espionage#{@elite.espionage.to_s[0]}")
+      if @elite.espionage >= 10 && @elite.espionage < 100
+        (1..@elite.espionage.to_s[0].to_i).each do |i|
+          @power.push("espionage#{i}")
+        end
+      elsif @elite.espionage == 100
+        (1..9).each do |i|
+          @power.push("espionage#{i}")
+        end
+        @power.push("espionage10")
       end
-      if @elite.leadership >= 10
-        @power.push("leadership#{@elite.leadership.to_s[0]}")
+      if @elite.leadership >= 10 && @elite.leadership < 100
+        (1..@elite.leadership.to_s[0].to_i).each do |i|
+          @power.push("leadership#{i}")
+        end
+      elsif @elite.leadership == 100
+        (1..9).each do |i|
+          @power.push("leadership#{i}")
+        end
+        @power.push("leadership10")
       end
     end
 
