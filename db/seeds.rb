@@ -176,7 +176,7 @@ Monster.destroy_all
     down: "3",
     left: "3",
     right: "3",
-    rank: "1",name: "#16")
+    rank: "2",name: "#16")
 
 @monster_16.zones.push("A3")
 @monster_16.zones.push("A4")
@@ -188,7 +188,7 @@ Monster.destroy_all
     down: "4",
     left: "3",
     right: "3",
-    rank: "1",name: "#17")
+    rank: "2",name: "#17")
 
 @monster_17.zones.push("A4")
 
@@ -199,7 +199,7 @@ Monster.destroy_all
     down: "3",
     left: "4",
     right: "4",
-    rank: "1",name: "#18")
+    rank: "2",name: "#18")
 
 @monster_18.zones.push("A4")
 
@@ -211,7 +211,7 @@ Monster.destroy_all
     left: "4",
     right: "4",
     rules: ["boss", "life"],
-    rank: "2",name: "#19")
+    rank: "3",name: "#19")
 
 @monster_19.zones.push("A5")
 

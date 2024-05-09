@@ -52,12 +52,28 @@ class Api::V1::GamesController < ApplicationController
         find_player
         @elite = @player.elites.where(in_deck: true).first
         @game = @player.game
-        if @game.rounds <= @game.player_points || @game.rounds <= @game.computer_points
+        if @game.rounds <= @game.computer_points
         @player.update(energy: (@player.energy + (@game.player_points * 10)))
         @game.destroy
         @player.player_cards.where(pvp: false).destroy_all
         @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0)
         render json: {id: "0"}
+        elsif @game.rounds <= @game.player_points
+          current_position = @player.zone_position
+          letter = current_position[0]
+          number = current_position[1..].to_i
+          number += 1
+          @player.update(zone_position: "#{letter}#{number}")
+          if !@player.zones.include?(@player.zone_position)
+            @player.update(zones: @player.zones.push(@player.zone_position))
+            @player.elite_points += 1
+            @player.save
+          end
+          @player.update(energy: (@player.energy + (@game.player_points * 10)))
+          @game.destroy
+          @player.player_cards.where(pvp: false).destroy_all
+          @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0)
+          render json: {id: "0"}
         else
           if @game.logs != []
             @game.logs.each do |attributes|
@@ -87,34 +103,41 @@ class Api::V1::GamesController < ApplicationController
         find_player
         @game = @player.game
         @monster = Monster.find(params[:id].to_i)
-        @message = ""
-        return if @game.monsters.size < 5
-        @game.update(monsters: [@monster])
-        if !@player.monsters.include?(@monster.name)
-          @player.monsters.push(@monster.name)
-          @player.monsters.sort_by { |monster| monster.delete("#").to_i }
-          @player.elite_points += 1
-          @message = "New Monster: #{@monster.name} + 1 Elite Point!"
-          @player.save
-        end
-        @card = @player.cards.find_by(name: @monster.name)
-        if @card
-          @card.update(copy: @card.copy + 1)
-        else
-          Card.create(up: @monster.up, down: @monster.down, right: @monster.right, left: @monster.left, player: @player, name: @monster.name, rank: @monster.rank, image: @monster.image, up_points: 0, right_points: 0, down_points: 0, left_points: 0 )
+        @reward_message = ""
+        if @game.monsters.size == 5
+          @game.update(monsters: [@monster])
+          if !@player.monsters.include?(@monster.name)
+            @player.monsters.push(@monster.name)
+            @player.monsters.sort_by { |monster| monster.delete("#").to_i }
+            @player.elite_points += 1
+            @reward_message = "New Monster: #{@monster.name} + 1 Elite Point!"
+            @player.save
+          end
+          @card = @player.cards.find_by(name: @monster.name)
+          if @card
+            @card.update(copy: @card.copy + 1)
+          else
+            Card.create(up: @monster.up, down: @monster.down, right: @monster.right, left: @monster.left, player: @player, name: @monster.name, rank: @monster.rank, image: @monster.image, up_points: 0, right_points: 0, down_points: 0, left_points: 0 )
+          end
         end
         current_position = @player.zone_position
         letter = current_position[0]
         number = current_position[1..].to_i
         number += 1
-        @player.update(zone_position: "#{letter}#{number}")
-        if !@player.zones.include?(@player.zone_position)
-          @player.update(zones: @player.zones.push(@player.zone_position))
-          @message = @message + " New Zone + 1 Elite Point!"
-          @player.elite_points += 1
-          @player.save
+        if !@player.zones.include?("#{letter}#{number}")
+          @zone_message = "#{letter}#{number} New Zone + 1 Elite Point!"
+        else
+          @zone_message = "#{letter}#{number}"
         end
-        render json: {message: @message}
+        @b_zone_message = ""
+        if @player.monsters.map{|m| Monster.find_by(name: m)}.select{|m| m.zones.include?(@player.zone_position)}.count == Monster.select{|m| m.zones.include?(@player.zone_position)}.count
+          if !@player.zones.include?("B#{number}")
+            @b_zone_message = "B#{number} New Zone + 1 Elite Point!"
+          else
+            @b_zone_message = "B#{number}"
+          end
+        end
+        render json: {message: @reward_message, zone_message: @zone_message, b_zone_message: @b_zone_message}
       end
 
       def quit_game
