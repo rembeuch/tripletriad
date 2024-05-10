@@ -4,6 +4,7 @@ class Api::V1::GamesController < ApplicationController
       return if @player.game != nil
         @game = Game.new
         @game.player = @player
+        @player.update(s_zone: false)
         @game.rounds = rand(1..5)
         if @game.save && @player.in_game == false && (@player.decks.size + @player.elites.where(in_deck: true).size) == 5
           @player.update(in_game: true)
@@ -14,16 +15,17 @@ class Api::V1::GamesController < ApplicationController
             PlayerCard.create(up: @deck_card.up, down: @deck_card.down, right: @deck_card.right, left: @deck_card.left, position: "9", computer: false, player: @player, name: @deck_card.id )
           end
           @monsters = []
-          if Monster.select{|monster| monster.zones.include?(@player.zone_position)}.count < 7
-              @monster = Monster.select{|monster| monster.zones.include?(@player.zone_position)}.first
+          if @player.zones.include?("boss" + @player.zone_position)
+              @monster = Monster.select{|monster| monster.zones.include?(@player.zone_position)}.sample
               @monsters.push(@monster)
               PlayerCard.create(up: @monster.up, down: @monster.down, right: @monster.right, left: @monster.left, position: "9", computer: true, player: @player, name: @monster.name )
               @game.update(rounds: @monster.rank * 10, boss: true)
+              @player.update(b_zone: false)
             4.times do
-              @monster = Monster.select{|monster| monster.zones.include?(@player.zone_position)}.first
               @monsters.push(@monster)
               PlayerCard.create(up: (@monster.up - rand(0..@monster.up - 1)), down: (@monster.down - rand(0..@monster.down - 1)), right: (@monster.right - rand(0..@monster.right - 1)), left: (@monster.left - rand(0..@monster.left - 1)), position: "9", computer: true, player: @player, name: @monster.name )
             end
+            @player.update(zones: @player.zones.delete_if{|z| z.include?("boss")})
           else
             5.times do
               @monster = Monster.select{|monster| monster.zones.include?(@player.zone_position)}.sample
@@ -50,22 +52,27 @@ class Api::V1::GamesController < ApplicationController
 
       def next_game
         find_player
+        @player.update(b_zone: false)
         @elite = @player.elites.where(in_deck: true).first
         @game = @player.game
         if @game.rounds <= @game.computer_points
         @player.update(energy: (@player.energy + (@game.player_points * 10)))
         @game.destroy
         @player.player_cards.where(pvp: false).destroy_all
-        @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0)
+        @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0, zone_position: "A1", s_zone: false, b_zone: false)
         render json: {id: "0"}
         elsif @game.rounds <= @game.player_points
           current_position = @player.zone_position
-          letter = current_position[0]
+          letter = params[:zone_message][0]
+          if params[:zone_message].size == 1
+            @player.update(zones: @player.zones.delete_if{|z| z.include?("boss")})
+          end
           number = current_position[1..].to_i
           number += 1
           @player.update(zone_position: "#{letter}#{number}")
           if !@player.zones.include?(@player.zone_position)
             @player.update(zones: @player.zones.push(@player.zone_position))
+            @player.update(zones: @player.zones.sort_by { |element| element[-1].to_i })
             @player.elite_points += 1
             @player.save
           end
@@ -103,9 +110,32 @@ class Api::V1::GamesController < ApplicationController
         find_player
         @game = @player.game
         @monster = Monster.find(params[:id].to_i)
+        number = @player.zone_position[1..].to_i
+        number += 1
+        if @monster.rules.include?("boss")
+          @player.update(s_zone: true)
+        end
         @reward_message = ""
         if @game.monsters.size == 5
           @game.update(monsters: [@monster])
+          if @player.monsters.map{|m| Monster.find_by(name: m)}.select{|m| m.zones.include?(@player.zone_position)}.count == Monster.select{|m| m.zones.include?(@player.zone_position)}.count
+            start = rand(2).to_i
+            if start == 0
+              @player.update(b_zone: true)
+              start = rand(2).to_i
+              if start == 0
+                if @player.monsters.map{|m| Monster.find_by(name: m)}.select{|m| m.rules.include?("boss")} != [] && number < @player.zones.last[1..].to_i && @player.zones.include?("B#{number}")
+                  @player.update(zones: @player.zones.unshift("bossB#{number}"))
+                end
+              end 
+            end
+          end
+          start = rand(2).to_i
+          if start == 0
+            if @player.monsters.map{|m| Monster.find_by(name: m)}.select{|m| m.rules.include?("boss")} != [] && number < @player.zones.last[1..].to_i && @player.zones.include?("A#{number}")
+              @player.update(zones: @player.zones.unshift("bossA#{number}"))
+            end
+          end 
           if !@player.monsters.include?(@monster.name)
             @player.monsters.push(@monster.name)
             @player.monsters.sort_by { |monster| monster.delete("#").to_i }
@@ -120,24 +150,28 @@ class Api::V1::GamesController < ApplicationController
             Card.create(up: @monster.up, down: @monster.down, right: @monster.right, left: @monster.left, player: @player, name: @monster.name, rank: @monster.rank, image: @monster.image, up_points: 0, right_points: 0, down_points: 0, left_points: 0 )
           end
         end
-        current_position = @player.zone_position
-        letter = current_position[0]
-        number = current_position[1..].to_i
-        number += 1
-        if !@player.zones.include?("#{letter}#{number}")
-          @zone_message = "#{letter}#{number} New Zone + 1 Elite Point!"
+        if !@player.zones.include?("A#{number}")
+          @zone_message = "A#{number} New Zone + 1 Elite Point!"
         else
-          @zone_message = "#{letter}#{number}"
+          @zone_message = "A#{number}"
         end
-        @b_zone_message = ""
-        if @player.monsters.map{|m| Monster.find_by(name: m)}.select{|m| m.zones.include?(@player.zone_position)}.count == Monster.select{|m| m.zones.include?(@player.zone_position)}.count
+        if @player.b_zone
+          @b_zone_message = ""
           if !@player.zones.include?("B#{number}")
-            @b_zone_message = "B#{number} New Zone + 1 Elite Point!"
-          else
-            @b_zone_message = "B#{number}"
+              @b_zone_message = "B#{number} New Zone + 1 Elite Point!"
+            else
+              @b_zone_message = "B#{number}"
+            end
           end
+        if @player.s_zone
+          @s_zone_message = "Safe Zone"
         end
-        render json: {message: @reward_message, zone_message: @zone_message, b_zone_message: @b_zone_message}
+        if number == 5 || number == 10
+          @player.update(zones: @player.zones.delete_if{|z| z.include?("bossB")})
+          @player.update(zones: @player.zones.unshift("bossA#{number}"))
+          @zone_message = ""
+        end
+        render json: {message: @reward_message, zone_message: @zone_message, b_zone_message: @b_zone_message, s_zone_message: @s_zone_message}
       end
 
       def quit_game
@@ -147,7 +181,8 @@ class Api::V1::GamesController < ApplicationController
           @game.destroy
         end
         @player.player_cards.where(pvp: false).destroy_all
-        @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0, zone_position: "A1")
+        @player.update(zones: @player.zones.delete_if{|z| z.include?("boss")})
+        @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0, zone_position: "A1", s_zone: false, b_zone: false)
       end
 
       def get_score
@@ -185,6 +220,7 @@ class Api::V1::GamesController < ApplicationController
             if @player.player_cards.select {|card| card.pvp == false && card.position != "9" && card.computer == false}.count - @player.player_cards.select {|card| card.pvp == false && card.position != "9" && card.computer == true}.count == 9
               @player.update(energy: (@player.energy + 50))
               @player.elite_points += 1
+              @player.s_zone = true
               @player.save
               @message =  "Perfect! +1 Elite Point / +50 energy"
             end

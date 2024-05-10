@@ -366,42 +366,42 @@ class Api::V1::PlayerCardsController < ApplicationController
                 if @card
                     @card.update(hide: false)
                 end
-                if @player.player_power_point >= 1
-                    @player.update(player_power: false, player_power_point: @player.player_power_point - 1)
-                elsif @player.player_power_point >= 10
-                    @player.update(player_power: false, player_power_point: 9)
+                if @player.power_point >= 1
+                    @player.update(player_power: false, power_point: @player.power_point - 1)
+                elsif @player.power_point >= 10
+                    @player.update(player_power: false, power_point: 9)
                 end
             end
             if @player.computer_ability.last == "3"
-                @card = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
+                @card = @cards.select{|card| card.position == "9" && card.computer == false && card.hide == true }.sample
                 if @card
                     @card.update(hide: false)
                 end
-                @card2 = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
+                @card2 = @cards.select{|card| card.position == "9" && card.computer == false && card.hide == true }.sample
                 if @card2
                     @card2.update(hide: false)
                 end
-                if @player.player_power_point >= 1
-                    @player.update(player_power: false, player_power_point: @player.player_power_point - 1)
-                elsif @player.player_power_point >= 10
-                    @player.update(player_power: false, player_power_point: 9)
+                if @player.power_point >= 1
+                    @player.update(player_power: false, power_point: @player.power_point - 1)
+                elsif @player.power_point >= 10
+                    @player.update(player_power: false, power_point: 9)
                 end
             end
             if @player.computer_ability.last == "4"
-                @card = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
+                @card = @cards.select{|card| card.position == "9" && card.computer == false && card.hide == true }.sample
                 if @card
                     @card.update(hide: false)
                 end
-                @card2 = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
+                @card2 = @cards.select{|card| card.position == "9" && card.computer == false && card.hide == true }.sample
                 if @card2
                     @card2.update(hide: false)
                 end
-                if @player.player_power_point <= 1
-                    @player.update(player_power: false, player_power_point: 0)
-                elsif @player.player_power_point >= 2
-                    @player.update(player_power: false, player_power_point: @player.player_power_point - 2)
-                elsif @player.player_power_point >= 10
-                    @player.update(player_power: false, player_power_point: 8)
+                if @player.power_point <= 1
+                    @player.update(player_power: false, power_point: 0)
+                elsif @player.power_point >= 2
+                    @player.update(player_power: false, power_point: @player.power_point - 2)
+                elsif @player.power_point >= 10
+                    @player.update(player_power: false, power_point: 8)
                 end
             end
         end
@@ -474,13 +474,15 @@ class Api::V1::PlayerCardsController < ApplicationController
     end
 
     def logs
-        original_attributes = {
-            id: @card.id,
-            up: @card.up,
-            right: @card.right,
-            down: @card.down,
-            left: @card.left}
-        @player.game.update(logs: @player.game.logs.push(original_attributes))
+        if @player.game.logs.select{|l| l["id"] == @card.id} == []
+            original_attributes = {
+                id: @card.id,
+                up: @card.up,
+                right: @card.right,
+                down: @card.down,
+                left: @card.left}
+            @player.game.update(logs: @player.game.logs.push(original_attributes))
+        end
     end
 
     def board_position

@@ -104,32 +104,35 @@ class Api::V1::ElitesController < ApplicationController
 
     def increment_elite
       find_player
-      return if @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait' || @player.zone_position != "A1"
+      @message = nil
       @elite = Elite.find(params[:id])
       attributes = [:fight, :diplomacy, :espionage, :leadership]
       @cost = 10
       if @elite.nft == true
         @cost = 5
       end
-
-      if @elite.player == @player && @player.elite_points > 0 && @player.energy >= (@elite.send(attributes[params[:stat].to_i]) * @cost)
+      if @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait' 
+        @message = "You can't, you are in game!"
+      elsif @player.zone_position != "A1" && @player.s_zone == false
+        @message = "Only in A1 level!"
+      elsif @elite.player == @player && @player.elite_points > 0 && @player.energy >= (@elite.send(attributes[params[:stat].to_i]) * @cost)
           @player.update(elite_points: @player.elite_points - 1)
           @player.update(energy: @player.energy - (@elite.send(attributes[params[:stat].to_i]) * @cost))
           @elite.update(attributes[params[:stat].to_i] => (@elite.send(attributes[params[:stat].to_i]).to_i + 1).to_s)
           elite_power
-          if params[:stat].to_i == 0
+          if params[:stat].to_i == 0 && @elite.fight.to_s.last == "0"
             @elite.update(up: @elite.fight / 10)
-          elsif params[:stat].to_i == 1
+          elsif params[:stat].to_i == 1 && @elite.diplomacy.to_s.last == "0"
             @elite.update(right: @elite.diplomacy / 10)
-          elsif params[:stat].to_i == 2
+          elsif params[:stat].to_i == 2 && @elite.espionage.to_s.last == "0"
             @elite.update(down: @elite.espionage / 10)
-          elsif params[:stat].to_i == 3
+          elsif params[:stat].to_i == 3 && @elite.leadership.to_s.last == "0"
             @elite.update(left: @elite.leadership / 10)
           end
-          render json: {elite: @elite, power: @power, energy: @player.energy, player: @player}
       else 
-        render json: {elite: @elite, power: @power}
+        @message = "Not enough energy!"
       end
+        render json: {elite: @elite, power: @power, energy: @player.energy, player: @player, message: @message}
   end
 
   def nft_elite
