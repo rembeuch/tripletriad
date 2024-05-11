@@ -56,13 +56,14 @@ Rails.application.routes.draw do
       post :pvp_super_power, to: 'pvp_cards#pvp_super_power'
 
 
-
       post :ability, to: 'elites#ability'
       post :increment_elite, to: 'elites#increment_elite'
       post :nft_elite, to: 'elites#nft_elite'
 
       post :increment_card, to: 'cards#increment_card'
       post :sell_card, to: 'cards#sell_card'
+      post :sell_market, to: 'cards#sell_market'
+      post :buy_market, to: 'cards#buy_market'
       get :find_monsters, to: 'cards#find_monsters'
 
 

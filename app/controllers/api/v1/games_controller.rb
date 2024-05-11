@@ -4,9 +4,9 @@ class Api::V1::GamesController < ApplicationController
       return if @player.game != nil
         @game = Game.new
         @game.player = @player
-        @player.update(s_zone: false)
         @game.rounds = rand(1..5)
         if @game.save && @player.in_game == false && (@player.decks.size + @player.elites.where(in_deck: true).size) == 5
+          @player.update(s_zone: false, s_monsters: [])
           @player.update(in_game: true)
           @elite = @player.elites.where(in_deck: true).first
           PlayerCard.create(up: @elite.up, down: @elite.down, right: @elite.right, left: @elite.left, position: "9", computer: false, player: @player, name: @elite.name )
@@ -67,12 +67,18 @@ class Api::V1::GamesController < ApplicationController
           if params[:zone_message].size == 1
             @player.update(zones: @player.zones.delete_if{|z| z.include?("boss")})
           end
-          if @player.s_zone 
-            @s_monsters = Monster.select{|m| m.zones.include?(@player.zone_position)}.sample(4).map{|m|  m.name}
-            @player.update(s_monsters: @s_monsters)
-          end
           number = current_position[1..].to_i
           number += 1
+          if @player.s_zone 
+            @s_monsters = Monster.select{|m| m.zones.include?(@player.zone_position) && m.rules == "[]"}.sample(4).map{|m|  m.name}
+            if @s_monsters == []
+              4.times do
+                random = rand(1..current_position[1..].to_i - 1)
+                @s_monsters.push(Monster.select{|m| m.zones.include?("#{letter}#{random}") && m.rules == "[]"}.first.name)
+              end
+            end
+            @player.update(s_monsters: @s_monsters)
+          end
           @player.update(zone_position: "#{letter}#{number}")
           if !@player.zones.include?(@player.zone_position)
             @player.update(zones: @player.zones.push(@player.zone_position))
@@ -186,7 +192,7 @@ class Api::V1::GamesController < ApplicationController
         end
         @player.player_cards.where(pvp: false).destroy_all
         @player.update(zones: @player.zones.delete_if{|z| z.include?("boss")})
-        @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0, zone_position: "A1", s_zone: false, b_zone: false)
+        @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0, zone_position: "A1", s_zone: false, b_zone: false, s_monsters: [])
       end
 
       def get_score
