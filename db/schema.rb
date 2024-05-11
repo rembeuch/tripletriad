@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_09_161551) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_11_115102) do
   create_table "cards", force: :cascade do |t|
     t.string "up"
     t.string "down"
@@ -125,6 +125,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_09_161551) do
     t.integer "pvp_power_point", default: 0
     t.boolean "b_zone", default: false
     t.boolean "s_zone", default: false
+    t.string "s_monsters", default: "[]"
     t.index ["authentication_token"], name: "index_players_on_authentication_token", unique: true
     t.index ["email"], name: "index_players_on_email", unique: true
     t.index ["reset_password_token"], name: "index_players_on_reset_password_token", unique: true

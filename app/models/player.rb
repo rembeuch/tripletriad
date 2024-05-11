@@ -19,6 +19,8 @@ class Player < ApplicationRecord
     before_validation :initialize_zones
     serialize :monsters, JSON
     before_validation :initialize_monsters
+    serialize :s_monsters, JSON
+    before_validation :initialize_s_monsters
 
     private
 
@@ -32,5 +34,9 @@ class Player < ApplicationRecord
 
   def initialize_monsters
     self.monsters ||= []
+  end
+
+  def initialize_s_monsters
+    self.s_monsters ||= []
   end
 end

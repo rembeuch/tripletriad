@@ -62,6 +62,8 @@ Rails.application.routes.draw do
       post :nft_elite, to: 'elites#nft_elite'
 
       post :increment_card, to: 'cards#increment_card'
+      post :sell_card, to: 'cards#sell_card'
+      get :find_monsters, to: 'cards#find_monsters'
 
 
       resources :games

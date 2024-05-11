@@ -67,6 +67,10 @@ class Api::V1::GamesController < ApplicationController
           if params[:zone_message].size == 1
             @player.update(zones: @player.zones.delete_if{|z| z.include?("boss")})
           end
+          if @player.s_zone 
+            @s_monsters = Monster.select{|m| m.zones.include?(@player.zone_position)}.sample(4).map{|m|  m.name}
+            @player.update(s_monsters: @s_monsters)
+          end
           number = current_position[1..].to_i
           number += 1
           @player.update(zone_position: "#{letter}#{number}")

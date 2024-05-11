@@ -156,10 +156,10 @@ class Api::V1::PlayerCardsController < ApplicationController
                 if @card
                     @card.update(hide: false)
                 end
-                if @player.computer_power_point >= 1
-                    @player.update(computer_power: false, computer_power_point: @player.computer_power_point - 1)
-                elsif @player.computer_power_point >= 10
+                if @player.computer_power_point >= 10
                     @player.update(computer_power: false, computer_power_point: 9)
+                elsif @player.computer_power_point >= 1
+                    @player.update(computer_power: false, computer_power_point: @player.computer_power_point - 1)
                 end
             end
             if @player.ability.last == "3"
@@ -171,10 +171,10 @@ class Api::V1::PlayerCardsController < ApplicationController
                 if @card2
                     @card2.update(hide: false)
                 end
-                if @player.computer_power_point >= 1
-                    @player.update(computer_power: false, computer_power_point: @player.computer_power_point - 1)
-                elsif @player.computer_power_point >= 10
+                if @player.computer_power_point >= 10
                     @player.update(computer_power: false, computer_power_point: 9)
+                elsif @player.computer_power_point >= 1
+                    @player.update(computer_power: false, computer_power_point: @player.computer_power_point - 1)
                 end
             end
             if @player.ability.last == "4"
@@ -186,12 +186,12 @@ class Api::V1::PlayerCardsController < ApplicationController
                 if @card2
                     @card2.update(hide: false)
                 end
-                if @player.computer_power_point <= 1
+                if @player.computer_power_point >= 10
+                    @player.update(computer_power: false, computer_power_point: 8)
+                elsif @player.computer_power_point <= 1
                     @player.update(computer_power: false, computer_power_point: 0)
                 elsif @player.computer_power_point >= 2
                     @player.update(computer_power: false, computer_power_point: @player.computer_power_point - 2)
-                elsif @player.computer_power_point >= 10
-                    @player.update(computer_power: false, computer_power_point: 8)
                 end
             end
         end
@@ -366,10 +366,10 @@ class Api::V1::PlayerCardsController < ApplicationController
                 if @card
                     @card.update(hide: false)
                 end
-                if @player.power_point >= 1
-                    @player.update(player_power: false, power_point: @player.power_point - 1)
-                elsif @player.power_point >= 10
-                    @player.update(player_power: false, power_point: 9)
+                if @player.power_point >= 10
+                    @player.update(power_point: false, power_point: 9)
+                elsif @player.power_point >= 1
+                    @player.update(power_point: false, power_point: @player.power_point - 1)
                 end
             end
             if @player.computer_ability.last == "3"
@@ -381,10 +381,10 @@ class Api::V1::PlayerCardsController < ApplicationController
                 if @card2
                     @card2.update(hide: false)
                 end
-                if @player.power_point >= 1
-                    @player.update(player_power: false, power_point: @player.power_point - 1)
-                elsif @player.power_point >= 10
-                    @player.update(player_power: false, power_point: 9)
+                if @player.power_point >= 10
+                    @player.update(power_point: false, power_point: 9)
+                elsif @player.power_point >= 1
+                    @player.update(power_point: false, power_point: @player.power_point - 1)
                 end
             end
             if @player.computer_ability.last == "4"
@@ -396,12 +396,12 @@ class Api::V1::PlayerCardsController < ApplicationController
                 if @card2
                     @card2.update(hide: false)
                 end
-                if @player.power_point <= 1
-                    @player.update(player_power: false, power_point: 0)
+                if @player.power_point >= 10
+                    @player.update(power_point: false, power_point: 8)
+                elsif @player.power_point <= 1
+                    @player.update(power_point: false, power_point: 0)
                 elsif @player.power_point >= 2
-                    @player.update(player_power: false, power_point: @player.power_point - 2)
-                elsif @player.power_point >= 10
-                    @player.update(player_power: false, power_point: 8)
+                    @player.update(power_point: false, power_point: @player.power_point - 2)
                 end
             end
         end
