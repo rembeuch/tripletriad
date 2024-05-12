@@ -52,8 +52,8 @@ class Api::V1::PlayersController < ApplicationController
   def deck
     find_player
     @player_cards = []
-    @player.decks.each do |id|
-      @player_cards.push(Card.find(id.to_i))
+    @player.decks.each do |name|
+      @player_cards.push(Card.find_by(name: name, player: @player))
     end
     if @message
       render json: {message: @message, id: params[:card_id]}
@@ -74,7 +74,7 @@ class Api::V1::PlayersController < ApplicationController
     elsif @player.decks.size >= 4
       @message = "team Full!"
     else
-      @player_deck = @player.decks.push(params[:card_id])
+      @player_deck = @player.decks.push(Card.find(params[:card_id]).name)
       @player.update(decks: @player_deck)
     end
     deck 
@@ -87,10 +87,9 @@ class Api::V1::PlayersController < ApplicationController
       @message = "You can't, you are in game!"
     elsif @player.zone_position != "A1"
       @message = "Only in A1 level!"
-    elsif @player.decks.include?(params[:card_id])
-      @player.decks.delete(params[:card_id])
-      @player_deck = @player.decks
-      @player.update(decks: @player_deck)
+    elsif @player.decks.include?(Card.find(params[:card_id]).name)
+      @player.decks.delete(Card.find(params[:card_id]).name)
+      @player.update(decks: @player.decks)
     end
     deck 
   end

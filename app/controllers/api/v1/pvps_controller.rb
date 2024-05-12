@@ -20,15 +20,15 @@ class Api::V1::PvpsController < ApplicationController
                 @id = @pvp.id
                 @elite = @player.elites.where(in_deck: true).first
                 PlayerCard.create(up: @elite.up, down: @elite.down, right: @elite.right, left: @elite.left, position: "9", computer: false, player: @player, name: @elite.name, pvp: true )
-                @player.decks.each do |id|
-                  @deck_card = Card.find(id.to_i)
-                  PlayerCard.create(up: @deck_card.up, down: @deck_card.down, right: @deck_card.right, left: @deck_card.left, position: "9", computer: false, player: @player, name: @deck_card.id, pvp: true )
+                @player.decks.each do |name|
+                  @deck_card = Card.find_by(name: name, player: @player)
+                  PlayerCard.create(up: @deck_card.up, down: @deck_card.down, right: @deck_card.right, left: @deck_card.left, position: "9", computer: false, player: @player, name: @deck_card.name, pvp: true )
                 end
                 @elite2 = @player2.elites.where(in_deck: true).first
                 PlayerCard.create(up: @elite2.up, down: @elite2.down, right: @elite2.right, left: @elite2.left, position: "9", computer: false, player: @player2, name: @elite2.name, pvp: true )
-                @player2.decks.each do |id|
-                  @deck_card = Card.find(id.to_i)
-                  PlayerCard.create(up: @deck_card.up, down: @deck_card.down, right: @deck_card.right, left: @deck_card.left, position: "9", computer: false, player: @player2, name: @deck_card.id, pvp: true )
+                @player2.decks.each do |name|
+                  @deck_card = Card.find_by(name: name, player: @player2)
+                  PlayerCard.create(up: @deck_card.up, down: @deck_card.down, right: @deck_card.right, left: @deck_card.left, position: "9", computer: false, player: @player2, name: @deck_card.name, pvp: true )
                 end
             end
         end
