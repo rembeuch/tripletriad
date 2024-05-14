@@ -1,9 +1,8 @@
 class Api::V1::PvpsController < ApplicationController
 
     def create
-      if Player.where(authentication_token: params[:token]).count == 1
-        @player = Player.find_by(authentication_token: params[:token])
-      end
+        @player = Player.find(params[:id])
+
         return if @player.in_pvp == 'true'
         return if @player.in_pvp == 'wait'
         if Player.where(in_pvp: 'wait') == []
@@ -97,12 +96,10 @@ class Api::V1::PvpsController < ApplicationController
       end
 
     def stop_pvp
-      if Player.where(authentication_token: params[:token]).count == 1
-        @player = Player.find_by(authentication_token: params[:token])
-      end
-        return if @player.in_pvp == 'true'
-        @player.update(in_pvp: 'false')
-        render json: {player: @player}
+      @player = Player.find(params[:id])
+      return if @player.in_pvp == 'true'
+      @player.update(in_pvp: 'false')
+      render json: {player: @player}
     end
 
     def find_pvp
@@ -134,6 +131,7 @@ class Api::V1::PvpsController < ApplicationController
         @player2.update(elite_points: @player2.elite_points + 1)
         @player2.update(in_pvp: "false", pvp_power: false, pvp_power_point: 0)
         @player2.player_cards.where(pvp: true).destroy_all
+        broadcast_quit
         @pvp.destroy
       end
 
@@ -214,5 +212,9 @@ class Api::V1::PvpsController < ApplicationController
 
     def broadcast_pvp
       ActionCable.server.broadcast("PvpsChannel", {id: @player2.id, message: "pvp" })
-  end
+    end
+
+    def broadcast_quit  
+      ActionCable.server.broadcast("PvpsChannel", {id: @pvp.id, message: "quit" })
+    end
 end

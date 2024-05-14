@@ -42,7 +42,7 @@ class Api::V1::PlayersController < ApplicationController
   end
 
   def find_game
-    find_player
+    @player = Player.find(params[:id])
     @game = @player.game
     if !@game.nil?
       render json: @game 
@@ -50,7 +50,7 @@ class Api::V1::PlayersController < ApplicationController
   end
 
   def deck
-    find_player
+    @player = Player.find(params[:id])
     @player_cards = []
     @player.decks.each do |name|
       @player_cards.push(Card.find_by(name: name, player: @player))
@@ -64,8 +64,9 @@ class Api::V1::PlayersController < ApplicationController
 
   def add_card
     @message = nil
-    find_player
-    if @player.decks.include?(params[:card_id])
+    @player = Player.find(params[:id])
+    @card = Card.find(params[:card_id])
+    if @player.decks.include?(@card.name)
       @message = "Already in your team!"
     elsif @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait'
       @message = "You can't, you are in game!"
@@ -74,21 +75,22 @@ class Api::V1::PlayersController < ApplicationController
     elsif @player.decks.size >= 4
       @message = "team Full!"
     else
-      @player_deck = @player.decks.push(Card.find(params[:card_id]).name)
+      @player_deck = @player.decks.push(@card.name)
       @player.update(decks: @player_deck)
     end
     deck 
   end
 
   def remove_card
-    find_player
+    @player = Player.find(params[:id])
+    @card = Card.find(params[:card_id])
     @message = nil
     if @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait' 
       @message = "You can't, you are in game!"
     elsif @player.zone_position != "A1"
       @message = "Only in A1 level!"
-    elsif @player.decks.include?(Card.find(params[:card_id]).name)
-      @player.decks.delete(Card.find(params[:card_id]).name)
+    elsif @player.decks.include?(@card.name)
+      @player.decks.delete(@card.name)
       @player.update(decks: @player.decks)
     end
     deck 
