@@ -1,7 +1,6 @@
 class Api::V1::PlayersController < ApplicationController
   require 'faker'
   before_action :set_player, only: %i[ show update destroy ]
-  before_action :find_player, only: [:opponent_deck]
   # GET /players
   def index
     @players = Player.all
@@ -31,7 +30,7 @@ class Api::V1::PlayersController < ApplicationController
     @player.destroy!
   end
 
-  def find
+  def find_wallet_player
     if Player.where(authentication_token: params[:token]).count == 1
       @player = Player.find_by(authentication_token: params[:token])
       render json: @player
@@ -97,13 +96,13 @@ class Api::V1::PlayersController < ApplicationController
   end
 
   def deck_in_game
-    find_player
+    @player = Player.find(params[:id])
     @player_deck_in_game = PlayerCard.where(player: @player, position: "9", computer: false, pvp: false)
     render json: @player_deck_in_game
   end
 
   def computer_deck
-    find_player
+    @player = Player.find(params[:id])
     @computer_deck = PlayerCard.where(player: @player, position: "9", computer: true, pvp: false)
     render json: @computer_deck  
   end
@@ -130,6 +129,7 @@ class Api::V1::PlayersController < ApplicationController
   def find_player
     if Player.where(authentication_token: params[:token]).count == 1
       @player = Player.find_by(authentication_token: params[:token])
+      render json: @player
     end
   end
 

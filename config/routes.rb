@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
 
       resources :players
-      get :find, to: 'players#find'
+      get :find_player, to: 'players#find_player'
       get :find_game, to: 'players#find_game'
       get :deck, to: 'players#deck'
       get :deck_in_game, to: 'players#deck_in_game'

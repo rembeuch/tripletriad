@@ -119,7 +119,7 @@ class Api::V1::GamesController < ApplicationController
       def reward 
         find_player
         @game = @player.game
-        @monster = Monster.find(params[:id].to_i)
+        @monster = Monster.find(params[:monster_id].to_i)
         number = @player.zone_position[1..].to_i
         number += 1
         if @monster.rules.include?("boss")
@@ -244,11 +244,7 @@ class Api::V1::GamesController < ApplicationController
         render json: {message: @message}
       end
 
-      def find_player
-        if Player.where(authentication_token: params[:token]).count == 1
-          @player = Player.find_by(authentication_token: params[:token])
-        elsif Player.where(wallet_address: params[:address]).count == 1
-          @player = Player.find_by(wallet_address: params[:address])
-        end
+    def find_player
+      @player = Player.find(params[:id])
     end
 end

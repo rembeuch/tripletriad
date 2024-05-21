@@ -1,12 +1,12 @@
 class Api::V1::CardsController < ApplicationController
     def index
-      @player = Player.find(params[:id])
+      find_player      
       @cards = @player.cards.sort_by { |card| card.name.delete("#").to_i }
       render json: @cards
     end
 
     def show
-      @player = Player.find(params[:player_id])
+      find_player      
       @monster = Card.find(params[:id])
       if @monster.player == @player
         render json: {monster: @monster}
@@ -105,8 +105,6 @@ class Api::V1::CardsController < ApplicationController
     private
 
     def find_player
-      if Player.where(authentication_token: params[:token]).count == 1
-        @player = Player.find_by(authentication_token: params[:token])
-      end
+      @player = Player.find(params[:player_id])
     end
 end

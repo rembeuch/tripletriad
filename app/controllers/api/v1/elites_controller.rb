@@ -1,12 +1,12 @@
 class Api::V1::ElitesController < ApplicationController
     def index
-        @player = Player.find(params[:id])
+        find_player
         @elites = @player.elites
         render json: @elites
     end
 
     def create
-        @player = Player.find(params[:id])
+        find_player
         @elite = Elite.new(up: 1, right: 1, down: 1, left: 1, rank: 'E', fight: rand(20), diplomacy: rand(20), espionage: rand(20), leadership: rand(20))
         @elite.in_deck = true if @player.elites.empty?
         @elite.player_id = @player.id
@@ -144,13 +144,10 @@ class Api::V1::ElitesController < ApplicationController
     render json: {elite: @elite}
   end
 
-    private
+  private
 
-    def find_player
-      return if @player
-      if Player.where(authentication_token: params[:token]).count == 1
-        @player = Player.find_by(authentication_token: params[:token])
-      end
-    end
+  def find_player
+    @player = Player.find(params[:player_id])
+  end
       
 end

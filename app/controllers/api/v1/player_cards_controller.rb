@@ -100,6 +100,11 @@ class Api::V1::PlayerCardsController < ApplicationController
                 logs
                 @card.update(up: (@card.up.to_i + 1).to_s, down: (@card.down.to_i + 1).to_s, right: (@card.right.to_i + 1).to_s, left: (@card.left.to_i + 1).to_s)
             end
+            if @player.ability.last == "5"
+                @card = @cards.find(params[:card_id].to_i)
+                logs
+                @card.update(up: (@card.up.to_i + 1).to_s, down: (@card.down.to_i + 1).to_s, right: (@card.right.to_i + 1).to_s, left: (@card.left.to_i + 1).to_s)
+            end
         end
         if @player.ability.include?("diplomacy")
             if @player.ability.last == "1"
@@ -2553,9 +2558,7 @@ class Api::V1::PlayerCardsController < ApplicationController
     end
 
     def find_player
-        if Player.where(authentication_token: params[:token]).count == 1
-          @player = Player.find_by(authentication_token: params[:token])
+          @player = Player.find(params[:id])
           @player_cards = @player.player_cards.where(pvp: false)
-        end
     end
 end
