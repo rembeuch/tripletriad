@@ -105,6 +105,15 @@ class Api::V1::PlayerCardsController < ApplicationController
                 logs
                 @card.update(up: (@card.up.to_i + 1).to_s, down: (@card.down.to_i + 1).to_s, right: (@card.right.to_i + 1).to_s, left: (@card.left.to_i + 1).to_s)
             end
+            if @player.ability.last == "6"
+                @card = @cards.find(params[:card_id].to_i)
+                logs
+                @card.update(up: (@card.up.to_i + 2).to_s, down: (@card.down.to_i + 2).to_s, right: (@card.right.to_i + 2).to_s, left: (@card.left.to_i + 2).to_s)
+            end
+            if @player.ability.last == "7"
+                @card = @cards.find(params[:card_id].to_i)
+                @card.update(up: (@card.up.to_i + 2).to_s, down: (@card.down.to_i + 2).to_s, right: (@card.right.to_i + 2).to_s, left: (@card.left.to_i + 2).to_s)
+            end
         end
         if @player.ability.include?("diplomacy")
             if @player.ability.last == "1"
@@ -148,6 +157,20 @@ class Api::V1::PlayerCardsController < ApplicationController
                 logs
                 @card.update(up: (@card.up.to_i - 1).to_s, down: (@card.down.to_i - 1).to_s, right: (@card.right.to_i - 1).to_s, left: (@card.left.to_i - 1).to_s)
             end
+            if @player.ability.last == "5"
+                @card = @cards.find(params[:card_id].to_i)
+                logs
+                @card.update(up: (@card.up.to_i - 1).to_s, down: (@card.down.to_i - 1).to_s, right: (@card.right.to_i - 1).to_s, left: (@card.left.to_i - 1).to_s)
+            end
+            if @player.ability.last == "6"
+                @card = @cards.find(params[:card_id].to_i)
+                logs
+                @card.update(up: (@card.up.to_i - 2).to_s, down: (@card.down.to_i - 2).to_s, right: (@card.right.to_i - 2).to_s, left: (@card.left.to_i - 2).to_s)
+            end
+            if @player.ability.last == "7"
+                @card = @cards.find(params[:card_id].to_i)
+                @card.update(up: (@card.up.to_i - 2).to_s, down: (@card.down.to_i - 2).to_s, right: (@card.right.to_i - 2).to_s, left: (@card.left.to_i - 2).to_s)
+            end
         end
         if @player.ability.include?("espionage")
             if @player.ability.last == "1"
@@ -168,13 +191,11 @@ class Api::V1::PlayerCardsController < ApplicationController
                 end
             end
             if @player.ability.last == "3"
-                @card = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
-                if @card
-                    @card.update(hide: false)
-                end
-                @card2 = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
-                if @card2
-                    @card2.update(hide: false)
+                2.times do
+                    @card = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
+                    if @card
+                        @card.update(hide: false)
+                    end
                 end
                 if @player.computer_power_point >= 10
                     @player.update(computer_power: false, computer_power_point: 9)
@@ -182,20 +203,33 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @player.update(computer_power: false, computer_power_point: @player.computer_power_point - 1)
                 end
             end
-            if @player.ability.last == "4"
-                @card = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
-                if @card
-                    @card.update(hide: false)
-                end
-                @card2 = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
-                if @card2
-                    @card2.update(hide: false)
+            if @player.ability.last == "4" || @player.ability.last == "5"
+                2.times do
+                    @card = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
+                    if @card
+                        @card.update(hide: false)
+                    end
                 end
                 if @player.computer_power_point >= 10
                     @player.update(computer_power: false, computer_power_point: 8)
                 elsif @player.computer_power_point <= 1
                     @player.update(computer_power: false, computer_power_point: 0)
                 elsif @player.computer_power_point >= 2
+                    @player.update(computer_power: false, computer_power_point: @player.computer_power_point - 2)
+                end
+            end
+            if @player.ability.last == "6" 
+                3.times do
+                    @card = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
+                    if @card
+                        @card.update(hide: false)
+                    end
+                end
+                if @player.computer_power_point >= 10
+                    @player.update(computer_power: false, computer_power_point: 7)
+                elsif @player.computer_power_point <= 2
+                    @player.update(computer_power: false, computer_power_point: 0)
+                elsif @player.computer_power_point >= 3
                     @player.update(computer_power: false, computer_power_point: @player.computer_power_point - 2)
                 end
             end
@@ -251,6 +285,21 @@ class Api::V1::PlayerCardsController < ApplicationController
             end
             if @player.ability.last == "4"
                 @card = @cards.select{|card| card.computer == true && card.position != '9' }.sample
+                @card2 = @cards.select{|card| card.computer == true && card != @card }.sample
+                @card3 = @cards.select{|card| card.computer == true && card != @card }.sample
+                @card4 = @cards.select{|card| card.computer == true && card != @card }.sample
+                @card5 = @cards.select{|card| card.computer == true && card != @card }.sample
+                if @card
+                    logs
+                    attributes = [:up, :right, :down, :left]
+                    @card.update(attributes[0] => @card2[attributes[0]])
+                    @card.update(attributes[1] => @card3[attributes[1]])
+                    @card.update(attributes[2] => @card4[attributes[2]])
+                    @card.update(attributes[3] => @card5[attributes[3]])
+                end
+            end
+            if @player.ability.last == "5" || @player.ability.last == "6"
+                @card = @cards.find(params[:card_id].to_i)
                 @card2 = @cards.select{|card| card.computer == true && card != @card }.sample
                 @card3 = @cards.select{|card| card.computer == true && card != @card }.sample
                 @card4 = @cards.select{|card| card.computer == true && card != @card }.sample
