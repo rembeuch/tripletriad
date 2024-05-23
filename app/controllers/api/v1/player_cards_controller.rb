@@ -114,6 +114,24 @@ class Api::V1::PlayerCardsController < ApplicationController
                 @card = @cards.find(params[:card_id].to_i)
                 @card.update(up: (@card.up.to_i + 2).to_s, down: (@card.down.to_i + 2).to_s, right: (@card.right.to_i + 2).to_s, left: (@card.left.to_i + 2).to_s)
             end
+            if @player.ability.last == "8"
+                @card = @cards.find(params[:card_id].to_i)
+                @card.update(up: (@card.up.to_i + 3).to_s, down: (@card.down.to_i + 3).to_s, right: (@card.right.to_i + 3).to_s, left: (@card.left.to_i + 3).to_s)
+            end
+            if @player.ability.last == "9"
+                @card = @cards.find(params[:card_id].to_i)
+                @card.update(up: (@card.up.to_i + 4).to_s, down: (@card.down.to_i + 4).to_s, right: (@card.right.to_i + 4).to_s, left: (@card.left.to_i + 4).to_s)
+            end
+            if @player.ability.last == "0"
+                @card = @cards.find(params[:card_id].to_i)
+                @card.update(up: (@card.up.to_i + 4).to_s, down: (@card.down.to_i + 4).to_s, right: (@card.right.to_i + 4).to_s, left: (@card.left.to_i + 4).to_s)
+                @card2 = @cards.find_by(name: JSON.parse(params[:card_info])[0])
+                if @card != @card2
+                    @card2.update(up: (@card2.up.to_i + 4).to_s, down: (@card2.down.to_i + 4).to_s, right: (@card2.right.to_i + 4).to_s, left: (@card2.left.to_i + 4).to_s)
+                else
+                    @card.update(up: (@card.up.to_i + 1).to_s, down: (@card.down.to_i + 1).to_s, right: (@card.right.to_i + 1).to_s, left: (@card.left.to_i + 1).to_s)
+                end
+            end
         end
         if @player.ability.include?("diplomacy")
             if @player.ability.last == "1"
@@ -170,6 +188,24 @@ class Api::V1::PlayerCardsController < ApplicationController
             if @player.ability.last == "7"
                 @card = @cards.find(params[:card_id].to_i)
                 @card.update(up: (@card.up.to_i - 2).to_s, down: (@card.down.to_i - 2).to_s, right: (@card.right.to_i - 2).to_s, left: (@card.left.to_i - 2).to_s)
+            end
+            if @player.ability.last == "8"
+                @card = @cards.find(params[:card_id].to_i)
+                @card.update(up: (@card.up.to_i - 3).to_s, down: (@card.down.to_i - 3).to_s, right: (@card.right.to_i - 3).to_s, left: (@card.left.to_i - 3).to_s)
+            end
+            if @player.ability.last == "9"
+                @card = @cards.find(params[:card_id].to_i)
+                @card.update(up: (@card.up.to_i - 4).to_s, down: (@card.down.to_i - 4).to_s, right: (@card.right.to_i - 4).to_s, left: (@card.left.to_i - 4).to_s)
+            end
+            if @player.ability.last == "0"
+                @card = @cards.find(params[:card_id].to_i)
+                @card.update(up: (@card.up.to_i - 4).to_s, down: (@card.down.to_i - 4).to_s, right: (@card.right.to_i - 4).to_s, left: (@card.left.to_i - 4).to_s)
+                @card2 = @cards.find_by(name: JSON.parse(params[:card_info])[0])
+                if @card != @card2
+                    @card2.update(up: (@card2.up.to_i - 4).to_s, down: (@card2.down.to_i - 4).to_s, right: (@card2.right.to_i - 4).to_s, left: (@card2.left.to_i - 4).to_s)
+                else
+                    @card.update(up: (@card.up.to_i - 1).to_s, down: (@card.down.to_i - 1).to_s, right: (@card.right.to_i - 1).to_s, left: (@card.left.to_i - 1).to_s)
+                end
             end
         end
         if @player.ability.include?("espionage")
@@ -230,8 +266,65 @@ class Api::V1::PlayerCardsController < ApplicationController
                 elsif @player.computer_power_point <= 2
                     @player.update(computer_power: false, computer_power_point: 0)
                 elsif @player.computer_power_point >= 3
-                    @player.update(computer_power: false, computer_power_point: @player.computer_power_point - 2)
+                    @player.update(computer_power: false, computer_power_point: @player.computer_power_point - 3)
                 end
+            end
+            if @player.ability.last == "7" 
+                if params[:card_id] != nil
+                    @card = @cards.find(params[:card_id].to_i)
+                    @change_card = @cards.select{|card| card.position == "9" && card.computer == true }.sample
+                    @card.update(computer: true, hide: false)
+                    @change_card.update(computer: false)
+                end
+                3.times do
+                    @card = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
+                    if @card
+                        @card.update(hide: false)
+                    end
+                end
+                if @player.computer_power_point >= 10
+                    @player.update(computer_power: false, computer_power_point: 7)
+                elsif @player.computer_power_point <= 2
+                    @player.update(computer_power: false, computer_power_point: 0)
+                elsif @player.computer_power_point >= 3
+                    @player.update(computer_power: false, computer_power_point: @player.computer_power_point - 3)
+                end
+            end
+            if @player.ability.last == "8" 
+                if params[:card_id] != nil
+                    @card = @cards.find(params[:card_id].to_i)
+                    @change_card = @cards.select{|card| card.position == "9" && card.computer == true }.sample
+                    @card.update(computer: true, hide: false)
+                    @change_card.update(computer: false)
+                end
+                4.times do
+                    @card = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
+                    if @card
+                        @card.update(hide: false)
+                    end
+                end
+                if @player.computer_power_point >= 10
+                    @player.update(computer_power: false, computer_power_point: 6)
+                elsif @player.computer_power_point <= 3
+                    @player.update(computer_power: false, computer_power_point: 0)
+                elsif @player.computer_power_point >= 4
+                    @player.update(computer_power: false, computer_power_point: @player.computer_power_point - 4)
+                end
+            end
+            if @player.ability.last == "9" 
+                if params[:card_id] != nil
+                    @card = @cards.find(params[:card_id].to_i)
+                    @change_card = @cards.select{|card| card.position == "9" && card.computer == true }.sample
+                    @card.update(computer: true, hide: false)
+                    @change_card.update(computer: false)
+                end
+                5.times do
+                    @card = @cards.select{|card| card.position == "9" && card.computer == true && card.hide == true }.sample
+                    if @card
+                        @card.update(hide: false)
+                    end
+                end          
+                @player.update(computer_power: false, computer_power_point: 0)
             end
         end
         if @player.ability.include?("leadership")
@@ -311,6 +404,38 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @card.update(attributes[1] => @card3[attributes[1]])
                     @card.update(attributes[2] => @card4[attributes[2]])
                     @card.update(attributes[3] => @card5[attributes[3]])
+                end
+            end
+            if @player.ability.last == "7" 
+                @card = @cards.find(params[:card_id].to_i)
+                if @card
+                    logs
+                    @rand = rand(2)
+                    if @rand == 0
+                        @card.update(up: @card.down, down: @card.up)
+                    else
+                        @card.update(right: @card.left, left: @card.right)
+                    end
+                end
+            end
+            if @player.ability.last == "8" 
+                @card = @cards.find(params[:card_id].to_i)
+                if @card
+                    logs
+                    @card.update(up: @card.down, down: @card.up, right: @card.left, left: @card.right)
+                end
+            end
+            if @player.ability.last == "9" 
+                @card = @cards.find(params[:card_id].to_i)
+                if @card
+                    logs
+                    if params[:card_info] == "[]" || params[:card_info] == "[\"turn1\"]"
+                        @card.update(up: @card.left, right: @card.up, down: @card.right, left: @card.down)
+                    elsif params[:card_info] == "[\"turn2\"]"
+                        @card.update(up: @card.down, right: @card.left, down: @card.up, left: @card.right)
+                    elsif params[:card_info] == "[\"turn3\"]"
+                        @card.update(up: @card.right, right: @card.down, down: @card.left, left: @card.up)
+                    end
                 end
             end
         end
