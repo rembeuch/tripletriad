@@ -44,7 +44,11 @@ class Api::V1::PlayersController < ApplicationController
     @player = Player.find(params[:id])
     @game = @player.game
     if !@game.nil?
-      render json: @game 
+      if @game.monsters.size >= 5
+        render json: @game.as_json(except: [:monsters])
+      else
+        render json: @game
+      end
     end
   end
 
@@ -129,7 +133,11 @@ class Api::V1::PlayersController < ApplicationController
   def find_player
     if Player.where(authentication_token: params[:token]).count == 1
       @player = Player.find_by(authentication_token: params[:token])
-      render json: @player
+      if @player.ability.include?("espionage") && (@player.ability[9] + @player.ability[10]).to_i >= 5
+        render json: @player.as_json(except: [:wallet_address, :email, :authentication_token])
+      else
+        render json: @player.as_json(except: [:wallet_address, :email, :authentication_token, :computer_ability])
+      end
     end
   end
 

@@ -694,14 +694,14 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 3)
                 end
             end
-            if @computer_card1 && @computer_card1.computer == true && @computer_card1.left < card.right
+            if @computer_card1 && @computer_card1.computer == true && @computer_card1.left.to_i < card.right.to_i
                 @computer_card1.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
                     @game.update(player_points: @game.player_points + 1)
                 end
             end
-            if @computer_card2 && @computer_card2.computer == true && @computer_card2.up < card.down
+            if @computer_card2 && @computer_card2.computer == true && @computer_card2.up.to_i < card.down.to_i
                 @computer_card2.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
@@ -779,21 +779,21 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 3)
                 end
             end
-            if @computer_card1 && @computer_card1.computer == true && @computer_card1.right < card.left
+            if @computer_card1 && @computer_card1.computer == true && @computer_card1.right.to_i < card.left.to_i
                 @computer_card1.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
                     @game.update(player_points: @game.player_points + 1)
                 end
             end
-            if @computer_card2 && @computer_card2.computer == true && @computer_card2.left < card.right
+            if @computer_card2 && @computer_card2.computer == true && @computer_card2.left.to_i < card.right.to_i
                 @computer_card2.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
                     @game.update(player_points: @game.player_points + 1)
                 end
             end
-            if @computer_card3 && @computer_card3.computer == true && @computer_card3.up < card.down
+            if @computer_card3 && @computer_card3.computer == true && @computer_card3.up.to_i < card.down.to_i
                 @computer_card3.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
@@ -826,14 +826,14 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 3)
                 end
             end
-            if @computer_card1 && @computer_card1.computer == true && @computer_card1.right < card.left
+            if @computer_card1 && @computer_card1.computer == true && @computer_card1.right.to_i < card.left.to_i
                 @computer_card1.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
                     @game.update(player_points: @game.player_points + 1)
                 end
             end
-            if @computer_card2 && @computer_card2.computer == true && @computer_card2.up < card.down
+            if @computer_card2 && @computer_card2.computer == true && @computer_card2.up.to_i < card.down.to_i
                 @computer_card2.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
@@ -911,21 +911,21 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 3)
                 end
             end
-            if @computer_card1 && @computer_card1.computer == true && @computer_card1.down < card.up
+            if @computer_card1 && @computer_card1.computer == true && @computer_card1.down.to_i < card.up.to_i
                 @computer_card1.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
                     @game.update(player_points: @game.player_points + 1)
                 end
             end
-            if @computer_card2 && @computer_card2.computer == true && @computer_card2.left < card.right
+            if @computer_card2 && @computer_card2.computer == true && @computer_card2.left.to_i < card.right.to_i
                 @computer_card2.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
                     @game.update(player_points: @game.player_points + 1)
                 end
             end
-            if @computer_card3 && @computer_card3.computer == true && @computer_card3.up < card.down
+            if @computer_card3 && @computer_card3.computer == true && @computer_card3.up.to_i < card.down.to_i
                 @computer_card3.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
@@ -1070,28 +1070,28 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 3)
                 end
             end
-            if @computer_card1 && @computer_card1.computer == true && @computer_card1.down < card.up
+            if @computer_card1 && @computer_card1.computer == true && @computer_card1.down.to_i < card.up.to_i
                 @computer_card1.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
                     @game.update(player_points: @game.player_points + 1)
                 end
             end
-            if @computer_card2 && @computer_card2.computer == true && @computer_card2.right < card.left
+            if @computer_card2 && @computer_card2.computer == true && @computer_card2.right.to_i < card.left.to_i
                 @computer_card2.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
                     @game.update(player_points: @game.player_points + 1)
                 end
             end
-            if @computer_card3 && @computer_card3.computer == true && @computer_card3.left < card.right
+            if @computer_card3 && @computer_card3.computer == true && @computer_card3.left.to_i < card.right.to_i
                 @computer_card3.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
                     @game.update(player_points: @game.player_points + 1)
                 end
             end
-            if @computer_card4 && @computer_card4.computer == true && @computer_card4.up < card.down
+            if @computer_card4 && @computer_card4.computer == true && @computer_card4.up.to_i < card.down.to_i
                 @computer_card4.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
@@ -1169,21 +1169,21 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 3)
                 end
             end
-            if @computer_card1 && @computer_card1.computer == true && @computer_card1.down < card.up
+            if @computer_card1 && @computer_card1.computer == true && @computer_card1.down.to_i < card.up.to_i
                 @computer_card1.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
                     @game.update(player_points: @game.player_points + 1)
                 end
             end
-            if @computer_card2 && @computer_card2.computer == true && @computer_card2.right < card.left
+            if @computer_card2 && @computer_card2.computer == true && @computer_card2.right.to_i < card.left.to_i
                 @computer_card2.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
                     @game.update(player_points: @game.player_points + 1)
                 end
             end
-            if @computer_card3 && @computer_card3.computer == true && @computer_card3.up < card.down
+            if @computer_card3 && @computer_card3.computer == true && @computer_card3.up.to_i < card.down.to_i
                 @computer_card3.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
@@ -1216,14 +1216,14 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 3)
                 end
             end
-            if @computer_card1 && @computer_card1.computer == true && @computer_card1.left < card.right
+            if @computer_card1 && @computer_card1.computer == true && @computer_card1.left.to_i < card.right.to_i
                 @computer_card1.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
                     @game.update(player_points: @game.player_points + 1)
                 end
             end
-            if @computer_card2 && @computer_card2.computer == true && @computer_card2.down < card.up
+            if @computer_card2 && @computer_card2.computer == true && @computer_card2.down.to_i < card.up.to_i
                 @computer_card2.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
@@ -1301,21 +1301,21 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 3)
                 end
             end
-            if @computer_card1 && @computer_card1.computer == true && @computer_card1.right < card.left
+            if @computer_card1 && @computer_card1.computer == true && @computer_card1.right.to_i < card.left.to_i
                 @computer_card1.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
                     @game.update(player_points: @game.player_points + 1)
                 end
             end
-            if @computer_card2 && @computer_card2.computer == true && @computer_card2.left < card.right
+            if @computer_card2 && @computer_card2.computer == true && @computer_card2.left.to_i < card.right.to_i
                 @computer_card2.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
                     @game.update(player_points: @game.player_points + 1)
                 end
             end
-            if @computer_card3 && @computer_card3.computer == true && @computer_card3.down < card.up
+            if @computer_card3 && @computer_card3.computer == true && @computer_card3.down.to_i < card.up.to_i
                 @computer_card3.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
@@ -1348,14 +1348,14 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 3)
                 end
             end
-            if @computer_card1 && @computer_card1.computer == true && @computer_card1.right < card.left
+            if @computer_card1 && @computer_card1.computer == true && @computer_card1.right.to_i < card.left.to_i
                 @computer_card1.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
                     @game.update(player_points: @game.player_points + 1)
                 end
             end
-            if @computer_card2 && @computer_card2.computer == true && @computer_card2.down < card.up
+            if @computer_card2 && @computer_card2.computer == true && @computer_card2.down.to_i < card.up.to_i
                 @computer_card2.update(computer: false)
                 @player.update(power_point: @player.power_point + 1)
                 if @game.boss == true
@@ -1385,11 +1385,11 @@ class Api::V1::PlayerCardsController < ApplicationController
                 @cards_updated.push(@player_card2.id)
                 @player.update(computer_power_point: @player.computer_power_point + 3)
             end
-            if @player_card1 && @player_card1.computer == false && @player_card1.left < card.right
+            if @player_card1 && @player_card1.computer == false && @player_card1.left.to_i < card.right.to_i
                 @player_card1.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
-            if @player_card2 && @player_card2.computer == false && @player_card2.up < card.down
+            if @player_card2 && @player_card2.computer == false && @player_card2.up.to_i < card.down.to_i
                 @player_card2.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
@@ -1446,15 +1446,15 @@ class Api::V1::PlayerCardsController < ApplicationController
                 @cards_updated.push(@player_card3.id)
                 @player.update(computer_power_point: @player.computer_power_point + 3)
             end
-            if @player_card1 && @player_card1.computer == false && @player_card1.right < card.left
+            if @player_card1 && @player_card1.computer == false && @player_card1.right.to_i < card.left.to_i
                 @player_card1.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
-            if @player_card2 && @player_card2.computer == false && @player_card2.left < card.right
+            if @player_card2 && @player_card2.computer == false && @player_card2.left.to_i < card.right.to_i
                 @player_card2.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
-            if @player_card3 && @player_card3.computer == false && @player_card3.up < card.down
+            if @player_card3 && @player_card3.computer == false && @player_card3.up.to_i < card.down.to_i
                 @player_card3.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
@@ -1478,11 +1478,11 @@ class Api::V1::PlayerCardsController < ApplicationController
                 @cards_updated.push(@player_card2.id)
                 @player.update(computer_power_point: @player.computer_power_point + 3)
             end
-            if @player_card1 && @player_card1.computer == false && @player_card1.right < card.left
+            if @player_card1 && @player_card1.computer == false && @player_card1.right.to_i < card.left.to_i
                 @player_card1.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
-            if @player_card2 && @player_card2.computer == false && @player_card2.up < card.down
+            if @player_card2 && @player_card2.computer == false && @player_card2.up.to_i < card.down.to_i
                 @player_card2.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
@@ -1539,15 +1539,15 @@ class Api::V1::PlayerCardsController < ApplicationController
                 @cards_updated.push(@player_card3.id)
                 @player.update(computer_power_point: @player.computer_power_point + 3)
             end
-            if @player_card1 && @player_card1.computer == false && @player_card1.down < card.up
+            if @player_card1 && @player_card1.computer == false && @player_card1.down.to_i < card.up.to_i
                 @player_card1.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
-            if @player_card2 && @player_card2.computer == false && @player_card2.left < card.right
+            if @player_card2 && @player_card2.computer == false && @player_card2.left.to_i < card.right.to_i
                 @player_card2.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
-            if @player_card3 && @player_card3.computer == false && @player_card3.up < card.down
+            if @player_card3 && @player_card3.computer == false && @player_card3.up.to_i < card.down.to_i
                 @player_card3.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
@@ -1653,19 +1653,19 @@ class Api::V1::PlayerCardsController < ApplicationController
                 @cards_updated.push(@player_card4.id)
                 @player.update(computer_power_point: @player.computer_power_point + 3)
             end
-            if @player_card1 && @player_card1.computer == false && @player_card1.down < card.up
+            if @player_card1 && @player_card1.computer == false && @player_card1.down.to_i < card.up.to_i
                 @player_card1.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
-            if @player_card2 && @player_card2.computer == false && @player_card2.right < card.left
+            if @player_card2 && @player_card2.computer == false && @player_card2.right.to_i < card.left.to_i
                 @player_card2.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
-            if @player_card3 && @player_card3.computer == false && @player_card3.left < card.right
+            if @player_card3 && @player_card3.computer == false && @player_card3.left.to_i < card.right.to_i
                 @player_card3.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
-            if @player_card4 && @player_card4.computer == false && @player_card4.up < card.down
+            if @player_card4 && @player_card4.computer == false && @player_card4.up.to_i < card.down.to_i
                 @player_card4.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
@@ -1722,15 +1722,15 @@ class Api::V1::PlayerCardsController < ApplicationController
                 @cards_updated.push(@player_card3.id)
                 @player.update(computer_power_point: @player.computer_power_point + 3)
             end
-            if @player_card1 && @player_card1.computer == false && @player_card1.down < card.up
+            if @player_card1 && @player_card1.computer == false && @player_card1.down.to_i < card.up.to_i
                 @player_card1.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
-            if @player_card2 && @player_card2.computer == false && @player_card2.right < card.left
+            if @player_card2 && @player_card2.computer == false && @player_card2.right.to_i < card.left.to_i
                 @player_card2.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
-            if @player_card3 && @player_card3.computer == false && @player_card3.up < card.down
+            if @player_card3 && @player_card3.computer == false && @player_card3.up.to_i < card.down.to_i
                 @player_card3.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
@@ -1754,11 +1754,11 @@ class Api::V1::PlayerCardsController < ApplicationController
                 @cards_updated.push(@player_card2.id)
                 @player.update(computer_power_point: @player.computer_power_point + 3)
             end
-            if @player_card1 && @player_card1.computer == false && @player_card1.left < card.right
+            if @player_card1 && @player_card1.computer == false && @player_card1.left.to_i < card.right.to_i
                 @player_card1.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
-            if @player_card2 && @player_card2.computer == false && @player_card2.down < card.up
+            if @player_card2 && @player_card2.computer == false && @player_card2.down.to_i < card.up.to_i
                 @player_card2.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
@@ -1815,15 +1815,15 @@ class Api::V1::PlayerCardsController < ApplicationController
                 @cards_updated.push(@player_card3.id)
                 @player.update(computer_power_point: @player.computer_power_point + 3)
             end
-            if @player_card1 && @player_card1.computer == false && @player_card1.right < card.left
+            if @player_card1 && @player_card1.computer == false && @player_card1.right.to_i < card.left.to_i
                 @player_card1.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
-            if @player_card2 && @player_card2.computer == false && @player_card2.left < card.right
+            if @player_card2 && @player_card2.computer == false && @player_card2.left.to_i < card.right.to_i
                 @player_card2.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
-            if @player_card3 && @player_card3.computer == false && @player_card3.down < card.up
+            if @player_card3 && @player_card3.computer == false && @player_card3.down.to_i < card.up.to_i
                 @player_card3.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
@@ -1847,11 +1847,11 @@ class Api::V1::PlayerCardsController < ApplicationController
                 @cards_updated.push(@player_card2.id)
                 @player.update(computer_power_point: @player.computer_power_point + 3)
             end
-            if @player_card1 && @player_card1.computer == false && @player_card1.right < card.left
+            if @player_card1 && @player_card1.computer == false && @player_card1.right.to_i < card.left.to_i
                 @player_card1.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
-            if @player_card2 && @player_card2.computer == false && @player_card2.down < card.up
+            if @player_card2 && @player_card2.computer == false && @player_card2.down.to_i < card.up.to_i
                 @player_card2.update(computer: true)
                 @player.update(computer_power_point: @player.computer_power_point + 1)
             end
@@ -1867,7 +1867,7 @@ class Api::V1::PlayerCardsController < ApplicationController
         if card.position == "0"
             @computer_card1 = @player_cards.select{|card| card.position == "1" && card.computer == true}.first
             @computer_card2 = @player_cards.select{|card| card.position == "3" && card.computer == true}.first
-            if @computer_card1 && @computer_card1.left < card.right
+            if @computer_card1 && @computer_card1.left.to_i < card.right.to_i
                 @computer_card1.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -1875,7 +1875,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 2)
                 end
             end
-            if @computer_card2 && @computer_card2.up < card.down
+            if @computer_card2 && @computer_card2.up.to_i < card.down.to_i
                 @computer_card2.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -1888,7 +1888,7 @@ class Api::V1::PlayerCardsController < ApplicationController
             @computer_card1 = @player_cards.select{|card| card.position == "0" && card.computer == true}.first
             @computer_card2 = @player_cards.select{|card| card.position == "2" && card.computer == true}.first
             @computer_card3 = @player_cards.select{|card| card.position == "4" && card.computer == true}.first
-            if @computer_card1 && @computer_card1.right < card.left
+            if @computer_card1 && @computer_card1.right.to_i < card.left.to_i
                 @computer_card1.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -1896,7 +1896,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 2)
                 end
             end
-            if @computer_card2 && @computer_card2.left < card.right
+            if @computer_card2 && @computer_card2.left.to_i < card.right.to_i
                 @computer_card2.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -1904,7 +1904,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 2)
                 end
             end
-            if @computer_card3 && @computer_card3.up < card.down
+            if @computer_card3 && @computer_card3.up.to_i < card.down.to_i
                 @computer_card3.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -1916,7 +1916,7 @@ class Api::V1::PlayerCardsController < ApplicationController
         if card.position == "2"
             @computer_card1 = @player_cards.select{|card| card.position == "1" && card.computer == true}.first
             @computer_card2 = @player_cards.select{|card| card.position == "5" && card.computer == true}.first
-            if @computer_card1 && @computer_card1.right < card.left
+            if @computer_card1 && @computer_card1.right.to_i < card.left.to_i
                 @computer_card1.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -1924,7 +1924,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 2)
                 end
             end
-            if @computer_card2 && @computer_card2.up < card.down
+            if @computer_card2 && @computer_card2.up.to_i < card.down.to_i
                 @computer_card2.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -1937,7 +1937,7 @@ class Api::V1::PlayerCardsController < ApplicationController
             @computer_card1 = @player_cards.select{|card| card.position == "0" && card.computer == true}.first
             @computer_card2 = @player_cards.select{|card| card.position == "4" && card.computer == true}.first
             @computer_card3 = @player_cards.select{|card| card.position == "6" && card.computer == true}.first
-            if @computer_card1 && @computer_card1.down < card.up
+            if @computer_card1 && @computer_card1.down.to_i < card.up.to_i
                 @computer_card1.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -1945,7 +1945,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 2)
                 end
             end
-            if @computer_card2 && @computer_card2.left < card.right
+            if @computer_card2 && @computer_card2.left.to_i < card.right.to_i
                 @computer_card2.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -1953,7 +1953,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 2)
                 end
             end
-            if @computer_card3 && @computer_card3.up < card.down
+            if @computer_card3 && @computer_card3.up.to_i < card.down.to_i
                 @computer_card3.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -1967,7 +1967,7 @@ class Api::V1::PlayerCardsController < ApplicationController
             @computer_card2 = @player_cards.select{|card| card.position == "3" && card.computer == true}.first
             @computer_card3 = @player_cards.select{|card| card.position == "5" && card.computer == true}.first
             @computer_card4 = @player_cards.select{|card| card.position == "7" && card.computer == true}.first
-            if @computer_card1 && @computer_card1.down < card.up
+            if @computer_card1 && @computer_card1.down.to_i < card.up.to_i
                 @computer_card1.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -1975,7 +1975,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 2)
                 end
             end
-            if @computer_card2 && @computer_card2.right < card.left
+            if @computer_card2 && @computer_card2.right.to_i < card.left.to_i
                 @computer_card2.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -1983,7 +1983,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 2)
                 end
             end
-            if @computer_card3 && @computer_card3.left < card.right
+            if @computer_card3 && @computer_card3.left.to_i < card.right.to_i
                 @computer_card3.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -1991,7 +1991,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 2)
                 end
             end
-            if @computer_card4 && @computer_card4.up < card.down
+            if @computer_card4 && @computer_card4.up.to_i < card.down.to_i
                 @computer_card4.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -2004,7 +2004,7 @@ class Api::V1::PlayerCardsController < ApplicationController
             @computer_card1 = @player_cards.select{|card| card.position == "2" && card.computer == true}.first
             @computer_card2 = @player_cards.select{|card| card.position == "4" && card.computer == true}.first
             @computer_card3 = @player_cards.select{|card| card.position == "8" && card.computer == true}.first  
-            if @computer_card1 && @computer_card1.down < card.up
+            if @computer_card1 && @computer_card1.down.to_i < card.up.to_i
                 @computer_card1.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -2012,7 +2012,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 2)
                 end
             end
-            if @computer_card2 && @computer_card2.right < card.left
+            if @computer_card2 && @computer_card2.right.to_i < card.left.to_i
                 @computer_card2.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -2020,7 +2020,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 2)
                 end
             end
-            if @computer_card3 && @computer_card3.up < card.down
+            if @computer_card3 && @computer_card3.up.to_i < card.down.to_i
                 @computer_card3.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -2032,7 +2032,7 @@ class Api::V1::PlayerCardsController < ApplicationController
         if card.position == "6"
             @computer_card1 = @player_cards.select{|card| card.position == "7" && card.computer == true}.first
             @computer_card2 = @player_cards.select{|card| card.position == "3" && card.computer == true}.first
-            if @computer_card1 && @computer_card1.left < card.right
+            if @computer_card1 && @computer_card1.left.to_i < card.right.to_i
                 @computer_card1.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -2040,7 +2040,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 2)
                 end
             end
-            if @computer_card2 && @computer_card2.down < card.up
+            if @computer_card2 && @computer_card2.down.to_i < card.up.to_i
                 @computer_card2.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -2053,7 +2053,7 @@ class Api::V1::PlayerCardsController < ApplicationController
             @computer_card1 = @player_cards.select{|card| card.position == "6" && card.computer == true}.first
             @computer_card2 = @player_cards.select{|card| card.position == "8" && card.computer == true}.first
             @computer_card3 = @player_cards.select{|card| card.position == "4" && card.computer == true}.first       
-            if @computer_card1 && @computer_card1.right < card.left
+            if @computer_card1 && @computer_card1.right.to_i < card.left.to_i
                 @computer_card1.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -2061,7 +2061,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 2)
                 end
             end
-            if @computer_card2 && @computer_card2.left < card.right
+            if @computer_card2 && @computer_card2.left.to_i < card.right.to_i
                 @computer_card2.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -2069,7 +2069,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 2)
                 end
             end
-            if @computer_card3 && @computer_card3.down < card.up
+            if @computer_card3 && @computer_card3.down.to_i < card.up.to_i
                 @computer_card3.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -2081,7 +2081,7 @@ class Api::V1::PlayerCardsController < ApplicationController
         if card.position == "8"
             @computer_card1 = @player_cards.select{|card| card.position == "7" && card.computer == true}.first
             @computer_card2 = @player_cards.select{|card| card.position == "5" && card.computer == true}.first
-            if @computer_card1 && @computer_card1.right < card.left
+            if @computer_card1 && @computer_card1.right.to_i < card.left.to_i
                 @computer_card1.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -2089,7 +2089,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     @game.update(player_points: @game.player_points + 2)
                 end
             end
-            if @computer_card2 && @computer_card2.down < card.up
+            if @computer_card2 && @computer_card2.down.to_i < card.up.to_i
                 @computer_card2.update(computer: false)
                 @message = 'Combo!'
                 @player.update(power_point: @player.power_point + 2)
@@ -2109,12 +2109,12 @@ class Api::V1::PlayerCardsController < ApplicationController
         if card.position == "0"
             @player_card1 = @player_cards.select{|card| card.position == "1" && card.computer == false}.first
             @player_card2 = @player_cards.select{|card| card.position == "3" && card.computer == false}.first
-            if @player_card1 && @player_card1.left < card.right
+            if @player_card1 && @player_card1.left.to_i < card.right.to_i
                 @player_card1.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
             end
-            if @player_card2 && @player_card2.up < card.down
+            if @player_card2 && @player_card2.up.to_i < card.down.to_i
                 @player_card2.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
@@ -2124,17 +2124,17 @@ class Api::V1::PlayerCardsController < ApplicationController
             @player_card1 = @player_cards.select{|card| card.position == "0" && card.computer == false}.first
             @player_card2 = @player_cards.select{|card| card.position == "2" && card.computer == false}.first
             @player_card3 = @player_cards.select{|card| card.position == "4" && card.computer == false}.first
-            if @player_card1 && @player_card1.right < card.left
+            if @player_card1 && @player_card1.right.to_i < card.left.to_i
                 @player_card1.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
             end
-            if @player_card2 && @player_card2.left < card.right
+            if @player_card2 && @player_card2.left.to_i < card.right.to_i
                 @player_card2.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
             end
-            if @player_card3 && @player_card3.up < card.down
+            if @player_card3 && @player_card3.up.to_i < card.down.to_i
                 @player_card3.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
@@ -2143,12 +2143,12 @@ class Api::V1::PlayerCardsController < ApplicationController
         if card.position == "2"
             @player_card1 = @player_cards.select{|card| card.position == "1" && card.computer == false}.first
             @player_card2 = @player_cards.select{|card| card.position == "5" && card.computer == false}.first
-            if @player_card1 && @player_card1.right < card.left
+            if @player_card1 && @player_card1.right.to_i < card.left.to_i
                 @player_card1.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
             end
-            if @player_card2 && @player_card2.up < card.down
+            if @player_card2 && @player_card2.up.to_i < card.down.to_i
                 @player_card2.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
@@ -2158,17 +2158,17 @@ class Api::V1::PlayerCardsController < ApplicationController
             @player_card1 = @player_cards.select{|card| card.position == "0" && card.computer == false}.first
             @player_card2 = @player_cards.select{|card| card.position == "4" && card.computer == false}.first
             @player_card3 = @player_cards.select{|card| card.position == "6" && card.computer == false}.first
-            if @player_card1 && @player_card1.down < card.up
+            if @player_card1 && @player_card1.down.to_i < card.up.to_i
                 @player_card1.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
             end
-            if @player_card2 && @player_card2.left < card.right
+            if @player_card2 && @player_card2.left.to_i < card.right.to_i
                 @player_card2.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
             end
-            if @player_card3 && @player_card3.up < card.down
+            if @player_card3 && @player_card3.up.to_i < card.down.to_i
                 @player_card3.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
@@ -2179,22 +2179,22 @@ class Api::V1::PlayerCardsController < ApplicationController
             @player_card2 = @player_cards.select{|card| card.position == "3" && card.computer == false}.first
             @player_card3 = @player_cards.select{|card| card.position == "5" && card.computer == false}.first
             @player_card4 = @player_cards.select{|card| card.position == "7" && card.computer == false}.first
-            if @player_card1 && @player_card1.down < card.up
+            if @player_card1 && @player_card1.down.to_i < card.up.to_i
                 @player_card1.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
             end
-            if @player_card2 && @player_card2.right < card.left
+            if @player_card2 && @player_card2.right.to_i < card.left.to_i
                 @player_card2.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
             end
-            if @player_card3 && @player_card3.left < card.right
+            if @player_card3 && @player_card3.left.to_i < card.right.to_i
                 @player_card3.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
             end
-            if @player_card4 && @player_card4.up < card.down
+            if @player_card4 && @player_card4.up.to_i < card.down.to_i
                 @player_card4.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
@@ -2204,17 +2204,17 @@ class Api::V1::PlayerCardsController < ApplicationController
             @player_card1 = @player_cards.select{|card| card.position == "2" && card.computer == false}.first
             @player_card2 = @player_cards.select{|card| card.position == "4" && card.computer == false}.first
             @player_card3 = @player_cards.select{|card| card.position == "8" && card.computer == false}.first  
-            if @player_card1 && @player_card1.down < card.up
+            if @player_card1 && @player_card1.down.to_i < card.up.to_i
                 @player_card1.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
             end
-            if @player_card2 && @player_card2.right < card.left
+            if @player_card2 && @player_card2.right.to_i < card.left.to_i
                 @player_card2.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
             end
-            if @player_card3 && @player_card3.up < card.down
+            if @player_card3 && @player_card3.up.to_i < card.down.to_i
                 @player_card3.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
@@ -2223,12 +2223,12 @@ class Api::V1::PlayerCardsController < ApplicationController
         if card.position == "6"
             @player_card1 = @player_cards.select{|card| card.position == "7" && card.computer == false}.first
             @player_card2 = @player_cards.select{|card| card.position == "3" && card.computer == false}.first
-            if @player_card1 && @player_card1.left < card.right
+            if @player_card1 && @player_card1.left.to_i < card.right.to_i
                 @player_card1.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
             end
-            if @player_card2 && @player_card2.down < card.up
+            if @player_card2 && @player_card2.down.to_i < card.up.to_i
                 @player_card2.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
@@ -2238,17 +2238,17 @@ class Api::V1::PlayerCardsController < ApplicationController
             @player_card1 = @player_cards.select{|card| card.position == "6" && card.computer == false}.first
             @player_card2 = @player_cards.select{|card| card.position == "8" && card.computer == false}.first
             @player_card3 = @player_cards.select{|card| card.position == "4" && card.computer == false}.first       
-            if @player_card1 && @player_card1.right < card.left
+            if @player_card1 && @player_card1.right.to_i < card.left.to_i
                 @player_card1.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
             end
-            if @player_card2 && @player_card2.left < card.right
+            if @player_card2 && @player_card2.left.to_i < card.right.to_i
                 @player_card2.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
             end
-            if @player_card3 && @player_card3.down < card.up
+            if @player_card3 && @player_card3.down.to_i < card.up.to_i
                 @player_card3.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
@@ -2257,12 +2257,12 @@ class Api::V1::PlayerCardsController < ApplicationController
         if card.position == "8"
             @player_card1 = @player_cards.select{|card| card.position == "7" && card.computer == false}.first
             @player_card2 = @player_cards.select{|card| card.position == "5" && card.computer == false}.first
-            if @player_card1 && @player_card1.right < card.left
+            if @player_card1 && @player_card1.right.to_i < card.left.to_i
                 @player_card1.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)
             end
-            if @player_card2 && @player_card2.down < card.up
+            if @player_card2 && @player_card2.down.to_i < card.up.to_i
                 @player_card2.update(computer: true)
                 @message = 'Combo!'
                 @player.update(computer_power_point: @player.computer_power_point + 2)

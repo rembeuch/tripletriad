@@ -187,11 +187,11 @@ class Api::V1::PvpCardsController < ApplicationController
                 @cards_updated.push(@computer_card2.id)
                 @player.update(pvp_power_point: @player.pvp_power_point + 3)
             end
-            if @computer_card1 && @computer_card1.left < card.right && !@cards_updated.include?(@computer_card1.id)
+            if @computer_card1 && @computer_card1.left.to_i < card.right.to_i && !@cards_updated.include?(@computer_card1.id)
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
-            if @computer_card2 && @computer_card2.up < card.down && !@cards_updated.include?(@computer_card2.id)
+            if @computer_card2 && @computer_card2.up.to_i < card.down.to_i && !@cards_updated.include?(@computer_card2.id)
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
@@ -245,15 +245,15 @@ class Api::V1::PvpCardsController < ApplicationController
                 @cards_updated.push(@computer_card3.id)
                 @player.update(pvp_power_point: @player.pvp_power_point + 3)
             end
-            if @computer_card1 && @computer_card1.right < card.left && !@cards_updated.include?(@computer_card1.id)
+            if @computer_card1 && @computer_card1.right.to_i < card.left.to_i && !@cards_updated.include?(@computer_card1.id)
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
-            if @computer_card2 && @computer_card2.left< card.right && !@cards_updated.include?(@computer_card2.id)
+            if @computer_card2 && @computer_card2.left.to_i < card.right.to_i && !@cards_updated.include?(@computer_card2.id)
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
-            if @computer_card3 && @computer_card3.up< card.down && !@cards_updated.include?(@computer_card3.id)
+            if @computer_card3 && @computer_card3.up.to_i < card.down.to_i && !@cards_updated.include?(@computer_card3.id)
                 @computer_card3.update(computer: !@computer_card3.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
@@ -279,11 +279,11 @@ class Api::V1::PvpCardsController < ApplicationController
                 @cards_updated.push(@computer_card2.id)
                 @player.update(pvp_power_point: @player.pvp_power_point + 3)
             end
-            if @computer_card1 && @computer_card1.right < card.left && !@cards_updated.include?(@computer_card1.id)
+            if @computer_card1 && @computer_card1.right.to_i < card.left.to_i && !@cards_updated.include?(@computer_card1.id)
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
-            if @computer_card2 && @computer_card2.up< card.down && !@cards_updated.include?(@computer_card2.id)
+            if @computer_card2 && @computer_card2.up.to_i < card.down.to_i && !@cards_updated.include?(@computer_card2.id)
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
@@ -337,15 +337,15 @@ class Api::V1::PvpCardsController < ApplicationController
                 @cards_updated.push(@computer_card3.id)
                 @player.update(pvp_power_point: @player.pvp_power_point + 3)
             end
-            if @computer_card1 && @computer_card1.down < card.up && !@cards_updated.include?(@computer_card1.id)
+            if @computer_card1 && @computer_card1.down.to_i < card.up.to_i && !@cards_updated.include?(@computer_card1.id)
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
-            if @computer_card2 && @computer_card2.left< card.right && !@cards_updated.include?(@computer_card2.id)
+            if @computer_card2 && @computer_card2.left.to_i < card.right.to_i && !@cards_updated.include?(@computer_card2.id)
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
-            if @computer_card3 && @computer_card3.up< card.down && !@cards_updated.include?(@computer_card3.id)
+            if @computer_card3 && @computer_card3.up.to_i < card.down.to_i && !@cards_updated.include?(@computer_card3.id)
                 @computer_card3.update(computer: !@computer_card3.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
@@ -439,19 +439,19 @@ class Api::V1::PvpCardsController < ApplicationController
                 @cards_updated.push(@computer_card4.id)
                 @player.update(pvp_power_point: @player.pvp_power_point + 3)
             end
-            if @computer_card1 && @computer_card1.down < card.up && !@cards_updated.include?(@computer_card1.id)
+            if @computer_card1 && @computer_card1.down.to_i < card.up.to_i && !@cards_updated.include?(@computer_card1.id)
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
-            if @computer_card2 && @computer_card2.right< card.left && !@cards_updated.include?(@computer_card2.id)
+            if @computer_card2 && @computer_card2.right.to_i < card.left.to_i && !@cards_updated.include?(@computer_card2.id)
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
-            if @computer_card3 && @computer_card3.left< card.right && !@cards_updated.include?(@computer_card3.id)
+            if @computer_card3 && @computer_card3.left.to_i < card.right.to_i && !@cards_updated.include?(@computer_card3.id)
                 @computer_card3.update(computer: !@computer_card3.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
-            if @computer_card4 && @computer_card4.up< card.down && !@cards_updated.include?(@computer_card4.id)
+            if @computer_card4 && @computer_card4.up.to_i < card.down.to_i && !@cards_updated.include?(@computer_card4.id)
                 @computer_card4.update(computer: !@computer_card4.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
@@ -505,15 +505,15 @@ class Api::V1::PvpCardsController < ApplicationController
                 @cards_updated.push(@computer_card3.id)
                 @player.update(pvp_power_point: @player.pvp_power_point + 3)
             end
-            if @computer_card1 && @computer_card1.down < card.up && !@cards_updated.include?(@computer_card1.id)
+            if @computer_card1 && @computer_card1.down.to_i < card.up.to_i && !@cards_updated.include?(@computer_card1.id)
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
-            if @computer_card2 && @computer_card2.right< card.left && !@cards_updated.include?(@computer_card2.id)
+            if @computer_card2 && @computer_card2.right.to_i < card.left.to_i && !@cards_updated.include?(@computer_card2.id)
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
-            if @computer_card3 && @computer_card3.up< card.down && !@cards_updated.include?(@computer_card3.id)
+            if @computer_card3 && @computer_card3.up.to_i < card.down.to_i && !@cards_updated.include?(@computer_card3.id)
                 @computer_card3.update(computer: !@computer_card3.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
@@ -539,11 +539,11 @@ class Api::V1::PvpCardsController < ApplicationController
                 @cards_updated.push(@computer_card2.id)
                 @player.update(pvp_power_point: @player.pvp_power_point + 3)
             end
-            if @computer_card1 && @computer_card1.left < card.right && !@cards_updated.include?(@computer_card1.id)
+            if @computer_card1 && @computer_card1.left.to_i < card.right.to_i && !@cards_updated.include?(@computer_card1.id)
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
-            if @computer_card2 && @computer_card2.down< card.up && !@cards_updated.include?(@computer_card2.id)
+            if @computer_card2 && @computer_card2.down.to_i < card.up.to_i && !@cards_updated.include?(@computer_card2.id)
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
@@ -597,15 +597,15 @@ class Api::V1::PvpCardsController < ApplicationController
                 @cards_updated.push(@computer_card3.id)
                 @player.update(pvp_power_point: @player.pvp_power_point + 3)
             end
-            if @computer_card1 && @computer_card1.right < card.left && !@cards_updated.include?(@computer_card1.id)
+            if @computer_card1 && @computer_card1.right.to_i < card.left.to_i && !@cards_updated.include?(@computer_card1.id)
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
-            if @computer_card2 && @computer_card2.left< card.right && !@cards_updated.include?(@computer_card2.id)
+            if @computer_card2 && @computer_card2.left.to_i < card.right.to_i && !@cards_updated.include?(@computer_card2.id)
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
-            if @computer_card3 && @computer_card3.down< card.up && !@cards_updated.include?(@computer_card3.id)
+            if @computer_card3 && @computer_card3.down.to_i < card.up.to_i && !@cards_updated.include?(@computer_card3.id)
                 @computer_card3.update(computer: !@computer_card3.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
@@ -631,11 +631,11 @@ class Api::V1::PvpCardsController < ApplicationController
                 @cards_updated.push(@computer_card2.id)
                 @player.update(pvp_power_point: @player.pvp_power_point + 3)
             end
-            if @computer_card1 && @computer_card1.right < card.left && !@cards_updated.include?(@computer_card1.id)
+            if @computer_card1 && @computer_card1.right.to_i < card.left.to_i && !@cards_updated.include?(@computer_card1.id)
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
-            if @computer_card2 && @computer_card2.down< card.up && !@cards_updated.include?(@computer_card2.id)
+            if @computer_card2 && @computer_card2.down.to_i < card.up.to_i && !@cards_updated.include?(@computer_card2.id)
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @player.update(pvp_power_point: @player.pvp_power_point + 1)
             end
@@ -657,12 +657,12 @@ class Api::V1::PvpCardsController < ApplicationController
             if @computer_card2.nil?
                 @computer_card2 = @player_cards.select{|card| card.position == "3" && card.computer == true}.first
             end
-            if @computer_card1 && @computer_card1.left < card.right
+            if @computer_card1 && @computer_card1.left.to_i < card.right.to_i
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
-            if @computer_card2 && @computer_card2.up< card.down
+            if @computer_card2 && @computer_card2.up.to_i < card.down.to_i
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
@@ -681,17 +681,17 @@ class Api::V1::PvpCardsController < ApplicationController
             if @computer_card3.nil?
                 @computer_card3 = @player_cards.select{|card| card.position == "4" && card.computer == true}.first
             end
-            if @computer_card1 && @computer_card1.right < card.left
+            if @computer_card1 && @computer_card1.right.to_i < card.left.to_i
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
-            if @computer_card2 && @computer_card2.left< card.right
+            if @computer_card2 && @computer_card2.left.to_i < card.right.to_i
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
-            if @computer_card3 && @computer_card3.up< card.down
+            if @computer_card3 && @computer_card3.up.to_i < card.down.to_i
                 @computer_card3.update(computer: !@computer_card3.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
@@ -706,12 +706,12 @@ class Api::V1::PvpCardsController < ApplicationController
             if @computer_card2.nil?
                 @computer_card2 = @player_cards.select{|card| card.position == "5" && card.computer == true}.first
             end
-            if @computer_card1 && @computer_card1.right < card.left
+            if @computer_card1 && @computer_card1.right.to_i < card.left.to_i
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
-            if @computer_card2 && @computer_card2.up< card.down
+            if @computer_card2 && @computer_card2.up.to_i < card.down.to_i
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
@@ -730,17 +730,17 @@ class Api::V1::PvpCardsController < ApplicationController
             if @computer_card3.nil?
                 @computer_card3 = @player_cards.select{|card| card.position == "6" && card.computer == true}.first
             end
-            if @computer_card1 && @computer_card1.down < card.up
+            if @computer_card1 && @computer_card1.down.to_i < card.up.to_i
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
-            if @computer_card2 && @computer_card2.left< card.right
+            if @computer_card2 && @computer_card2.left.to_i < card.right.to_i
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
-            if @computer_card3 && @computer_card3.up< card.down
+            if @computer_card3 && @computer_card3.up.to_i < card.down.to_i
                 @computer_card3.update(computer: !@computer_card3.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
@@ -763,22 +763,22 @@ class Api::V1::PvpCardsController < ApplicationController
             if @computer_card4.nil?
                 @computer_card4 = @player_cards.select{|card| card.position == "7" && card.computer == true}.first
             end
-            if @computer_card1 && @computer_card1.down < card.up
+            if @computer_card1 && @computer_card1.down.to_i < card.up.to_i
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
-            if @computer_card2 && @computer_card2.right< card.left
+            if @computer_card2 && @computer_card2.right.to_i < card.left.to_i
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
-            if @computer_card3 && @computer_card3.left< card.right
+            if @computer_card3 && @computer_card3.left.to_i < card.right.to_i
                 @computer_card3.update(computer: !@computer_card3.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
-            if @computer_card4 && @computer_card4.up< card.down
+            if @computer_card4 && @computer_card4.up.to_i < card.down.to_i
                 @computer_card4.update(computer: !@computer_card4.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
@@ -797,17 +797,17 @@ class Api::V1::PvpCardsController < ApplicationController
             if @computer_card3.nil?
                 @computer_card3 = @player_cards.select{|card| card.position == "8" && card.computer == true}.first
             end
-            if @computer_card1 && @computer_card1.down < card.up
+            if @computer_card1 && @computer_card1.down.to_i < card.up.to_i
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
-            if @computer_card2 && @computer_card2.right< card.left
+            if @computer_card2 && @computer_card2.right.to_i < card.left.to_i
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
-            if @computer_card3 && @computer_card3.up< card.down
+            if @computer_card3 && @computer_card3.up.to_i < card.down.to_i
                 @computer_card3.update(computer: !@computer_card3.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
@@ -822,12 +822,12 @@ class Api::V1::PvpCardsController < ApplicationController
             if @computer_card2.nil?
                 @computer_card2 = @player_cards.select{|card| card.position == "3" && card.computer == true}.first
             end
-            if @computer_card1 && @computer_card1.left < card.right
+            if @computer_card1 && @computer_card1.left.to_i < card.right.to_i
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
-            if @computer_card2 && @computer_card2.down< card.up
+            if @computer_card2 && @computer_card2.down.to_i < card.up.to_i
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
@@ -846,17 +846,17 @@ class Api::V1::PvpCardsController < ApplicationController
             if @computer_card3.nil?
                 @computer_card3 = @player_cards.select{|card| card.position == "4" && card.computer == true}.first
             end      
-            if @computer_card1 && @computer_card1.right < card.left
+            if @computer_card1 && @computer_card1.right.to_i < card.left.to_i
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
-            if @computer_card2 && @computer_card2.left< card.right
+            if @computer_card2 && @computer_card2.left.to_i < card.right.to_i
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
-            if @computer_card3 && @computer_card3.down< card.up
+            if @computer_card3 && @computer_card3.down.to_i < card.up.to_i
                 @computer_card3.update(computer: !@computer_card3.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
@@ -871,12 +871,12 @@ class Api::V1::PvpCardsController < ApplicationController
             if @computer_card2.nil?
                 @computer_card2 = @player_cards.select{|card| card.position == "5" && card.computer == true}.first
             end
-            if @computer_card1 && @computer_card1.right < card.left
+            if @computer_card1 && @computer_card1.right.to_i < card.left.to_i
                 @computer_card1.update(computer: !@computer_card1.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)
             end
-            if @computer_card2 && @computer_card2.down< card.up
+            if @computer_card2 && @computer_card2.down.to_i < card.up.to_i
                 @computer_card2.update(computer: !@computer_card2.computer)
                 @message = 'Combo!'
                 @player.update(pvp_power_point: @player.pvp_power_point + 2)

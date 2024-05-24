@@ -33,7 +33,8 @@ class Api::V1::GamesController < ApplicationController
               PlayerCard.create(up: @monster.up, down: @monster.down, right: @monster.right, left: @monster.left, position: "9", computer: true, player: @player, name: @monster.name )
             end
           end
-          @game.update(monsters: @monsters)
+          @game_monsters = @monsters.map{|m| m.id}
+          @game.update(monsters: @game_monsters)
           @computer_max_power = @monsters.map{|monster| monster.rank}.max.to_s
           @computer_ability = ["fight", "diplomacy", "espionage", "leadership"].sample + @computer_max_power
           @player.update(computer_ability: @computer_ability)
@@ -119,7 +120,7 @@ class Api::V1::GamesController < ApplicationController
       def reward 
         find_player
         @game = @player.game
-        @monster = Monster.find(params[:monster_id].to_i)
+        @monster = Monster.find(@game.monsters[params[:monster_index].to_i])
         number = @player.zone_position[1..].to_i
         number += 1
         if @monster.rules.include?("boss")
@@ -127,7 +128,7 @@ class Api::V1::GamesController < ApplicationController
         end
         @reward_message = ""
         if @game.monsters.size == 5
-          @game.update(monsters: [@monster])
+          @game.update(monsters: [@monster.id])
           if @player.monsters.map{|m| Monster.find_by(name: m)}.select{|m| m.zones.include?(@player.zone_position)}.count == Monster.select{|m| m.zones.include?(@player.zone_position)}.count
             start = rand(2).to_i
             if start == 0
@@ -181,7 +182,7 @@ class Api::V1::GamesController < ApplicationController
           @player.update(zones: @player.zones.unshift("bossA#{number}"))
           @zone_message = ""
         end
-        render json: {message: @reward_message, zone_message: @zone_message, b_zone_message: @b_zone_message, s_zone_message: @s_zone_message}
+        render json: {message: @reward_message, zone_message: @zone_message, b_zone_message: @b_zone_message, s_zone_message: @s_zone_message, monster: @monster}
       end
 
       def quit_game

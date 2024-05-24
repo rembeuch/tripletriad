@@ -61,7 +61,7 @@ class Api::V1::CardsController < ApplicationController
           end
         end
       end
-      render json: {monsters: @monsters, zone_monsters: @zone_monsters, s_monsters: @s_monsters, copy: @copy}
+      render json: {monsters: @monsters.size, zone_monsters: @zone_monsters.size, s_monsters: @s_monsters, copy: @copy}
     end
 
     def buy_market
