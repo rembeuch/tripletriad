@@ -125,7 +125,7 @@ class Api::V1::PlayerCardsController < ApplicationController
             if @player.ability.last == "0"
                 @card = @cards.find(params[:card_id].to_i)
                 @card.update(up: (@card.up.to_i + 4).to_s, down: (@card.down.to_i + 4).to_s, right: (@card.right.to_i + 4).to_s, left: (@card.left.to_i + 4).to_s)
-                @card2 = @cards.find_by(name: JSON.parse(params[:card_info])[0])
+                @card2 = @cards.find(JSON.parse(params[:card_info])[0].to_i)
                 if @card != @card2
                     @card2.update(up: (@card2.up.to_i + 4).to_s, down: (@card2.down.to_i + 4).to_s, right: (@card2.right.to_i + 4).to_s, left: (@card2.left.to_i + 4).to_s)
                 else
@@ -200,7 +200,7 @@ class Api::V1::PlayerCardsController < ApplicationController
             if @player.ability.last == "0"
                 @card = @cards.find(params[:card_id].to_i)
                 @card.update(up: (@card.up.to_i - 4).to_s, down: (@card.down.to_i - 4).to_s, right: (@card.right.to_i - 4).to_s, left: (@card.left.to_i - 4).to_s)
-                @card2 = @cards.find_by(name: JSON.parse(params[:card_info])[0])
+                @card2 = @cards.find(JSON.parse(params[:card_info])[0].to_i)
                 if @card != @card2
                     @card2.update(up: (@card2.up.to_i - 4).to_s, down: (@card2.down.to_i - 4).to_s, right: (@card2.right.to_i - 4).to_s, left: (@card2.left.to_i - 4).to_s)
                 else

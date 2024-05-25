@@ -133,7 +133,7 @@ class Api::V1::PlayersController < ApplicationController
   def find_player
     if Player.where(authentication_token: params[:token]).count == 1
       @player = Player.find_by(authentication_token: params[:token])
-      if @player.ability.include?("espionage") && (@player.ability[9] + @player.ability[10]).to_i >= 5
+      if @player.ability.include?("espionage") && (@player.ability[9]).to_i >= 5 || @player.ability == 'espionage10'
         render json: @player.as_json(except: [:wallet_address, :email, :authentication_token])
       else
         render json: @player.as_json(except: [:wallet_address, :email, :authentication_token, :computer_ability])
