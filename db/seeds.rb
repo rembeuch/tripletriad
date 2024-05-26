@@ -321,6 +321,122 @@ Monster.destroy_all
 
 @monster_44.save
 
+@monster_45 = Monster.create( 
+    up: "5",
+    down: "6",
+    left: "5",
+    right: "6",
+    rank: "4",name: "#45")
+
+@monster_45.zones.push("A8")
+
+@monster_45.save
+
+@monster_46 = Monster.create( 
+    up: "6",
+    down: "5",
+    left: "6",
+    right: "5",
+    rank: "4",name: "#46")
+
+@monster_46.zones.push("A8")
+
+@monster_46.save
+
+@monster_47 = Monster.create( 
+    up: "6",
+    down: "4",
+    left: "5",
+    right: "6",
+    rank: "4",name: "#47")
+
+@monster_47.zones.push("A8")
+@monster_47.zones.push("A9")
+
+@monster_47.save
+
+@monster_48 = Monster.create( 
+    up: "4",
+    down: "6",
+    left: "6",
+    right: "5",
+    rank: "4",name: "#48")
+
+@monster_48.zones.push("A8")
+@monster_48.zones.push("A9")
+
+@monster_49.save
+
+@monster_49 = Monster.create( 
+    up: "6",
+    down: "6",
+    left: "6",
+    right: "5",
+    rank: "5",name: "#49")
+
+@monster_49.zones.push("A8")
+@monster_49.zones.push("A9")
+
+@monster_49.save
+
+@monster_50 = Monster.create( 
+    up: "6",
+    down: "5",
+    left: "6",
+    right: "6",
+    rank: "5",name: "#50")
+
+@monster_50.zones.push("A8")
+@monster_50.zones.push("A9")
+
+@monster_50.save
+
+@monster_51 = Monster.create( 
+    up: "5",
+    down: "6",
+    left: "6",
+    right: "6",
+    rank: "5",name: "#51")
+
+@monster_51.zones.push("A8")
+@monster_51.zones.push("A9")
+
+@monster_51.save
+
+@monster_52 = Monster.create( 
+    up: "6",
+    down: "6",
+    left: "5",
+    right: "6",
+    rank: "5",name: "#52")
+
+@monster_52.zones.push("A9")
+
+@monster_52.save
+
+@monster_53 = Monster.create( 
+    up: "6",
+    down: "6",
+    left: "6",
+    right: "6",
+    rank: "6",name: "#53")
+
+@monster_53.zones.push("A9")
+
+@monster_53.save
+
+@monster_54 = Monster.create( 
+    up: "7",
+    down: "7",
+    left: "7",
+    right: "7",
+    rules: ["boss", "life"],
+    rank: "7",name: "#54")
+
+@monster_54.zones.push("A10")
+
+@monster_54.save
+
 # ZONE B //////////////////////////////////////////////////
 
 @monster_20 = Monster.create( 
@@ -501,8 +617,316 @@ Monster.destroy_all
     down: "4",
     left: "4",
     right: "3",
-    rank: "3",name: "#35")
+    rank: "2",name: "#35")
 
 @monster_35.zones.push("B4")
 
 @monster_35.save
+
+@monster_55 = Monster.create( 
+    up: "3",
+    down: "2",
+    left: "2",
+    right: "9",
+    rank: "3",name: "#55")
+
+@monster_55.zones.push("B6")
+
+@monster_55.save
+
+@monster_56 = Monster.create( 
+    up: "2",
+    down: "9",
+    left: "4",
+    right: "4",
+    rank: "3",name: "#56")
+
+@monster_56.zones.push("B6")
+
+@monster_56.save
+
+@monster_57 = Monster.create( 
+    up: "4",
+    down: "7",
+    left: "1",
+    right: "7",
+    rank: "3",name: "#57")
+
+@monster_57.zones.push("B6")
+
+@monster_57.save
+
+@monster_58 = Monster.create( 
+    up: "8",
+    down: "2",
+    left: "3",
+    right: "6",
+    rank: "3",name: "#58")
+
+@monster_58.zones.push("B6")
+
+@monster_58.save
+
+@monster_59 = Monster.create( 
+    up: "7",
+    down: "7",
+    left: "5",
+    right: "1",
+    rank: "4",name: "#59")
+
+@monster_59.zones.push("B6")
+
+@monster_59.save
+
+@monster_60 = Monster.create( 
+    up: "6",
+    down: "3",
+    left: "5",
+    right: "7",
+    rank: "4",name: "#60")
+
+@monster_60.zones.push("B6")
+
+@monster_60.save
+
+@monster_61 = Monster.create( 
+    up: "8",
+    down: "2",
+    left: "7",
+    right: "4",
+    rank: "4",name: "#61")
+
+@monster_61.zones.push("B6")
+
+@monster_61.save
+
+@monster_62 = Monster.create( 
+    up: "6",
+    down: "4",
+    left: "3",
+    right: "7",
+    rank: "4",name: "#62")
+
+@monster_62.zones.push("B7")
+
+@monster_62.save
+
+@monster_63 = Monster.create( 
+    up: "8",
+    down: "1",
+    left: "3",
+    right: "8",
+    rank: "4",name: "#63")
+
+@monster_63.zones.push("B7")
+
+@monster_63.save
+
+@monster_64 = Monster.create( 
+    up: "3",
+    down: "4",
+    left: "6",
+    right: "8",
+    rank: "4",name: "#64")
+
+@monster_64.zones.push("B7")
+
+@monster_64.save
+
+@monster_65 = Monster.create( 
+    up: "6",
+    down: "4",
+    left: "8",
+    right: "3",
+    rank: "4",name: "#65")
+
+@monster_65.zones.push("B7")
+
+@monster_65.save
+
+@monster_66 = Monster.create( 
+    up: "6",
+    down: "4",
+    left: "9",
+    right: "2",
+    rank: "4",name: "#66")
+
+@monster_66.zones.push("B7")
+
+@monster_66.save
+
+@monster_67 = Monster.create( 
+    up: "4",
+    down: "9",
+    left: "8",
+    right: "1",
+    rank: "4",name: "#67")
+
+@monster_67.zones.push("B7")
+
+@monster_67.save
+
+@monster_68 = Monster.create( 
+    up: "6",
+    down: "6",
+    left: "9",
+    right: "1",
+    rank: "4",name: "#68")
+
+@monster_68.zones.push("B7")
+
+@monster_68.save
+
+@monster_69 = Monster.create( 
+    up: "1",
+    down: "9",
+    left: "6",
+    right: "7",
+    rank: "5",name: "#69")
+
+@monster_69.zones.push("B8")
+
+@monster_69.save
+
+@monster_70 = Monster.create( 
+    up: "2",
+    down: "9",
+    left: "8",
+    right: "4",
+    rank: "5",name: "#70")
+
+@monster_70.zones.push("B8")
+
+@monster_70.save
+
+@monster_71 = Monster.create( 
+    up: "2",
+    down: "9",
+    left: "9",
+    right: "3",
+    rank: "5",name: "#71")
+
+@monster_71.zones.push("B8")
+
+@monster_71.save
+
+@monster_72 = Monster.create( 
+    up: "5",
+    down: "7",
+    left: "9",
+    right: "2",
+    rank: "5",name: "#72")
+
+@monster_72.zones.push("B8")
+
+@monster_72.save
+
+@monster_73 = Monster.create( 
+    up: "8",
+    down: "3",
+    left: "3",
+    right: "9",
+    rank: "5",name: "#73")
+
+@monster_73.zones.push("B8")
+
+@monster_73.save
+
+@monster_74 = Monster.create( 
+    up: "8",
+    down: "6",
+    left: "5",
+    right: "4",
+    rank: "5",name: "#74")
+
+@monster_74.zones.push("B8")
+
+@monster_74.save
+
+@monster_75 = Monster.create( 
+    up: "9",
+    down: "8",
+    left: "4",
+    right: "2",
+    rank: "5",name: "#75")
+
+@monster_75.zones.push("B8")
+
+@monster_75.save
+
+@monster_76 = Monster.create( 
+    up: "1",
+    down: "5",
+    left: "9",
+    right: "9",
+    rank: "6",name: "#76")
+
+@monster_76.zones.push("B9")
+
+@monster_76.save
+
+@monster_77 = Monster.create( 
+    up: "6",
+    down: "8",
+    left: "2",
+    right: "8",
+    rank: "6",name: "#77")
+
+@monster_77.zones.push("B9")
+
+@monster_77.save
+
+@monster_78 = Monster.create( 
+    up: "7",
+    down: "5",
+    left: "3",
+    right: "9",
+    rank: "6",name: "#78")
+
+@monster_78.zones.push("B9")
+
+@monster_78.save
+
+@monster_79 = Monster.create( 
+    up: "7",
+    down: "7",
+    left: "7",
+    right: "3",
+    rank: "6",name: "#79")
+
+@monster_79.zones.push("B9")
+
+@monster_79.save
+
+@monster_80 = Monster.create( 
+    up: "9",
+    down: "4",
+    left: "6",
+    right: "5",
+    rank: "6",name: "#80")
+
+@monster_80.zones.push("B9")
+
+@monster_80.save
+
+@monster_81 = Monster.create( 
+    up: "9",
+    down: "5",
+    left: "4",
+    right: "6",
+    rank: "6",name: "#81")
+
+@monster_81.zones.push("B9")
+
+@monster_81.save
+
+@monster_82 = Monster.create( 
+    up: "9",
+    down: "9",
+    left: "5",
+    right: "1",
+    rank: "6",name: "#82")
+
+@monster_82.zones.push("B9")
+
+@monster_82.save
