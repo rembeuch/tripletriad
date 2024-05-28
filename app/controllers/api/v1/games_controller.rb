@@ -8,6 +8,9 @@ class Api::V1::GamesController < ApplicationController
         if @game.save && @player.in_game == false && (@player.decks.size + @player.elites.where(in_deck: true).size) == 5
           @player.update(s_zone: false, s_monsters: [])
           @player.update(in_game: true)
+          if @player.zone_position == "A1" && @player.power_condition == @player.ability && @player.decks.include?(@player.monster_condition)
+            @player.update(bonus: true)
+          end
           @elite = @player.elites.where(in_deck: true).first
           PlayerCard.create(up: @elite.up, down: @elite.down, right: @elite.right, left: @elite.left, position: "9", computer: false, player: @player, name: @elite.name )
           @player.decks.each do |name|
@@ -60,6 +63,11 @@ class Api::V1::GamesController < ApplicationController
         @player.update(energy: (@player.energy + (@game.player_points * 10)))
         @game.destroy
         @player.player_cards.where(pvp: false).destroy_all
+        if @player.monsters.size >= 5
+          @monster_condition = @player.monsters.sample
+          @power_condition = ["fight", 'diplomacy', 'espionage', 'leadership'].sample + rand(1..@elite.send([:up, :right, :down, :left].max_by { |column| @elite.send(column) }).to_i).to_s
+          @player.update(monster_condition: @monster_condition, power_condition: @power_condition, bonus: false)
+        end
         @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0, zone_position: "A1", s_zone: false, b_zone: false)
         render json: {id: "0"}
         elsif @game.rounds <= @game.player_points
@@ -88,6 +96,9 @@ class Api::V1::GamesController < ApplicationController
             @player.save
           end
           @player.update(energy: (@player.energy + (@game.player_points * 10)))
+          if @player.bonus
+            @player.update(energy: (@player.energy + 20))
+          end
           @game.destroy
           @player.player_cards.where(pvp: false).destroy_all
           @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0)
@@ -193,6 +204,12 @@ class Api::V1::GamesController < ApplicationController
         end
         @player.player_cards.where(pvp: false).destroy_all
         @player.update(zones: @player.zones.delete_if{|z| z.include?("boss")})
+        if @player.monsters.size >= 5
+          @elite = @player.elites.where(in_deck: true).first
+          @monster_condition = @player.monsters.sample
+          @power_condition = ["fight", 'diplomacy', 'espionage', 'leadership'].sample + rand(1..@elite.send([:up, :right, :down, :left].max_by { |column| @elite.send(column) }).to_i).to_s
+          @player.update(monster_condition: @monster_condition, power_condition: @power_condition, bonus: false)
+        end
         @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0, zone_position: "A1", s_zone: false, b_zone: false, s_monsters: [])
       end
 

@@ -62,9 +62,12 @@ Rails.application.routes.draw do
 
       post :increment_card, to: 'cards#increment_card'
       post :sell_card, to: 'cards#sell_card'
+      post :awake_card, to: 'cards#awake_card'
       post :sell_market, to: 'cards#sell_market'
       post :buy_market, to: 'cards#buy_market'
+      post :rank_cards, to: 'cards#rank_cards'
       get :find_monsters, to: 'cards#find_monsters'
+
 
 
       resources :games

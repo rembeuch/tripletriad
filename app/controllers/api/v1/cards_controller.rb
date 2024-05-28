@@ -1,7 +1,7 @@
 class Api::V1::CardsController < ApplicationController
     def index
       find_player      
-      @cards = @player.cards.sort_by { |card| card.name.delete("#").to_i }
+      @cards = @player.cards.where(max: false).sort_by { |card| card.up.to_i + card.down.to_i + card.right.to_i + card.left.to_i }.reverse
       render json: @cards
     end
 
@@ -13,6 +13,18 @@ class Api::V1::CardsController < ApplicationController
       end
     end
 
+    def rank_cards
+      find_player
+      if params[:sort] == "somme"
+        @cards = @player.cards.where(max: false).sort_by { |card| card.up.to_i + card.down.to_i + card.right.to_i + card.left.to_i }.reverse
+      elsif params[:sort] == "max"
+        @cards = @player.cards.where(max: true).sort_by { |card| card.rank}.reverse
+      else
+        @cards = @player.cards.sort_by { |card| card.send(params[:sort]).to_i }.reverse
+      end    
+      render json: @cards
+    end
+
     def increment_card
       find_player
       @message = nil
@@ -22,13 +34,16 @@ class Api::V1::CardsController < ApplicationController
         @message = "You can't, you are in game!"
       elsif @player.zone_position != "A1" && @player.s_zone == false
         @message = "Only in A1 level!"
-      elsif @card.player == @player && @card.copy > 0 && @player.energy >= (@card.send(attributes[params[:stat].to_i]) * 100)
+      elsif @card.player == @player && @card.copy > 0 && @player.energy >= (@card.send(attributes[params[:stat].to_i]) * 10 * @card.rank.to_i) && @card.max == false
         @card.update(copy: @card.copy - 1)
-        @player.update(energy: @player.energy - (@card.send(attributes[params[:stat].to_i]) * 100))
+        @player.update(energy: @player.energy - (@card.send(attributes[params[:stat].to_i]) * 10 * @card.rank.to_i))
         @card.update(attributes[params[:stat].to_i] => (@card.send(attributes[params[:stat].to_i]).to_i + 1))
         if @card.send(attributes[params[:stat].to_i]) == ( 30/ @card.rank.to_i ) 
             modified_attributes = attributes.map { |attribute| attribute.to_s.chomp('_points').to_sym }
             @card.update(modified_attributes[params[:stat].to_i] => (@card.send(modified_attributes[params[:stat].to_i]).to_i + 1).to_s)
+            if @card.up_points == ( 30/ @card.rank.to_i ) && @card.right_points == ( 30/ @card.rank.to_i ) && @card.down_points == ( 30/ @card.rank.to_i ) && @card.left_points == ( 30/ @card.rank.to_i )
+              Card.create(up: @card.up, down: @card.down, right: @card.right, left: @card.left, player: @player, name: @card.name + 'max', rank: @card.rank, up_points: 0, right_points: 0, down_points: 0, left_points: 0, copy: 1, max: true )
+            end
         end
       else 
         @message = "Not enough energy!"
@@ -39,11 +54,36 @@ class Api::V1::CardsController < ApplicationController
     def sell_card
       find_player
       @card = Card.find(params[:id])
-      if @card.player == @player && @card.copy > 0
+      if @card.player == @player && @card.copy > 0 && @card.max == false
         @card.update(copy: @card.copy - 1)
         @player.update(energy: (@player.energy + 50 * @card.rank.to_i))
       end
       render json: {monster: @card}
+    end
+
+    def awake_card
+      find_player
+      @message = nil
+      @card = Card.find(params[:id])
+      if @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait' 
+        @message = "You can't, you are in game!"
+      elsif @player.zone_position != "A1" && @player.s_zone == false
+        @message = "Only in A1 level!"
+      elsif @card.player == @player && @card.copy >= ((30 / @card.rank.to_i) * 4) && @player.energy >= (4650 * @card.rank.to_i) && @card.max == false
+        @card.update(copy: @card.copy - ((30 / @card.rank.to_i) * 4))
+        @player.update(energy: @player.energy - (4650 * @card.rank.to_i))
+          if @card.up_points == ( 30/ @card.rank.to_i ) && @card.right_points == ( 30/ @card.rank.to_i ) && @card.down_points == ( 30/ @card.rank.to_i ) && @card.left_points == ( 30/ @card.rank.to_i )
+            @awake_card = Card.where(player: @player).select{|c| c.name == @card.name + 'max'}.first
+            if @awake_card
+              @awake_card.update(copy: @awake_card.copy + 1)
+            else
+              Card.create(up: @card.up, down: @card.down, right: @card.right, left: @card.left, player: @player, name: @card.name + 'max', rank: @card.rank, up_points: 0, right_points: 0, down_points: 0, left_points: 0, copy: 1, max: true )
+            end
+          end  
+      else 
+        @message = "Not enough energy!"
+      end
+      render json: {monster: @card, message: @message}
     end
 
     def find_monsters

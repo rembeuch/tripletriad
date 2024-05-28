@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_14_193534) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_28_150042) do
   create_table "cards", force: :cascade do |t|
     t.string "up"
     t.string "down"
@@ -27,6 +27,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_14_193534) do
     t.string "name"
     t.string "image"
     t.integer "copy", default: 0
+    t.boolean "max", default: false
     t.index ["player_id"], name: "index_cards_on_player_id"
   end
 
@@ -126,6 +127,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_14_193534) do
     t.boolean "b_zone", default: false
     t.boolean "s_zone", default: false
     t.string "s_monsters", default: "[]"
+    t.string "power_condition"
+    t.string "monster_condition"
+    t.boolean "bonus", default: false
     t.index ["authentication_token"], name: "index_players_on_authentication_token", unique: true
     t.index ["email"], name: "index_players_on_email", unique: true
     t.index ["id"], name: "index_players_on_id"
