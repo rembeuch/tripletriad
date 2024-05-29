@@ -816,7 +816,7 @@ class Api::V1::PlayerCardsController < ApplicationController
             end
             if @player.computer_ability.last == "7" 
                 @rand = rand(2)
-                if @rand = 0
+                if @rand == 0
                     @card = @cards.select{|card| card.position != '9' }.sample
                 else
                     @card = @cards.select{|card| card.computer == true && card.position == '9' }.sample
@@ -833,7 +833,7 @@ class Api::V1::PlayerCardsController < ApplicationController
             end
             if @player.computer_ability.last == "8" 
                 @rand = rand(2)
-                if @rand = 0
+                if @rand == 0
                     @card = @cards.select{|card| card.position != '9' }.sample
                 else
                     @card = @cards.select{|card| card.computer == true && card.position == '9' }.sample
@@ -845,7 +845,7 @@ class Api::V1::PlayerCardsController < ApplicationController
             end
             if @player.computer_ability.last == "9" 
                 @rand = rand(2)
-                if @rand = 0
+                if @rand == 0
                     @card = @cards.select{|card| card.position != '9' }.sample
                 else
                     @card = @cards.select{|card| card.computer == true && card.position == '9' }.sample
@@ -864,7 +864,7 @@ class Api::V1::PlayerCardsController < ApplicationController
             end
             if @player.computer_ability.last == "0" 
                 @rand = rand(2)
-                if @rand = 0
+                if @rand == 0
                     @card = @cards.select{|card| card.position != '9' }.sample
                 else
                     @card = @cards.select{|card| card.computer == true && card.position == '9' }.sample
@@ -881,7 +881,7 @@ class Api::V1::PlayerCardsController < ApplicationController
                     end
                 end
                 @rand = rand(2)
-                if @rand = 0
+                if @rand == 0
                     @card2 = @cards.select{|card| card.position != '9' }.sample
                 else
                     @card2 = @cards.select{|card| card.computer == true && card.position == '9' }.sample
