@@ -25,7 +25,6 @@ class Api::V1::PlayerCardsController < ApplicationController
     def update_computer_position
         find_player
         @game = @player.game
-        sleep 1
         return if @player_cards.where(position: "9").count == 0
         if @game.turn == true
             render json: {message: "reload"}
@@ -2110,7 +2109,6 @@ class Api::V1::PlayerCardsController < ApplicationController
     end
 
     def player_combo
-        sleep 1
         find_player
         card = @player_cards.find(params[:card_id].to_i)
         @message = ""
@@ -2353,7 +2351,6 @@ class Api::V1::PlayerCardsController < ApplicationController
     end
 
     def computer_combo
-        sleep 1
         find_player
         card = @player_cards.find(params[:card_id].to_i)
         @message = ""
