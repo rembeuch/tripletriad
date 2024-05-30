@@ -7,6 +7,7 @@ class Player < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :lockable    
     validates :wallet_address, uniqueness: true
+    validates :email, presence: true , uniqueness: true
     validates :name, presence: true , length: { maximum: 20 }, uniqueness: true
     has_one :game
     has_one :pvp

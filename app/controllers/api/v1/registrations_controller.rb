@@ -1,6 +1,7 @@
 class Api::V1::RegistrationsController < ApplicationController
   
     def create
+        @message = nil
         @player = Player.new(player_params)
         @player.wallet_address = "--" + @player.name
         @player.zones.push("A1")
@@ -37,7 +38,13 @@ class Api::V1::RegistrationsController < ApplicationController
           end
           render json: { player: @player, token: @player.authentication_token }, status: :created
         else
-          render json: @player.errors, status: :unprocessable_entity
+          if Player.find_by(email: @player.email) != nil
+            @message = "Email already use"
+          end
+          if Player.find_by(name: @player.name) != nil
+            @message = "Name already use"
+          end
+            render json: {message: @message}
         end
       end
     
