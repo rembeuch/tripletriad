@@ -68,6 +68,8 @@ Rails.application.routes.draw do
       post :rank_cards, to: 'cards#rank_cards'
       get :find_monsters, to: 'cards#find_monsters'
 
+      get :find_pnj, to: 'pnjs#find_pnj'
+
 
 
       resources :games

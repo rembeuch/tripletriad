@@ -43,6 +43,8 @@ class Api::V1::CardsController < ApplicationController
             @card.update(modified_attributes[params[:stat].to_i] => (@card.send(modified_attributes[params[:stat].to_i]).to_i + 1).to_s)
             if @card.up_points == ( 30/ @card.rank.to_i ) && @card.right_points == ( 30/ @card.rank.to_i ) && @card.down_points == ( 30/ @card.rank.to_i ) && @card.left_points == ( 30/ @card.rank.to_i )
               Card.create(up: @card.up, down: @card.down, right: @card.right, left: @card.left, player: @player, name: @card.name + 'max', rank: @card.rank, up_points: 0, right_points: 0, down_points: 0, left_points: 0, copy: 1, max: true )
+              find_pnj
+              @pnj.update(awake: @pnj.awake + 1)
             end
         end
       else 
@@ -79,7 +81,9 @@ class Api::V1::CardsController < ApplicationController
             else
               Card.create(up: @card.up, down: @card.down, right: @card.right, left: @card.left, player: @player, name: @card.name + 'max', rank: @card.rank, up_points: 0, right_points: 0, down_points: 0, left_points: 0, copy: 1, max: true )
             end
-          end  
+          end
+        find_pnj
+        @pnj.update(awake: @pnj.awake + 1)
       else 
         @message = "Not enough energy!"
       end
@@ -146,5 +150,9 @@ class Api::V1::CardsController < ApplicationController
 
     def find_player
       @player = Player.find(params[:player_id])
+    end
+
+    def find_pnj
+      @pnj = @player.pnjs.where(zone: nil).first
     end
 end

@@ -14,6 +14,7 @@ class Player < ApplicationRecord
     has_many :player_cards
     has_many :cards
     has_many :elites
+    has_many :pnjs
     serialize :decks, JSON
     before_validation :initialize_decks
     serialize :zones, JSON

@@ -2,12 +2,16 @@ class Api::V1::GamesController < ApplicationController
     def create
       find_player
       return if @player.game != nil
-        @game = Game.new
+      @game = Game.new
         @game.player = @player
         @game.rounds = rand(1..5)
         if @game.save && @player.in_game == false && (@player.decks.size + @player.elites.where(in_deck: true).size) == 5
           @player.update(s_zone: false, s_monsters: [])
           @player.update(in_game: true)
+          if @player.zone_position == "A1"
+            find_pnj
+            @pnj.update(try: @pnj.try + 1)
+          end
           if @player.zone_position == "A1" && @player.power_condition == @player.ability && @player.decks.include?(@player.monster_condition)
             @player.update(bonus: true)
           end
@@ -23,6 +27,8 @@ class Api::V1::GamesController < ApplicationController
               @monsters.push(@monster)
               PlayerCard.create(up: @monster.up, down: @monster.down, right: @monster.right, left: @monster.left, position: "9", computer: true, player: @player, name: @monster.name )
               @game.update(rounds: @monster.rank * 10, boss: true)
+              find_pnj
+              @pnj.update(boss: @pnj.boss + 1)
               @player.update(b_zone: false)
             4.times do
               @monsters.push(@monster)
@@ -61,6 +67,8 @@ class Api::V1::GamesController < ApplicationController
         @game = @player.game
         if @game.rounds <= @game.computer_points
         @player.update(energy: (@player.energy + (@game.player_points * 10)))
+        find_pnj
+        @pnj.update(defeat: @pnj.defeat + 1)
         @game.destroy
         @player.player_cards.where(pvp: false).destroy_all
         if @player.monsters.size >= 5
@@ -99,6 +107,8 @@ class Api::V1::GamesController < ApplicationController
           if @player.bonus
             @player.update(energy: (@player.energy + 20))
           end
+          find_pnj
+          @pnj.update(victory: @pnj.victory + 1)
           @game.destroy
           @player.player_cards.where(pvp: false).destroy_all
           @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0)
@@ -211,6 +221,8 @@ class Api::V1::GamesController < ApplicationController
           @player.update(monster_condition: @monster_condition, power_condition: @power_condition, bonus: false)
         end
         @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0, zone_position: "A1", s_zone: false, b_zone: false, s_monsters: [])
+        find_pnj
+        @pnj.update(defeat: @pnj.defeat + 1)
       end
 
       def get_score
@@ -250,6 +262,8 @@ class Api::V1::GamesController < ApplicationController
               @player.elite_points += 1
               @player.s_zone = true
               @player.save
+              find_pnj
+              @pnj.update(perfect: @pnj.perfect + 1)
               @message =  "Perfect! +1 Elite Point / +50 energy"
             end
           elsif @player.player_cards.select {|card| card.pvp == false && card.position != "9" && card.computer == true}.count - @player.player_cards.select {|card| card.pvp == false && card.position != "9" && card.computer == false}.count >= 2
@@ -264,5 +278,9 @@ class Api::V1::GamesController < ApplicationController
 
     def find_player
       @player = Player.find(params[:id])
+    end
+
+    def find_pnj
+      @pnj = @player.pnjs.where(zone: nil).first
     end
 end
