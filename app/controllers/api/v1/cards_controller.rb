@@ -45,6 +45,12 @@ class Api::V1::CardsController < ApplicationController
               Card.create(up: @card.up, down: @card.down, right: @card.right, left: @card.left, player: @player, name: @card.name + 'max', rank: @card.rank, up_points: 0, right_points: 0, down_points: 0, left_points: 0, copy: 1, max: true )
               find_pnj
               @pnj.update(awake: @pnj.awake + 1)
+              Monster.find_by(name: @card.name).zones.each do |zone|
+                @zone_pnj = Pnj.find_by(zone: zone)
+                if @zone_pnj
+                  @zone_pnj.update(awake: @zone_pnj + 1)
+                end
+              end
             end
         end
       else 
@@ -84,6 +90,12 @@ class Api::V1::CardsController < ApplicationController
           end
         find_pnj
         @pnj.update(awake: @pnj.awake + 1)
+        Monster.find_by(name: @card.name).zones.each do |zone|
+          @zone_pnj = Pnj.find_by(zone: zone)
+          if @zone_pnj
+            @zone_pnj.update(awake: @zone_pnj + 1)
+          end
+        end
       else 
         @message = "Not enough energy!"
       end

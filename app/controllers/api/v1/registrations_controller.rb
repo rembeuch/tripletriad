@@ -37,6 +37,7 @@ class Api::V1::RegistrationsController < ApplicationController
             Card.create(up: monster.up, down: monster.down, right: monster.right, left: monster.left, player: @player, name: monster.name, rank: monster.rank, up_points: 0, right_points: 0, down_points: 0, left_points: 0 )
           end
           Pnj.create(player: @player)
+          Pnj.create(player: @player, zone: 'A1')
           render json: { player: @player, token: @player.authentication_token }, status: :created
         else
           if Player.find_by(email: @player.email) != nil

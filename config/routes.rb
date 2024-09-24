@@ -69,8 +69,7 @@ Rails.application.routes.draw do
       get :find_monsters, to: 'cards#find_monsters'
 
       get :find_pnj, to: 'pnjs#find_pnj'
-
-
+      get :find_zone_pnj, to: 'pnjs#find_zone_pnj'
 
       resources :games
       resources :pvps
