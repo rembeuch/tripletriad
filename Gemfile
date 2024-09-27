@@ -57,3 +57,4 @@ end
 
 gem "devise", "~> 4.9"
 gem 'simple_token_authentication', '~> 1.18', '>= 1.18.1'
+gem 'bigdecimal', '~> 3.1.4'
