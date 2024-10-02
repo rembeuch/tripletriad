@@ -2110,6 +2110,7 @@ class Api::V1::PlayerCardsController < ApplicationController
 
     def player_combo
         find_player
+        sleep 0.5
         card = @player_cards.find(params[:card_id].to_i)
         @message = ""
         @game = @player.game
@@ -2352,6 +2353,7 @@ class Api::V1::PlayerCardsController < ApplicationController
 
     def computer_combo
         find_player
+        sleep 0.5
         card = @player_cards.find(params[:card_id].to_i)
         @message = ""
         if card.position == "0"

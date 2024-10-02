@@ -131,15 +131,23 @@ class Api::V1::PlayersController < ApplicationController
   end
 
   def find_player
-    if Player.where(authentication_token: params[:token]).count == 1
-      @player = Player.find_by(authentication_token: params[:token])
-      if @player.ability.include?("espionage") && (@player.ability[9]).to_i >= 5 || @player.ability == 'espionage10'
-        render json: @player.as_json(except: [:wallet_address, :email, :authentication_token])
+    @player = Player.find_by(authentication_token: params[:token])
+  
+    if @player
+      if @player.confirmed_at.nil?
+        render json: { message: "Email not confirmed", email: @player.email }, status: :unprocessable_entity
       else
-        render json: @player.as_json(except: [:wallet_address, :email, :authentication_token, :computer_ability])
+        if @player.ability.include?("espionage") && (@player.ability[9]).to_i >= 5 || @player.ability == 'espionage10'
+          render json: @player.as_json(except: [:wallet_address, :email, :authentication_token])
+        else
+          render json: @player.as_json(except: [:wallet_address, :email, :authentication_token, :computer_ability])
+        end
       end
+    else
+      render json: { message: "Player not found." }, status: :not_found
     end
   end
+  
 
   def connect_wallet
     @message = ""

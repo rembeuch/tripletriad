@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   mount ActionCable.server => "/cable"
-  devise_for :players
+  devise_for :players, controllers: { confirmations: 'api/v1/confirmations', passwords: 'api/v1/passwords' }
   namespace :api do
     namespace :v1 do
       resources :registrations, only: [:create]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_30_153110) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_30_091242) do
   create_table "cards", force: :cascade do |t|
     t.string "up"
     t.string "down"
@@ -130,7 +130,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_30_153110) do
     t.string "power_condition"
     t.string "monster_condition"
     t.boolean "bonus", default: false
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
     t.index ["authentication_token"], name: "index_players_on_authentication_token", unique: true
+    t.index ["confirmation_token"], name: "index_players_on_confirmation_token", unique: true
     t.index ["email"], name: "index_players_on_email", unique: true
     t.index ["id"], name: "index_players_on_id"
     t.index ["reset_password_token"], name: "index_players_on_reset_password_token", unique: true
