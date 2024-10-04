@@ -147,7 +147,6 @@ class Api::V1::PlayersController < ApplicationController
       render json: { message: "Player not found." }, status: :not_found
     end
   end
-  
 
   def connect_wallet
     @message = ""

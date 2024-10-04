@@ -70,6 +70,7 @@ Rails.application.routes.draw do
 
       get :find_pnj, to: 'pnjs#find_pnj'
       get :find_zone_pnj, to: 'pnjs#find_zone_pnj'
+      get :display_menu_dialogue, to: 'pnjs#display_menu_dialogue'
 
       resources :games
       resources :pvps

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_30_091242) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_04_131723) do
   create_table "cards", force: :cascade do |t|
     t.string "up"
     t.string "down"
@@ -152,6 +152,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_30_091242) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "player_id", null: false
+    t.string "dialogue", default: "[]"
     t.index ["player_id"], name: "index_pnjs_on_player_id"
   end
 

@@ -227,11 +227,11 @@ class Api::V1::GamesController < ApplicationController
           @power_condition = ["fight", 'diplomacy', 'espionage', 'leadership'].sample + rand(1..@elite.send([:up, :right, :down, :left].max_by { |column| @elite.send(column) }).to_i).to_s
           @player.update(monster_condition: @monster_condition, power_condition: @power_condition, bonus: false)
         end
-        @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0, zone_position: "A1", s_zone: false, b_zone: false, s_monsters: [])
         find_pnj
         find_zone_pnj
         @pnj.update(defeat: @pnj.defeat + 1)
         @zone_pnj.update(defeat: @zone_pnj.defeat + 1)
+        @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0, zone_position: "A1", s_zone: false, b_zone: false, s_monsters: [])
       end
 
       def get_score
