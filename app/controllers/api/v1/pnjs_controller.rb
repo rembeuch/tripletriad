@@ -16,8 +16,13 @@ class Api::V1::PnjsController < ApplicationController
         render json: @pnj.dialogue
     end
 
-    def case_dialogues(pnj)
-        DialoguesManager.calcul_dialogues(pnj, @player)
+    def display_pnj_dialogue
+        @zone_pnj = @player.pnjs.where(zone: @player.zone_position).first
+        render json: @zone_pnj.dialogue
+    end
+
+    def self.case_dialogues(pnj, event)
+        DialoguesManager.calcul_dialogues(pnj, event, @player)
     end
 
     private

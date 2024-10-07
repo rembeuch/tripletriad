@@ -42,7 +42,7 @@ class Api::V1::CardsController < ApplicationController
             modified_attributes = attributes.map { |attribute| attribute.to_s.chomp('_points').to_sym }
             @card.update(modified_attributes[params[:stat].to_i] => (@card.send(modified_attributes[params[:stat].to_i]).to_i + 1).to_s)
             if @card.up_points == ( 30/ @card.rank.to_i ) && @card.right_points == ( 30/ @card.rank.to_i ) && @card.down_points == ( 30/ @card.rank.to_i ) && @card.left_points == ( 30/ @card.rank.to_i )
-              Card.create(up: @card.up, down: @card.down, right: @card.right, left: @card.left, player: @player, name: @card.name + 'max', rank: @card.rank, up_points: 0, right_points: 0, down_points: 0, left_points: 0, copy: 1, max: true )
+              Card.create(up: @card.up, down: @card.down, right: @card.right, left: @card.left, player: @player, name: @card.name + 'max', rank: @card.rank, up_points: 0, right_points: 0, down_points: 0, left_points: 0, copy: 1, max: true, image: @card.image )
               find_pnj
               @pnj.update(awake: @pnj.awake + 1)
               Monster.find_by(name: @card.name).zones.each do |zone|
@@ -85,7 +85,7 @@ class Api::V1::CardsController < ApplicationController
             if @awake_card
               @awake_card.update(copy: @awake_card.copy + 1)
             else
-              Card.create(up: @card.up, down: @card.down, right: @card.right, left: @card.left, player: @player, name: @card.name + 'max', rank: @card.rank, up_points: 0, right_points: 0, down_points: 0, left_points: 0, copy: 1, max: true )
+              Card.create(up: @card.up, down: @card.down, right: @card.right, left: @card.left, player: @player, name: @card.name + 'max', rank: @card.rank, up_points: 0, right_points: 0, down_points: 0, left_points: 0, copy: 1, max: true, image: @card.image )
             end
           end
         find_pnj

@@ -13,7 +13,10 @@ Monster.destroy_all
     down: "1",
     left: "1",
     right: "1",
-    rank: "1",name: "#1")
+    rank: "1",
+    name: "Tanuki",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1728213145/Tanuki_nouved.webp"
+)
 
 @monster_1.zones.push("A1")
 @monster_1.save
@@ -23,7 +26,10 @@ Monster.destroy_all
     down: "2",
     left: "1",
     right: "1",
-    rank: "1",name: "#2")
+    rank: "1",
+    name: "Kitsune",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1728213322/Kitsune_qobmmq.webp"
+)
 
 @monster_2.zones.push("A1")
 @monster_2.save

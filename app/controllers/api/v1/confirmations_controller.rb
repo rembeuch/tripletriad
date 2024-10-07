@@ -44,10 +44,10 @@ class Api::V1::ConfirmationsController < Devise::ConfirmationsController
           @power = [:fight, :diplomacy, :espionage, :leadership].max_by { |column| @elite.send(column) }.to_s + "1"
           @player.update(ability: @power)
           Monster.first(4).each do |monster|
-            Card.create(up: monster.up, down: monster.down, right: monster.right, left: monster.left, player: @player, name: monster.name, rank: monster.rank, up_points: 0, right_points: 0, down_points: 0, left_points: 0 )
+            Card.create(up: monster.up, down: monster.down, right: monster.right, left: monster.left, player: @player, name: monster.name, rank: monster.rank, up_points: 0, right_points: 0, down_points: 0, left_points: 0, image: monster.image )
           end
-          Pnj.create(player: @player, dialogue: DialoguesManager::CASE_DIALOGUES[:A0][:case_1])
-          Pnj.create(player: @player, zone: 'A1', dialogue: DialoguesManager::CASE_DIALOGUES[:A1][:case_1])
+          Pnj.create(player: @player, dialogue: DialoguesManager::CASE_DIALOGUES[:A0][:welcome], zone_image: ZoneImagesManager::CASE_IMAGES[:A0], name: "Kosmos")
+          Pnj.create(player: @player, zone: 'A1', dialogue: DialoguesManager::CASE_DIALOGUES[:A1][:welcome], zone_image: ZoneImagesManager::CASE_IMAGES[:A1], name: "Aries")
         end
       end
     end

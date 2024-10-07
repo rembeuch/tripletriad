@@ -69,6 +69,10 @@ class Api::V1::PlayersController < ApplicationController
     @message = nil
     @player = Player.find(params[:id])
     @card = Card.find(params[:card_id])
+    @pnj = @player.pnjs.where(zone: nil).first
+    if @pnj.try == 0
+      @pnj.update(dialogue: DialoguesManager::CASE_DIALOGUES[:A0][:demo])
+    end
     if @player.decks.include?(@card.name)
       @message = "Already in your team!"
     elsif @player.in_game || @player.in_pvp == 'true' || @player.in_pvp == 'wait'

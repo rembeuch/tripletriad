@@ -9,10 +9,10 @@ class Api::V1::GamesController < ApplicationController
           @player.update(s_zone: false, s_monsters: [])
           @player.update(in_game: true)
           find_zone_pnj
-          @zone_pnj.update(try: @zone_pnj.try + 1)
+          @zone_pnj.update(try: @zone_pnj.try + 1, dialogue: DialoguesManager::CASE_DIALOGUES[@zone_pnj.zone.to_sym][:in_fight])
           if @player.zone_position == "A1"
             find_pnj
-            @pnj.update(try: @pnj.try + 1)
+            @pnj.update(try: @pnj.try + 1, dialogue: DialoguesManager::CASE_DIALOGUES[:A0][:in_fight])
           end
           if @player.zone_position == "A1" && @player.power_condition == @player.ability && @player.decks.include?(@player.monster_condition)
             @player.update(bonus: true)
@@ -30,8 +30,8 @@ class Api::V1::GamesController < ApplicationController
               PlayerCard.create(up: @monster.up, down: @monster.down, right: @monster.right, left: @monster.left, position: "9", computer: true, player: @player, name: @monster.name )
               @game.update(rounds: @monster.rank * 10, boss: true)
               find_pnj
-              @pnj.update(boss: @pnj.boss + 1)
-              @zone_pnj.update(boss: @zone_pnj.boss + 1)
+              @pnj.update(boss: @pnj.boss + 1, dialogue: Api::V1::PnjsController::case_dialogues(@pnj, "boss"))
+              @zone_pnj.update(boss: @zone_pnj.boss + 1, dialogue: Api::V1::PnjsController::case_dialogues(@zone_pnj, "boss"))
               @player.update(b_zone: false)
             4.times do
               @monsters.push(@monster)
@@ -72,8 +72,8 @@ class Api::V1::GamesController < ApplicationController
         @game = @player.game
         if @game.rounds <= @game.computer_points
         @player.update(energy: (@player.energy + (@game.player_points * 10)))
-        @pnj.update(defeat: @pnj.defeat + 1)
-        @zone_pnj.update(defeat: @zone_pnj.defeat + 1)
+        @pnj.update(defeat: @pnj.defeat + 1, dialogue: Api::V1::PnjsController::case_dialogues(@pnj, "defeat"))
+        @zone_pnj.update(defeat: @zone_pnj.defeat + 1, dialogue: Api::V1::PnjsController::case_dialogues(@zone_pnj, "defeat"))
         @game.destroy
         @player.player_cards.where(pvp: false).destroy_all
         if @player.monsters.size >= 5
@@ -92,8 +92,8 @@ class Api::V1::GamesController < ApplicationController
           number = current_position[1..].to_i
           number += 1
           find_pnj
-          @pnj.update(victory: @pnj.victory + 1)
-          @zone_pnj.update(victory: @zone_pnj.victory + 1)
+          @pnj.update(victory: @pnj.victory + 1, dialogue: Api::V1::PnjsController::case_dialogues(@pnj, "victory"))
+          @zone_pnj.update(victory: @zone_pnj.victory + 1, dialogue: Api::V1::PnjsController::case_dialogues(@zone_pnj, "victory"))
           if @player.s_zone 
             @s_monsters = Monster.select{|m| m.zones.include?(@player.zone_position) && m.rules == "[]"}.sample(4).map{|m|  m.name}
             if @s_monsters == []
@@ -110,7 +110,7 @@ class Api::V1::GamesController < ApplicationController
             @player.update(zones: @player.zones.sort_by { |element| element[-1].to_i })
             @player.elite_points += 1
             @player.save
-            Pnj.create(player: @player, zone: @player.zone_position)
+            Pnj.create(player: @player, zone: @player.zone_position, dialogue: DialoguesManager::CASE_DIALOGUES[@player.zone_position.to_sym][:welcome], zone_image: ZoneImagesManager::CASE_IMAGES[@player.zone_position.to_sym])
           end
           @player.update(energy: (@player.energy + (@game.player_points * 10)))
           if @player.bonus
@@ -229,8 +229,8 @@ class Api::V1::GamesController < ApplicationController
         end
         find_pnj
         find_zone_pnj
-        @pnj.update(defeat: @pnj.defeat + 1)
-        @zone_pnj.update(defeat: @zone_pnj.defeat + 1)
+        @pnj.update(defeat: @pnj.defeat + 1, dialogue: Api::V1::PnjsController::case_dialogues(@pnj, "defeat"))
+        @zone_pnj.update(defeat: @zone_pnj.defeat + 1, dialogue: Api::V1::PnjsController::case_dialogues(@zone_pnj, "defeat"))
         @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0, zone_position: "A1", s_zone: false, b_zone: false, s_monsters: [])
       end
 
