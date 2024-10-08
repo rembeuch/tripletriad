@@ -179,7 +179,7 @@ class Api::V1::GamesController < ApplicationController
             @player.monsters.push(@monster.name)
             @player.monsters.sort_by { |monster| monster.delete("#").to_i }
             @player.elite_points += 1
-            @reward_message = "New Monster: #{@monster.name} + 1 Elite Point!"
+            @reward_message = "New Monster: #{@monster.name} + 1 Diamond 💎!"
             @player.save
           end
           @card = @player.cards.find_by(name: @monster.name)
@@ -190,14 +190,14 @@ class Api::V1::GamesController < ApplicationController
           end
         end
         if !@player.zones.include?("A#{number}")
-          @zone_message = "A#{number} New Zone + 1 Elite Point!"
+          @zone_message = "A#{number} New Zone + 1 Diamond 💎!"
         else
           @zone_message = "A#{number}"
         end
         if @player.b_zone
           @b_zone_message = ""
           if !@player.zones.include?("B#{number}")
-              @b_zone_message = "B#{number} New Zone + 1 Elite Point!"
+              @b_zone_message = "B#{number} New Zone + 1 Diamond 💎!"
             else
               @b_zone_message = "B#{number}"
             end
@@ -275,7 +275,7 @@ class Api::V1::GamesController < ApplicationController
               find_zone_pnj
               @pnj.update(perfect: @pnj.perfect + 1)
               @zone_pnj.update(perfect: @zone_pnj.perfect + 1)
-              @message =  "Perfect! +1 Elite Point / +50 energy"
+              @message =  "Perfect! +1 Diamond 💎 / +50 Cardinum ⚡"
             end
           elsif @player.player_cards.select {|card| card.pvp == false && card.position != "9" && card.computer == true}.count - @player.player_cards.select {|card| card.pvp == false && card.position != "9" && card.computer == false}.count >= 2
            @message =  "You Lose!"

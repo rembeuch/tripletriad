@@ -67,11 +67,16 @@ Rails.application.routes.draw do
       post :buy_market, to: 'cards#buy_market'
       post :rank_cards, to: 'cards#rank_cards'
       get :find_monsters, to: 'cards#find_monsters'
+      get :find_zone_monsters, to: 'cards#find_zone_monsters'
+
 
       get :find_pnj, to: 'pnjs#find_pnj'
       get :find_zone_pnj, to: 'pnjs#find_zone_pnj'
       get :display_menu_dialogue, to: 'pnjs#display_menu_dialogue'
       get :display_pnj_dialogue, to: 'pnjs#display_pnj_dialogue'
+      get :find_all_pnjs, to: 'pnjs#find_all_pnjs'
+
+      
 
       resources :games
       resources :pvps

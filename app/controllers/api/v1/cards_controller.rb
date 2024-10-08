@@ -105,7 +105,6 @@ class Api::V1::CardsController < ApplicationController
     def find_monsters
       find_player
       @monsters = @player.monsters.map{|m| Monster.find_by(name: m)}.select{|m| m.zones.include?(@player.zone_position)}
-      @zone_monsters = Monster.select{|m| m.zones.include?(@player.zone_position)}
       if @player.s_zone
         @s_monsters = @player.s_monsters.map{|m| Monster.find_by(name: m)}
         @copy = []
@@ -117,7 +116,14 @@ class Api::V1::CardsController < ApplicationController
           end
         end
       end
-      render json: {monsters: @monsters.size, zone_monsters: @zone_monsters.size, s_monsters: @s_monsters, copy: @copy}
+      render json: {monsters: @monsters.size, s_monsters: @s_monsters, copy: @copy}
+    end
+
+    def find_zone_monsters
+      find_player
+      @monsters = @player.monsters.map{|m| Monster.find_by(name: m)}.select{|m| m.zones.include?(params[:position])}.size
+      @monsters == 0 ? nil : @monsters
+      render json: {monsters: @monsters}
     end
 
     def buy_market
@@ -127,7 +133,7 @@ class Api::V1::CardsController < ApplicationController
         @player.monsters.push(@monster.name)
         @player.monsters.sort_by { |monster| monster.delete("#").to_i }
         @player.elite_points += 1
-        @message = "New Monster: #{@monster.name} + 1 Elite Point!"
+        @message = "New Monster: #{@monster.name} + 1 Diamond 💎!"
         @player.save
         @player.update(energy: @player.energy - ((@monster.rank * 100) + 200))
         Card.create(up: @monster.up, down: @monster.down, right: @monster.right, left: @monster.left, player: @player, name: @monster.name, rank: @monster.rank, image: @monster.image, up_points: 0, right_points: 0, down_points: 0, left_points: 0 )

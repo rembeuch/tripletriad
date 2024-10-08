@@ -11,6 +11,14 @@ class Api::V1::PnjsController < ApplicationController
         render json: @zone_pnj
     end
 
+    def find_all_pnjs
+        filtered_pnjs = @player.pnjs.map do |pnj|
+          pnj.attributes.reject { |key, value| value == 0 }
+        end
+        render json: filtered_pnjs
+      end
+      
+
     def display_menu_dialogue
         @pnj = @player.pnjs.where(zone: nil).first 
         render json: @pnj.dialogue

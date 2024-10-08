@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pnj: one
+  name: MyString
+  condition: MyString
+  completed: false
+  reveal: false
+
+two:
+  pnj: two
+  name: MyString
+  condition: MyString
+  completed: false
+  reveal: false

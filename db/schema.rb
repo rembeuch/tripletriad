@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_06_062821) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_07_072603) do
   create_table "cards", force: :cascade do |t|
     t.string "up"
     t.string "down"
@@ -141,6 +141,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_06_062821) do
     t.index ["reset_password_token"], name: "index_players_on_reset_password_token", unique: true
   end
 
+  create_table "pnj_objectives", force: :cascade do |t|
+    t.integer "pnj_id", null: false
+    t.string "name"
+    t.string "condition"
+    t.boolean "completed", default: false
+    t.boolean "reveal", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pnj_id"], name: "index_pnj_objectives_on_pnj_id"
+  end
+
   create_table "pnjs", force: :cascade do |t|
     t.integer "try", default: 0
     t.integer "victory", default: 0
@@ -179,6 +190,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_06_062821) do
   add_foreign_key "elites", "players"
   add_foreign_key "games", "players"
   add_foreign_key "player_cards", "players"
+  add_foreign_key "pnj_objectives", "pnjs"
   add_foreign_key "pnjs", "players"
   add_foreign_key "pvps", "players", column: "player1_id"
   add_foreign_key "pvps", "players", column: "player2_id"

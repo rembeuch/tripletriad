@@ -39,7 +39,10 @@ Monster.destroy_all
     down: "1",
     left: "2",
     right: "2",
-    rank: "1",name: "#3")
+    rank: "1",
+    name: "Kappa",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1728299085/Kappa_iqxqwy.webp",
+)
 
 @monster_3.zones.push("A1")
 @monster_3.zones.push("A2")
@@ -50,7 +53,10 @@ Monster.destroy_all
     down: "2",
     left: "2",
     right: "2",
-    rank: "1",name: "#4")
+    rank: "1",
+    name: "Yurei",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1728299720/Yurei_ere6n1.webp",
+)
 
 @monster_4.zones.push("A1")
 @monster_4.zones.push("A2")
@@ -61,7 +67,10 @@ Monster.destroy_all
     down: "1",
     left: "1",
     right: "1",
-    rank: "1",name: "#5")
+    rank: "1",
+    name: "Jorogumo",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1728383199/Jorogumo_lw5lra.webp",
+)
 
 @monster_5.zones.push("A1")
 @monster_5.zones.push("A2")
@@ -72,7 +81,10 @@ Monster.destroy_all
     down: "3",
     left: "1",
     right: "1",
-    rank: "1",name: "#6")
+    rank: "1",
+    name: "Oni",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1728383310/Oni_etpio3.webp"
+)
 
 @monster_6.zones.push("A1")
 @monster_6.zones.push("A2")
@@ -83,7 +95,10 @@ Monster.destroy_all
     down: "1",
     left: "3",
     right: "1",
-    rank: "1",name: "#7")
+    rank: "1",
+    name: "Rokurokubi",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1728383684/Rokurokubi_f2pcyp.webp",
+)
 
 @monster_7.zones.push("A1")
 @monster_7.zones.push("A2")

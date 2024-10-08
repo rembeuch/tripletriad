@@ -1,14 +1,13 @@
 class PnjObjectivesManager
-    def create_objectives(pnj)
+    def self.create_objectives(pnj)
         pnj.zone.nil? ? zone = 'A0' : zone = pnj.zone
 
-        PNJ_OBJECTIVES[zone].each do |objective_data|
+        PNJ_OBJECTIVES[zone.to_sym].each do |objective_data|
           PnjObjective.create(
-            pnj: @pnj,
+            pnj: pnj,
             name: objective_data[:name],
             condition: objective_data[:condition],
-            completed: objective_data[:completed],
-            reveal: objective_data[:reveal]
+            reveal: objective_data[:reveal],
           )
         end
     end
@@ -16,14 +15,24 @@ class PnjObjectivesManager
     PNJ_OBJECTIVES = {
         #Kosmos
         A0: [
-
+            { name: "try", condition: "100", reveal: false}, 
+            { name: "victory", condition: "50", reveal: false },
+            { name: "perfect", condition: "30", reveal: false },
+            { name: "boss", condition: "30", reveal: false },
+            { name: "monsters", condition: "129", reveal: false },
+            { name: "awake", condition: "27", reveal: false },
         ],
         #Aries
         A1: 
             [
-                { name: "Try", condition: -> { pnj.try >= 10}, completed: false}, 
-                { name: "Victory", condition: -> { pnj.victory >= 3 } },
-                { name: "Perfect", condition: -> { pnj.perfect >= 1 } },
+                { name: "try", condition: "10", reveal: true}, 
+                { name: "victory", condition: "5", reveal: true },
+                { name: "perfect", condition: "3", reveal: true },
+                { name: "boss", condition: "3", reveal: true },
+                { name: "monsters", condition: "7", reveal: true },
+                { name: "awake", condition: "1", reveal: false },
+                { name: "pnj", condition: "B1", reveal: false },
+                { name: "pnj2", condition: "B1", reveal: false },
                 # Ajouter d'autres objectifs ici...
             ]
     }
