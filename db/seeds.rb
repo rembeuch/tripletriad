@@ -15,7 +15,7 @@ Monster.destroy_all
     right: "1",
     rank: "1",
     name: "Tanuki",
-    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1728213145/Tanuki_nouved.webp"
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1728460641/Tanuki_vu8skg.jpg"
 )
 
 @monster_1.zones.push("A1")
@@ -28,7 +28,7 @@ Monster.destroy_all
     right: "1",
     rank: "1",
     name: "Kitsune",
-    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1728213322/Kitsune_qobmmq.webp"
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1728460226/Kitsune_w3xhn0.jpg"
 )
 
 @monster_2.zones.push("A1")
@@ -109,7 +109,9 @@ Monster.destroy_all
     down: "1",
     left: "1",
     right: "3",
-    rank: "1",name: "#8")
+    rank: "1",
+    name: "Noppera-bō",
+)
 
 @monster_8.zones.push("A2")
 @monster_8.save
@@ -119,7 +121,9 @@ Monster.destroy_all
     down: "2",
     left: "3",
     right: "1",
-    rank: "1",name: "#9")
+    rank: "1",
+    name: "Tengu",
+)
 
 @monster_9.zones.push("A2")
 @monster_9.save

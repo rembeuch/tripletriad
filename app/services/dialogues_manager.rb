@@ -30,10 +30,10 @@ class DialoguesManager
                 "Go check your monster!"
             ],
             images: [
-                "https://res.cloudinary.com/dsiamykrd/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1728032580/Cosmos_jst1aj.webp",
-                "https://res.cloudinary.com/dsiamykrd/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1728032580/Cosmos_jst1aj.webp",
+                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728462370/Kosmos_b0kkjt.jpg",
+                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728462370/Kosmos_b0kkjt.jpg",
                 "https://res.cloudinary.com/dsiamykrd/image/upload/v1728113281/compass_b9qu84.webp",
-                "https://res.cloudinary.com/dsiamykrd/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1728032580/Cosmos_jst1aj.webp",
+                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728462370/Kosmos_b0kkjt.jpg",
             ]
           },
           demo: {
@@ -41,7 +41,7 @@ class DialoguesManager
                 "Bien tu as des monstres tu vas pouvoir y aller, regardes les règles des combats avant, c'est plus prudent!", 
             ],
             images: [
-                "https://res.cloudinary.com/dsiamykrd/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1728032580/Cosmos_jst1aj.webp",
+                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728462370/Kosmos_b0kkjt.jpg",
             ]
           },
           in_fight: {
@@ -49,7 +49,7 @@ class DialoguesManager
                 "Courage! si tu remportes la bataille, le Compass pourras sceller un de ces spirits", 
             ],
             images: [
-                "https://res.cloudinary.com/dsiamykrd/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1728032580/Cosmos_jst1aj.webp",
+                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728462370/Kosmos_b0kkjt.jpg",
             ]
           },
           boss: {
@@ -57,7 +57,7 @@ class DialoguesManager
                 "Certains Spirits on parfois accumulé plus d'énergie et sont plus difficile à sceller. Observe les bien et tu trouveras surement comment les vaincre!", 
             ],
             images: [
-                "https://res.cloudinary.com/dsiamykrd/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1728032580/Cosmos_jst1aj.webp",
+                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728462370/Kosmos_b0kkjt.jpg",
             ]
           },
           defeat: {
@@ -65,7 +65,7 @@ class DialoguesManager
                 "Ces spirits sont coriaces! Heureusement le compass te ramèneras toujours au sanctuaire en cas de danger", 
             ],
             images: [
-                "https://res.cloudinary.com/dsiamykrd/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1728032580/Cosmos_jst1aj.webp",
+                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728462370/Kosmos_b0kkjt.jpg",
             ]
           },
           victory: {
@@ -73,7 +73,7 @@ class DialoguesManager
                 "Bravo tu as réussi à capturer un Spirit", 
             ],
             images: [
-                "https://res.cloudinary.com/dsiamykrd/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1728032580/Cosmos_jst1aj.webp",
+                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728462370/Kosmos_b0kkjt.jpg",
             ]
           },
         },
@@ -86,9 +86,9 @@ class DialoguesManager
                 "Sois prudent.", 
             ],
             images: [
-                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728198070/b%C3%A9lier_jdidsq.webp",
-                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728198070/b%C3%A9lier_jdidsq.webp",
-                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728198070/b%C3%A9lier_jdidsq.webp",
+                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728461717/Aries_pevfjc.jpg",
+                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728461717/Aries_pevfjc.jpg",
+                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728461717/Aries_pevfjc.jpg",
             ]
           },
           in_fight: {
@@ -96,7 +96,7 @@ class DialoguesManager
                 "Affrontes ces Spirits pour en sceller un! Tu peux y arriver!", 
             ],
             images: [
-                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728198070/b%C3%A9lier_jdidsq.webp",
+                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728461717/Aries_pevfjc.jpg",
             ]
           },
           boss: {
@@ -104,7 +104,7 @@ class DialoguesManager
                 "t'es tombé sur un gros morceau on dirait!", 
             ],
             images: [
-                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728198070/b%C3%A9lier_jdidsq.webp",
+                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728461717/Aries_pevfjc.jpg",
             ]
           },
           defeat: {
@@ -112,7 +112,7 @@ class DialoguesManager
                 "Arf ils t'ont pas loupé! Te décourages pas!", 
             ],
             images: [
-                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728198070/b%C3%A9lier_jdidsq.webp",
+                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728461717/Aries_pevfjc.jpg",
             ]
           },
           victory: {
@@ -120,10 +120,57 @@ class DialoguesManager
                 "Un de moins! Bien joué!", 
             ],
             images: [
-                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728198070/b%C3%A9lier_jdidsq.webp",
+                "https://res.cloudinary.com/dsiamykrd/image/upload/v1728461717/Aries_pevfjc.jpg",
             ]
           },
         },
+        #Taurus
+        A2: {
+            welcome: {
+              dialogues: [
+                  "Salut, moi c'est Taurus! Le cousin d'Aries, t'as du le croiser.", 
+                  "Tu arrives à maitriser le Compass?",
+                  "Profites en pour sceller des monstres de plus en plus puissant!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1728465369/Taurus_oqxqc1.jpg",
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1728465369/Taurus_oqxqc1.jpg",
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1728465369/Taurus_oqxqc1.jpg",
+              ]
+            },
+            in_fight: {
+              dialogues: [
+                  "Ah ah ça cogne dur!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1728465369/Taurus_oqxqc1.jpg",
+              ]
+            },
+            boss: {
+              dialogues: [
+                  "t'es tombé sur un gros morceau on dirait!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1728465369/Taurus_oqxqc1.jpg",
+              ]
+            },
+            defeat: {
+              dialogues: [
+                  "Te revoila! va faloir muscler ton jeu!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1728465369/Taurus_oqxqc1.jpg",
+              ]
+            },
+            victory: {
+              dialogues: [
+                  "Oh tu en as scellé un!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1728465369/Taurus_oqxqc1.jpg",
+              ]
+            },
+          },
       }
   end
   

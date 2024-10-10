@@ -110,7 +110,10 @@ class Api::V1::GamesController < ApplicationController
             @player.update(zones: @player.zones.sort_by { |element| element[-1].to_i })
             @player.elite_points += 1
             @player.save
-            Pnj.create(player: @player, zone: @player.zone_position, dialogue: DialoguesManager::CASE_DIALOGUES[@player.zone_position.to_sym][:welcome], zone_image: ZoneImagesManager::CASE_IMAGES[@player.zone_position.to_sym])
+            @new_pnj = Pnj.new(player: @player, zone: @player.zone_position, dialogue: DialoguesManager::CASE_DIALOGUES[@player.zone_position.to_sym][:welcome], zone_image: ZoneImagesManager::CASE_IMAGES[@player.zone_position.to_sym])
+            if @new_pnj.save
+              PnjObjectivesManager.create_objectives(@new_pnj)
+            end
           end
           @player.update(energy: (@player.energy + (@game.player_points * 10)))
           if @player.bonus
