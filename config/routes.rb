@@ -72,9 +72,11 @@ Rails.application.routes.draw do
 
       get :find_pnj, to: 'pnjs#find_pnj'
       get :find_zone_pnj, to: 'pnjs#find_zone_pnj'
+      get :find_all_pnjs, to: 'pnjs#find_all_pnjs'
+      get :find_pnj_objectives, to: 'pnjs#find_pnj_objectives'
+      post :check_objective, to: 'pnjs#check_objective'
       get :display_menu_dialogue, to: 'pnjs#display_menu_dialogue'
       get :display_pnj_dialogue, to: 'pnjs#display_pnj_dialogue'
-      get :find_all_pnjs, to: 'pnjs#find_all_pnjs'
 
       
 

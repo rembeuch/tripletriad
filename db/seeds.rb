@@ -111,6 +111,7 @@ Monster.destroy_all
     right: "3",
     rank: "1",
     name: "Noppera-bō",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1728568427/Noppera-b%C5%8D_p5ori0.webp",
 )
 
 @monster_8.zones.push("A2")
@@ -123,6 +124,7 @@ Monster.destroy_all
     right: "1",
     rank: "1",
     name: "Tengu",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1728569164/Tengu_qnc8h7.webp",
 )
 
 @monster_9.zones.push("A2")

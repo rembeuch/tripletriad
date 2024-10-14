@@ -21,31 +21,35 @@ class PnjObjectivesManager
             { name: "boss", condition: "30", reveal: false },
             { name: "monsters", condition: "129", reveal: false },
             { name: "awake", condition: "27", reveal: false },
+            { name: "ability", condition: "fight10", reveal: false },
+            { name: "ability", condition: "diplomacy10", reveal: false },
+            { name: "ability", condition: "espionage10", reveal: false },
+            { name: "ability", condition: "leadership10", reveal: false },
         ],
         #Aries
         A1: 
             [
                 { name: "try", condition: "10", reveal: true}, 
                 { name: "victory", condition: "5", reveal: true },
-                { name: "perfect", condition: "3", reveal: true },
-                { name: "boss", condition: "3", reveal: true },
+                { name: "perfect", condition: "3", reveal: false },
+                { name: "boss", condition: "3", reveal: false },
                 { name: "monsters", condition: "7", reveal: true },
+                { name: "ability", condition: "leadership02", reveal: true },
                 { name: "awake", condition: "1", reveal: false },
                 { name: "pnj", condition: "B1", reveal: false },
-                { name: "pnj2", condition: "B1", reveal: false },
                 # Ajouter d'autres objectifs ici...
             ],
          #Taurus
-         A2: 
+         A2:
          [
              { name: "try", condition: "10", reveal: true}, 
              { name: "victory", condition: "5", reveal: true },
-             { name: "perfect", condition: "3", reveal: true },
-             { name: "boss", condition: "3", reveal: true },
+             { name: "perfect", condition: "3", reveal: false },
+             { name: "boss", condition: "3", reveal: false },
              { name: "monsters", condition: "7", reveal: true },
+             { name: "ability", condition: "fight02", reveal: true },
              { name: "awake", condition: "1", reveal: false },
              { name: "pnj", condition: "B2", reveal: false },
-             { name: "pnj2", condition: "B2", reveal: false },
              # Ajouter d'autres objectifs ici...
          ],
     }

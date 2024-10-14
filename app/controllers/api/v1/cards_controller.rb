@@ -8,6 +8,9 @@ class Api::V1::CardsController < ApplicationController
     def show
       find_player      
       @monster = Card.find(params[:id])
+      if @monster.new
+        @monster.update(new: false)
+      end
       if @monster.player == @player
         render json: {monster: @monster}
       end
