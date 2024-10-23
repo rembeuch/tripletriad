@@ -82,6 +82,28 @@ class Api::V1::GamesController < ApplicationController
           @player.update(monster_condition: @monster_condition, power_condition: @power_condition, bonus: false)
         end
         @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0, zone_position: "A1", s_zone: false, b_zone: false)
+        if @player.monsters.map{|m| Monster.find_by(name: m)}.select{|m| m.zones.include?(@player.zone_position)}.count == Monster.select{|m| m.zones.include?(@player.zone_position)}.count
+          start = rand(2).to_i
+          if start == 0
+            @player.update(zone_position: "B1")
+            if !@player.zones.include?(@player.zone_position)
+              @player.update(zones: @player.zones.push(@player.zone_position))
+              @player.update(zones: @player.zones.sort_by { |element| element[-1].to_i })
+              @player.elite_points += 1
+              @player.save
+              @new_pnj = Pnj.new(player: @player, zone: @player.zone_position, dialogue: DialoguesManager::CASE_DIALOGUES[@player.zone_position.to_sym][:welcome], zone_image: ZoneImagesManager::CASE_IMAGES[@player.zone_position.to_sym])
+              if @new_pnj.save
+                PnjObjectivesManager.create_objectives(@new_pnj)
+              end
+            end
+            start = rand(2).to_i
+            if start == 0
+              if @player.monsters.map{|m| Monster.find_by(name: m)}.select{|m| m.rules.include?("boss")} != [] && 1 < @player.zones.last[1..].to_i && @player.zones.include?("B1")
+                @player.update(zones: @player.zones.unshift("bossB1"))
+              end
+            end 
+          end
+        end
         render json: {id: "0"}
         elsif @game.rounds <= @game.player_points
           current_position = @player.zone_position
@@ -235,6 +257,28 @@ class Api::V1::GamesController < ApplicationController
         @pnj.update(defeat: @pnj.defeat + 1, dialogue: Api::V1::PnjsController::case_dialogues(@pnj, "defeat"))
         @zone_pnj.update(defeat: @zone_pnj.defeat + 1, dialogue: Api::V1::PnjsController::case_dialogues(@zone_pnj, "defeat"))
         @player.update(in_game: false, power: false, power_point: 0, computer_power: false, computer_power_point: 0, zone_position: "A1", s_zone: false, b_zone: false, s_monsters: [])
+        if @player.monsters.map{|m| Monster.find_by(name: m)}.select{|m| m.zones.include?(@player.zone_position)}.count == Monster.select{|m| m.zones.include?(@player.zone_position)}.count
+          start = rand(2).to_i
+          if start == 0
+            @player.update(zone_position: "B1")
+            if !@player.zones.include?(@player.zone_position)
+              @player.update(zones: @player.zones.push(@player.zone_position))
+              @player.update(zones: @player.zones.sort_by { |element| element[-1].to_i })
+              @player.elite_points += 1
+              @player.save
+              @new_pnj = Pnj.new(player: @player, zone: @player.zone_position, dialogue: DialoguesManager::CASE_DIALOGUES[@player.zone_position.to_sym][:welcome], zone_image: ZoneImagesManager::CASE_IMAGES[@player.zone_position.to_sym])
+              if @new_pnj.save
+                PnjObjectivesManager.create_objectives(@new_pnj)
+              end
+            end
+            start = rand(2).to_i
+            if start == 0
+              if @player.monsters.map{|m| Monster.find_by(name: m)}.select{|m| m.rules.include?("boss")} != [] && 1 < @player.zones.last[1..].to_i && @player.zones.include?("B1")
+                @player.update(zones: @player.zones.unshift("bossB1"))
+              end
+            end 
+          end
+        end
       end
 
       def get_score

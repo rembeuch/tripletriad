@@ -27,7 +27,7 @@ class DialoguesManager
                 "Oh Welcome young sealer, I am Kosmos!", 
                 "Thank you to answer positively to my request",
                 "Take the Magic Compass!", 
-                "Go check your monster!"
+                "Go check your Spirits!"
             ],
             images: [
                 "https://res.cloudinary.com/dsiamykrd/image/upload/v1728462370/Kosmos_b0kkjt.jpg",
@@ -170,7 +170,183 @@ class DialoguesManager
                   "https://res.cloudinary.com/dsiamykrd/image/upload/v1728465369/Taurus_oqxqc1.jpg",
               ]
             },
-          },
-      }
+        },
+        #Gem / ini
+         A3: {
+            welcome: {
+              dialogues: [
+                  "S'il te plait M'sieur, aides moi, mon frère Ini à disparu", 
+                  "Papy Kosmos nous à demandé de veiller sur cette zone",
+                  "Mais tout seul je ne vais pas y arriver", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729517450/gemini_z7aazp.webp",
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729517450/gemini_z7aazp.webp",
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729517450/gemini_z7aazp.webp",
+              ]
+            },
+            in_fight: {
+              dialogues: [
+                  "Essaye de passer cette zone pour accéder à la prochaine M'sieur!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729517450/gemini_z7aazp.webp",
+              ]
+            },
+            boss: {
+              dialogues: [
+                  "attention à celui la M'sieur, tu n'auras pas de seconde chance!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729517450/gemini_z7aazp.webp",
+              ]
+            },
+            defeat: {
+              dialogues: [
+                  "Ne baissez pas les bras M'sieur, il faut retrouver mon frère!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729517450/gemini_z7aazp.webp",
+              ]
+            },
+            victory: {
+              dialogues: [
+                  "Alors M'sieur? Tu as pu découvrir de nouvelles zones et obtenir des informations sur mon frère?", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729517450/gemini_z7aazp.webp",
+              ]
+            },
+        },
+        #Cancer
+        A4: {
+            welcome: {
+              dialogues: [
+                  "Yoho matelos!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729597604/Cancer_kjzcnh.jpg",
+              ]
+            },
+            in_fight: {
+              dialogues: [
+                  "A l'abordage!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729597604/Cancer_kjzcnh.jpg",
+              ]
+            },
+            boss: {
+              dialogues: [
+                  "Un Gros poisson!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729597604/Cancer_kjzcnh.jpg",
+              ]
+            },
+            defeat: {
+              dialogues: [
+                  "T'as bu la tasse matelos!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729597604/Cancer_kjzcnh.jpg",
+              ]
+            },
+            victory: {
+              dialogues: [
+                  "Belle Prise! Fêtons ça matelos!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729597604/Cancer_kjzcnh.jpg",
+              ]
+            },
+        },
+         #Rat
+         B1: {
+            welcome: {
+              dialogues: [
+                  "Yo!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729614709/Rat_fodvjv.webp",
+              ]
+            },
+            in_fight: {
+              dialogues: [
+                  "Bagarre!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729614709/Rat_fodvjv.webp",
+              ]
+            },
+            boss: {
+              dialogues: [
+                  "Boss!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729614709/Rat_fodvjv.webp",
+              ]
+            },
+            defeat: {
+              dialogues: [
+                  "Perdu!!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729614709/Rat_fodvjv.webp",
+              ]
+            },
+            victory: {
+              dialogues: [
+                  "Gagné!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729614709/Rat_fodvjv.webp",
+              ]
+            },
+        },
+        #Cthulhu
+          A5: {
+            welcome: {
+              dialogues: [
+                  "Blblblblblb!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729525050/Cthulhu_cwmjkd.jpg",
+              ]
+            },
+            in_fight: {
+              dialogues: [
+                  "Blblblblblb!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729525050/Cthulhu_cwmjkd.jpg",
+              ]
+            },
+            boss: {
+              dialogues: [
+                  "Blblblblblb!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729525050/Cthulhu_cwmjkd.jpg",
+              ]
+            },
+            defeat: {
+              dialogues: [
+                  "Blblblblblb!!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729525050/Cthulhu_cwmjkd.jpg",
+              ]
+            },
+            victory: {
+              dialogues: [
+                  "Blblblblblb!", 
+              ],
+              images: [
+                  "https://res.cloudinary.com/dsiamykrd/image/upload/v1729525050/Cthulhu_cwmjkd.jpg",
+              ]
+            },
+        },
+    }
   end
   

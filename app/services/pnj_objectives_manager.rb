@@ -52,5 +52,43 @@ class PnjObjectivesManager
              { name: "pnj", condition: "B2", reveal: false },
              # Ajouter d'autres objectifs ici...
          ],
+         #Gem Ini
+        A3: [
+            { name: "try", condition: "70", reveal: true}, 
+            { name: "victory", condition: "70", reveal: true },
+            { name: "perfect", condition: "10", reveal: true },
+            { name: "boss", condition: "10", reveal: false },
+            { name: "monsters", condition: "7", reveal: true },
+            { name: "awake", condition: "1", reveal: false },
+            { name: "ability", condition: "espionage02", reveal: true },
+            { name: "pnj", condition: "C3", reveal: false },
+        ],
+        #Cancer
+         A4: [
+            { name: "try", condition: "70", reveal: true}, 
+            { name: "victory", condition: "70", reveal: true },
+            { name: "perfect", condition: "10", reveal: true },
+            { name: "boss", condition: "10", reveal: false },
+            { name: "monsters", condition: "7", reveal: true },
+            { name: "awake", condition: "1", reveal: false },
+            { name: "ability", condition: "diplomacy03", reveal: true },
+            { name: "pnj", condition: "C3", reveal: false },
+        ],
+        #Rat
+        B1: 
+            [
+                { name: "try", condition: "10", reveal: true}, 
+                { name: "victory", condition: "5", reveal: true },
+                { name: "perfect", condition: "3", reveal: false },
+                { name: "boss", condition: "3", reveal: false },
+                { name: "monsters", condition: "7", reveal: true },
+                { name: "ability", condition: "espionage02", reveal: true },
+                { name: "awake", condition: "1", reveal: false },
+                { name: "pnj", condition: "B1", reveal: false },
+                # Ajouter d'autres objectifs ici...
+            ],
+        #Cthulhu
+        A5: [
+        ],
     }
 end

@@ -135,7 +135,10 @@ Monster.destroy_all
     down: "2",
     left: "3",
     right: "2",
-    rank: "1",name: "#10")
+    rank: "1",
+    name: "Kraken",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1729520539/Kraken_yynr8l.webp"
+)
 
 @monster_10.zones.push("A3")
 @monster_10.save
@@ -145,7 +148,10 @@ Monster.destroy_all
     down: "3",
     left: "2",
     right: "3",
-    rank: "1",name: "#11")
+    rank: "1",
+    name: "Leviathan",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1729521030/Leviathan_epgtyn.webp"
+)
 
 @monster_11.zones.push("A3")
 @monster_11.save
@@ -155,7 +161,10 @@ Monster.destroy_all
     down: "3",
     left: "3",
     right: "2",
-    rank: "1",name: "#12")
+    rank: "1",
+    name: "Sirena",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1729521582/Sirena_wisafe.jpg"
+)
 
 @monster_12.zones.push("A3")
 @monster_12.zones.push("A4")
@@ -167,7 +176,10 @@ Monster.destroy_all
     down: "2",
     left: "2",
     right: "3",
-    rank: "1",name: "#13")
+    rank: "1",
+    name: "Aspidochelon",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1729521943/aspidochelon_dyphpd.jpg"
+)
 
 @monster_13.zones.push("A3")
 @monster_13.zones.push("A4")
@@ -179,7 +191,10 @@ Monster.destroy_all
     down: "3",
     left: "2",
     right: "3",
-    rank: "1",name: "#14")
+    rank: "1",
+    name: "Basilosaurus",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1729522727/Basilosaurus_af9tki.jpg"
+)
 
 @monster_14.zones.push("A3")
 @monster_14.zones.push("A4")
@@ -191,7 +206,10 @@ Monster.destroy_all
     down: "3",
     left: "3",
     right: "3",
-    rank: "1",name: "#15")
+    rank: "1",
+    name: "Ichtiocentaure",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1729600913/ichtiocentaure_lyvbmb.webp"
+)
 
 @monster_15.zones.push("A3")
 @monster_15.zones.push("A4")
@@ -203,7 +221,10 @@ Monster.destroy_all
     down: "3",
     left: "3",
     right: "3",
-    rank: "2",name: "#16")
+    rank: "2",
+    name: "Ankou",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1729524441/Ankou_vq7lt4.jpg"
+)
 
 @monster_16.zones.push("A3")
 @monster_16.zones.push("A4")
@@ -215,7 +236,10 @@ Monster.destroy_all
     down: "4",
     left: "3",
     right: "3",
-    rank: "2",name: "#17")
+    rank: "2",
+    name: "Davy Jones",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1729524681/DavyJones_tkvtpx.jpg"
+)
 
 @monster_17.zones.push("A4")
 
@@ -226,7 +250,10 @@ Monster.destroy_all
     down: "3",
     left: "4",
     right: "4",
-    rank: "2",name: "#18")
+    rank: "2",
+    name: "Pelegostos",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1729524817/Pelegostos_roxb30.jpg"
+)
 
 @monster_18.zones.push("A4")
 
@@ -238,7 +265,10 @@ Monster.destroy_all
     left: "4",
     right: "4",
     rules: ["boss", "life"],
-    rank: "2",name: "#19")
+    rank: "2",
+    name: "Cthulhu",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1729525050/Cthulhu_cwmjkd.jpg"
+)
 
 @monster_19.zones.push("A5")
 
@@ -687,6 +717,174 @@ Monster.destroy_all
 
 # ZONE B //////////////////////////////////////////////////
 
+@monster_130 = Monster.create( 
+    up: "1",
+    down: "1",
+    left: "1",
+    right: "2",
+    rank: "1",
+    name: "Leprechaun",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1729682529/Leprechaun_rxew90.webp"
+)
+
+@monster_130.zones.push("B1")
+
+@monster_131.save
+
+@monster_131 = Monster.create( 
+    up: "1",
+    down: "1",
+    left: "2",
+    right: "1",
+    rank: "1",
+    name: "Woodland Fairy",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1729684610/fairy_rh2npl.webp"
+)
+
+@monster_131.zones.push("B1")
+
+@monster_131.save
+
+@monster_132 = Monster.create( 
+    up: "1",
+    down: "2",
+    left: "1",
+    right: "1",
+    rank: "1",
+    name: "Banshee",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1729684918/banshee_erq8sf.webp"
+)
+
+@monster_132.zones.push("B1")
+
+@monster_132.save
+
+@monster_133 = Monster.create( 
+    up: "2",
+    down: "1",
+    left: "1",
+    right: "1",
+    rank: "1",
+    name: "Pooka",
+    image: "https://res.cloudinary.com/dsiamykrd/image/upload/v1729685186/Pooka_ahpmwg.webp"
+)
+
+@monster_133.zones.push("B1")
+
+@monster_133.save
+
+@monster_134 = Monster.create( 
+    up: "1",
+    down: "2",
+    left: "2",
+    right: "1",
+    rank: "1",
+    name: "#134",
+    image: ""
+)
+
+@monster_134.zones.push("B1")
+
+@monster_134.save
+
+@monster_135 = Monster.create( 
+    up: "2",
+    down: "1",
+    left: "1",
+    right: "2",
+    rank: "1",
+    name: "#135",
+    image: ""
+)
+
+@monster_135.zones.push("B1")
+
+@monster_135.save
+
+@monster_136 = Monster.create( 
+    up: "1",
+    down: "1",
+    left: "1",
+    right: "4",
+    rank: "1",
+    name: "#136",
+    image: ""
+)
+
+@monster_136.zones.push("B1")
+
+@monster_136.save
+
+@monster_137 = Monster.create( 
+    up: "1",
+    down: "1",
+    left: "2",
+    right: "3",
+    rank: "1",
+    name: "#137",
+    image: ""
+)
+
+@monster_137.zones.push("B2")
+
+@monster_137.save
+
+@monster_138 = Monster.create( 
+    up: "1",
+    down: "1",
+    left: "4",
+    right: "1",
+    rank: "1",
+    name: "#138",
+    image: ""
+)
+
+@monster_138.zones.push("B2")
+
+@monster_138.save
+
+@monster_139 = Monster.create( 
+    up: "1",
+    down: "2",
+    left: "2",
+    right: "2",
+    rank: "1",
+    name: "#139",
+    image: ""
+)
+
+@monster_139.zones.push("B2")
+
+@monster_139.save
+
+@monster_140 = Monster.create( 
+    up: "1",
+    down: "3",
+    left: "1",
+    right: "2",
+    rank: "1",
+    name: "#140",
+    image: ""
+)
+
+@monster_140.zones.push("B2")
+
+@monster_140.save
+
+@monster_141 = Monster.create( 
+    up: "1",
+    down: "3",
+    left: "2",
+    right: "1",
+    rank: "1",
+    name: "#141",
+    image: ""
+)
+
+@monster_141.zones.push("B2")
+
+@monster_141.save
+
 
 @monster_20 = Monster.create( 
     up: "1",
@@ -717,7 +915,6 @@ Monster.destroy_all
     right: "3",
     rank: "1",name: "#22")
 
-@monster_22.zones.push("B2")
 @monster_22.zones.push("B3")
 
 
@@ -730,7 +927,6 @@ Monster.destroy_all
     right: "2",
     rank: "1",name: "#23")
 
-@monster_23.zones.push("B2")
 @monster_23.zones.push("B3")
 
 @monster_23.save
@@ -742,7 +938,6 @@ Monster.destroy_all
     right: "3",
     rank: "1",name: "#24")
 
-@monster_24.zones.push("B2")
 @monster_24.zones.push("B3")
 
 
@@ -755,7 +950,6 @@ Monster.destroy_all
     right: "1",
     rank: "1",name: "#25")
 
-@monster_25.zones.push("B2")
 @monster_25.zones.push("B3")
 
 
@@ -768,7 +962,6 @@ Monster.destroy_all
     right: "1",
     rank: "1",name: "#26")
 
-@monster_26.zones.push("B2")
 @monster_26.zones.push("B3")
 
 @monster_26.save

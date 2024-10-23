@@ -9,7 +9,7 @@ class Api::V1::PnjsController < ApplicationController
     def find_zone_pnj
         @zone_pnj = @player.pnjs.where(zone: @player.zone_position).first
         @zone = ZoneNamesManager::CASE_NAMES[@zone_pnj.zone.to_sym]
-        render json: {zone_pnj: @zone_pnj, zone: @zone}
+        render json: { zone_pnj: @zone_pnj, zone: @zone }
     end
 
     def find_all_pnjs
@@ -51,8 +51,20 @@ class Api::V1::PnjsController < ApplicationController
                 @dialogue = DialoguesManager::CASE_DIALOGUES[zone.to_sym][:fight]
                 @objective.update(completed: true)
             elsif @objective.condition.first == 'd' && @elite.diplomacy >= (@objective.condition.last(2).to_i * 10)
+                @player.elite_points += 1
+                @player.save
+                @dialogue = DialoguesManager::CASE_DIALOGUES[zone.to_sym][:diplomacy]
+                @objective.update(completed: true)
             elsif @objective.condition.first == 'e' && @elite.espionage >= (@objective.condition.last(2).to_i * 10)
+                @player.elite_points += 1
+                @player.save
+                @dialogue = DialoguesManager::CASE_DIALOGUES[zone.to_sym][:espionage]
+                @objective.update(completed: true)
             elsif @objective.condition.first == 'l' && @elite.leadership >= (@objective.condition.last(2).to_i * 10)
+                @player.elite_points += 1
+                @player.save
+                @dialogue = DialoguesManager::CASE_DIALOGUES[zone.to_sym][:leadership]
+                @objective.update(completed: true)
             end
         elsif @objective.name == 'pnj'
             @dialogue = 'pnj'
